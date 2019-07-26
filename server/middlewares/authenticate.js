@@ -14,10 +14,10 @@ module.exports = (req,res,next)=>{
       if(row)
       next()
       else
-      next({ code: 404, message: 'User not found' })
+      next({ code: 404, message: 'User not found!' })
     })
     .catch(next)
   }
   else
-  next({ code: 401, message: 'Please login first' })
+  next({ code: 401, message: 'Please login first!' })
 }

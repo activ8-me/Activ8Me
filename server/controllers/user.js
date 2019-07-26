@@ -1,12 +1,9 @@
 const User = require('../models/user')
 const { compareSync } = require('../helpers/bcrypt')
 const jwt = require('../helpers/jwt')
-const randomPass = require('../helpers/randomPass')
-const { OAuth2Client } = require('google-auth-library');
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class UserCont {
-  static register(req, res, next) {
+  static signUp(req, res, next) {
     User.create({
       email: req.body.email,
       password: req.body.password,
@@ -17,7 +14,7 @@ class UserCont {
     .catch(next)
   }
   
-  static login(req, res, next) {
+  static signIn(req, res, next) {
     User.findOne({
       email: req.body.email,
     })

@@ -1,7 +1,7 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const app = require('../app')
-const clearUser = require('../helpers/delete-user-test')
+const User = require('../models/user')
 
 chai.use(chaiHttp)
 chai.should()
@@ -54,7 +54,7 @@ describe('Testing User Server Endpoint', function () {
         it('Should return an error validation with status code 400 and message: "test@com is not a valid email!"', function (done) {
           chai
             .request(app)
-            .post('/user/sigUp')
+            .post('/user/signUp')
             .send({
               email: 'test@com',
               password: '12345678'
@@ -93,7 +93,7 @@ describe('Testing User Server Endpoint', function () {
   describe('Test Sign In User Endpoint', function () {
     describe('POST /user/signIn', function () {
       describe('Successfull Sign In', function () {
-        it('Should return an object with status code 200', function (done) {
+        it('Should return an object with status code 201', function (done) {
           chai
             .request(app)
             .post('/user/signIn')
@@ -103,8 +103,8 @@ describe('Testing User Server Endpoint', function () {
             })
             .then(res => {
               res.body.should.be.an('object')
-              res.body.should.be.have.property('access_token')
-              res.should.have.status(200)
+              res.body.should.be.have.property('token')
+              res.should.have.status(201)
               done()
             })
             .catch(err => {

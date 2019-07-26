@@ -20,9 +20,6 @@ function isUnique(email) {
         else
           resolve(true)
       })
-      .catch(err => {
-        reject(err)
-      })
   })
 }
 

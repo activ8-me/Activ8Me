@@ -1,4 +1,4 @@
-const Alarm = require('../models/Alarm')
+const Alarm = require('../models/alarm')
 
 module.exports = (req, res, next) => {
   Alarm.findOne({
@@ -17,7 +17,7 @@ module.exports = (req, res, next) => {
     } else
     next({
       code: 404,
-      message: 'Alarm not found'
+      message: `Alarm with id ${req.params.id} not found!`
     })
   })
   .catch(next)

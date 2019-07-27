@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component , Fragment} from 'react'
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
 
 import {
@@ -15,7 +15,7 @@ import {
 export default class Landing extends Component {
     render() {
         return (
-            <View>
+            <Fragment>
                 <View style={styles.container}>
                     <View style={styles.container2}>
                         <Image
@@ -41,7 +41,7 @@ export default class Landing extends Component {
                         <Button large style={styles.button2}><Text style={styles.Text}> Sign Up </Text></Button>
                     </View>
                 </View>
-            </View>
+            </Fragment>
         )
     }
 }
@@ -66,14 +66,15 @@ const styles = StyleSheet.create({
       height:55,
       borderRadius:10,
       color:"#FF8B17",
-      bottom:"5%"
+      bottom:"5%",
+      backgroundColor: "#FF8B17",
     },
     button2:{
       justifyContent:'center',
       width:300,
       height:55,
       color:'white',
-      backgroundColor:'#CCCCCC',
+      backgroundColor: "#CCCCCC",
       borderRadius:10,
     },
     HeadText:{

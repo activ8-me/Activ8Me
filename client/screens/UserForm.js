@@ -8,7 +8,6 @@ import {
     ListItem,
     InputGroup,
     Input,
-    Text,
     Piacker,
     Button
   } from 'native-base';
@@ -20,12 +19,13 @@ import {
     StyleSheet,
     ScrollView,
     View,
+    Text,
     StatusBar,
     AppRegistry,
     AsyncStorage,
     ToolbarAndroid,
     ActivityIndicator,
-    Icon
+    Icon,
   } from 'react-native';
   
   import {
@@ -35,8 +35,6 @@ import {
     ReloadInstructions,
   } from 'react-native/Libraries/NewAppScreen';
 
-import React, { Component } from 'react'
-import { Text, View } from 'react-native'
 
 export default class UserForm extends Component {
     constructor(props) {
@@ -117,14 +115,14 @@ export default class UserForm extends Component {
               <View style={{alignSelf:'center'}}> 
                 <Button style={styles.primaryButton} onPress={this.login.bind(this)}>
                   <View>
-                    <Text style={{fontSize:17}}>
+                    <Text style={{fontSize:17,color:'white'}}>
                       Login
                     </Text>
                   </View>
                 </Button>
                 <Button style={styles.primaryButton} onPress={this.goToSignIn.bind(this)}>
                   <View>
-                    <Text style={{fontSize:17}}>
+                    <Text style={{fontSize:17,color:'white'}}>
                       Go To Register
                     </Text>
                   </View>
@@ -168,14 +166,14 @@ export default class UserForm extends Component {
             <View style={{alignSelf:'center'}}> 
               <Button style={styles.primaryButton} onPress={this.login.bind(this)}>
                 <View>
-                  <Text style={{fontSize:17}}>
+                  <Text style={{fontSize:17,color:'white'}}>
                     Register
                   </Text>
                 </View>
               </Button>
               <Button onPress={this.goToSignup.bind(this)} style={styles.primaryButton}>
                 <View>
-                  <Text style={{fontSize:17}}>
+                  <Text style={{fontSize:17,color:'white'}}>
                     Go To Login
                   </Text>
                 </View>
@@ -185,7 +183,6 @@ export default class UserForm extends Component {
         </Fragment>)
     }
 }
-
 
 const styles = StyleSheet.create({
     container: {

@@ -36,7 +36,6 @@ export default class AlarmForm extends Component {
   }
 
   render() {
-    const { show, date, mode } = this.state;
 
     return (
      
@@ -53,7 +52,7 @@ export default class AlarmForm extends Component {
           </Item>
         </Card>
 
-        <Card style={{ height: 300}}>
+        <Card>
           <Button title="Show DatePicker" onPress={this.showDateTimePicker}/>
         <DateTimePicker
           mode='time'

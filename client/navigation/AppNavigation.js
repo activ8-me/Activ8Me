@@ -45,7 +45,6 @@ const StackNavigatorAlarm = createStackNavigator(
   }
 );
 
-
 const SwitchNavigator1 = createSwitchNavigator(
   {
     StackNavigatorUser,

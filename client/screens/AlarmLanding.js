@@ -6,8 +6,12 @@ import { ScrollView,
   Text, 
   Image,
   Button } from 'react-native';
+import {connect} from 'react-redux'
+import {snooze, awake} from '../store/action'
 
-export default function LinksScreen(props) {
+const mapDispatchToProps = {snooze, awake}
+
+function LinksScreen(props) {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
@@ -21,7 +25,8 @@ export default function LinksScreen(props) {
         />
         <Button
           onPress={() => {
-              props.navigation.navigate('Game')
+            props.snooze()
+            props.navigation.navigate('Game')
           }}
           title="Snooze"
           color="#ff8f4d"
@@ -30,7 +35,8 @@ export default function LinksScreen(props) {
         <View style={{margin: 30}}></View>
         <Button
           onPress={() => {
-              props.navigation.navigate('Game')
+            props.awake()
+            props.navigation.navigate('Game')
           }}
           title="I'm awake"
           color="red"
@@ -45,20 +51,15 @@ LinksScreen.navigationOptions = {
   title: 'AlarmLanding',
 };
 
-const win = Dimensions.get('window');
-
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
-    width: win.width,
-    height: win.height,
     backgroundColor: '#ff8b17',
   },
   viewStyle: {
-    margin: 15,
+    padding: 10,
     marginTop: 100,
-    width: win.width,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -72,6 +73,8 @@ const styles = StyleSheet.create({
     fontFamily: "Iceberg-Regular"
   },
   buttonStyle: {
-    margin: 30,
+    margin: 30
   }
 });
+
+export default connect (null, mapDispatchToProps) (LinksScreen)

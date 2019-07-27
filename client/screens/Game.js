@@ -1,38 +1,39 @@
-import React, {useEffect, useState} from 'react';
-import { ScrollView, StyleSheet, Text, Button } from 'react-native';
+import React, {useEffect} from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 import {connect} from 'react-redux'
 import {randomGame} from '../store/action'
 
 import WakeMeUp from '../game-list/wakemeup'
+import MemoryGame from '../game-list/memorygame'
 
 const mapStateToProps = state => {
   return {
     winning: state.winning,
-    gameSelect: state.gameSelect
+    gameSelect: state.gameSelect,
+    gameDone: state.gameDone
   }
 }
 
 const mapDispatchToProps = {randomGame}
 
 function LinksScreen (props) {
-  let game = ["none", 'WakeMeUp']
+  let game = ['WakeMeUp', 'MemoryGame']
 
   useEffect(() => {
-    if (props.winning === 1){
+    if (props.winning === 2){
       props.navigation.navigate('Result')
+    } else {
+      props.randomGame(game.length, props.gameDone)
     }
-    props.randomGame(game.length, props.gameSelect)
   }, [props.winning])
 
   return (
     <ScrollView style={styles.container}>
-      {/**
-       * Go ahead and delete ExpoLinksView and replace it with your content;
-       * we just wanted to provide you with some helpful links.
-       */
+      {
+        game[props.gameSelect] === "WakeMeUp" && <WakeMeUp {...props} gameId={props.gameSelect}/>
       }
       {
-        game[props.gameSelect] === "WakeMeUp" && <WakeMeUp/>
+        game[props.gameSelect] === "MemoryGame" && <MemoryGame {...props} gameId={props.gameSelect}/>
       }
     </ScrollView>
   );

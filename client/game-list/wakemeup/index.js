@@ -21,13 +21,13 @@ const game = (props) => {
   useEffect(() => {
     if (wake) {
       setTimeout(() => {
-        props.winning()
+        props.winning(props.gameId)
       }, 500)
     }
   }, [wake])
 
   useEffect(() => {
-    let winCount = 8
+    let winCount = 7
     let rate = count/winCount
     if (rate >= 1) {
       setEye(image[4])

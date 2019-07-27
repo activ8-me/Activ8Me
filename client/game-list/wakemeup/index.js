@@ -21,23 +21,19 @@ const game1 = (props) => {
   }, [wake])
 
   useEffect(() => {
-    console.log(count, "di use effect count")
-    let winCount = 10
-    let rate = Math.floor(count/winCount)
-    console.log(rate)
-    console.log(time)
-    if (rate >= winCount) {
+    let winCount = 8
+    let rate = count/winCount
+    if (rate >= 1) {
       setEye(image[4])
-    } else if (rate >= 0.75*winCount) {
+    } else if (rate >= 0.75) {
       setEye(image[3])
-    } else if (rate >= 0.5*winCount) {
+    } else if (rate >= 0.5) {
       setEye(image[2])
-    } else if (rate >= 0.25*winCount) {
+    } else if (rate >= 0.25) {
       setEye(image[1])
     } else {
       setEye(image[0])
     }
-    console.log(eye)
     const interval = setInterval(() => {
       setTime(prevTime => prevTime + 1)
       setCount(0)
@@ -47,13 +43,11 @@ const game1 = (props) => {
 
   useEffect(() => {
     if (eye === image[4]) {
-      setTimeout(() => {
-        setWake(true)
-      }, 500)
+      setWake(true)
     }
   }, [eye])
+
   function countClick () {
-    console.log (count, "di on function")
     setCount(count + 1)
   }
 

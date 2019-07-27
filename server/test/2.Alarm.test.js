@@ -96,6 +96,7 @@ describe('Testing Alarm Server Endpoint', function () {
               title: "Test",
               time: time,
               days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+              status: true
             })
             .then(res => {
               res.body.should.be.an('object')
@@ -104,8 +105,10 @@ describe('Testing Alarm Server Endpoint', function () {
               res.body.should.be.have.property('days')
               res.body.should.be.have.property('originTime')
               res.body.should.be.have.property('user')
+              res.body.should.be.have.property('status')
               res.body.time.should.equal(time)
               res.body.originTime.should.equal(time)
+              res.body.status.should.equal(true)
               res.should.have.status(201)
               idAlarm = res.body._id
               done()
@@ -125,6 +128,8 @@ describe('Testing Alarm Server Endpoint', function () {
               title: "Test",
               time: time,
               days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+              originTime: time,
+              status: true
             })
             .then(res => {
               res.body.message.should.equal('Please login first!')
@@ -146,7 +151,8 @@ describe('Testing Alarm Server Endpoint', function () {
               title: "Test",
               time: time,
               days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-              originTime: time
+              originTime: time,
+              status: true
             })
             .then(res => {
               res.body.message.should.equal('User not found!')
@@ -168,7 +174,8 @@ describe('Testing Alarm Server Endpoint', function () {
               title: "Test",
               time: time,
               days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-              originTime: time
+              originTime: time,
+              status: true
             })
             .then(res => {
               res.body.message.should.equal('Invalid Token')
@@ -222,6 +229,7 @@ describe('Testing Alarm Server Endpoint', function () {
               res.body.should.be.have.property('days')
               res.body.should.be.have.property('originTime')
               res.body.should.be.have.property('user')
+              res.body.should.be.have.property('status')
               res.body.time.should.equal(updateTime)
               res.should.have.status(201)
               done()
@@ -247,6 +255,7 @@ describe('Testing Alarm Server Endpoint', function () {
               res.body.should.be.have.property('days')
               res.body.should.be.have.property('originTime')
               res.body.should.be.have.property('user')
+              res.body.should.be.have.property('status')
               res.body.time.should.equal(res.body.originTime)
               res.should.have.status(201)
               done()
@@ -267,7 +276,8 @@ describe('Testing Alarm Server Endpoint', function () {
               title: "Test",
               time: time,
               days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-              type: 'update'
+              type: 'update',
+              status: false
             })
             .then(res => {
               res.body.should.be.an('object')
@@ -276,6 +286,8 @@ describe('Testing Alarm Server Endpoint', function () {
               res.body.should.be.have.property('days')
               res.body.should.be.have.property('originTime')
               res.body.should.be.have.property('user')
+              res.body.should.be.have.property('status')
+              res.body.status.should.equal(false)
               res.body.time.should.equal(updateTime)
               res.should.have.status(201)
               done()

@@ -6,7 +6,8 @@ const articleSchema = new Schema({
   title: String,
   time: String,
   originTime: String,
-  days: [{type: String}]
+  days: [{type: String}],
+  status: Boolean
 })
 const Article = mongoose.model('article', articleSchema)
 module.exports = Article

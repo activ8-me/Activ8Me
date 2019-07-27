@@ -41,7 +41,7 @@ export default class AlarmList extends Component {
             </Grid>
           </Card>
 
-          <Card style={{ height: 100, }}>
+          <Card style={{ height: 100 }}>
             <Grid>
               <Col style={{ justifyContent: 'center' }} size={15}>
                 <CheckBox checked={true} color="#FF8B17" />

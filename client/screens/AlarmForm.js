@@ -1,8 +1,7 @@
 import React, { Component }from 'react';
-import { Container, Content, Input, Item, Card, Header, Title, Left, Body, Col, Row, Grid } from 'native-base'
-import { Text, View, Button, ScrollView, StyleSheet, TouchableHighlight, Modal } from 'react-native'
+import { Input, Item, Card } from 'native-base'
+import { Text, View, Button, ScrollView, StyleSheet, TouchableHighlight } from 'react-native'
 import DateTimePicker from "react-native-modal-datetime-picker";
-// import { TouchableHighlight } from 'react-native-gesture-handler';
 
 export default class AlarmForm extends Component {
   constructor(props) {
@@ -14,7 +13,8 @@ export default class AlarmForm extends Component {
       time: '',
       modalVisible: false,
       days: ['Mo','Tu','We','Th','Fr','Sa','Su'],
-      daysChecked: [false, false, false, false, false, false , false]
+      daysChecked: [false, false, false, false, false, false , false],
+      title: ''
       
     }
   }
@@ -60,6 +60,22 @@ export default class AlarmForm extends Component {
     })
   }
 
+  handleChecked = (index) => {
+    let checked = this.state.daysChecked
+    if(checked[index] === true) checked.splice(index, 1, false)
+    else checked.splice(index, 1, true)
+  
+    this.state.daysChecked.splice() 
+    this.setState({
+      daysChecked: checked
+    })
+  }
+
+  handleChange = (text) => {
+    this.setState({
+      title: text
+    })
+  }
 
   render() {
     return (
@@ -68,7 +84,7 @@ export default class AlarmForm extends Component {
         <ScrollView>
           <Card>
             <Item regular>
-              <Input placeholder='Enter alarm title' />
+              <Input placeholder='Enter alarm title' value={this.state.title} onChangeText={(text) => this.handleChange(text)}/>
             </Item>
           </Card>
 
@@ -84,17 +100,22 @@ export default class AlarmForm extends Component {
             />
           </Card>
 
-          <Card style={{ height: 150, padding: 10 }}>
+          <Card style={{ padding: 10 }}>
             <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}t>Repeat</Text>
-            <View style={{ flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly'}}>
             { this.state.days.map((day, index) => {
               return (
-                  <TouchableHighlight style={{ pading: 10 }}>
-                    <Text key={index} style={{ fontSize: 15}}>{day}</Text>
+                <TouchableHighlight underlayColor='#F7F7F7' key={index} style={{ padding: 10 }} onPress={() => this.handleChecked(index)}>
+                    <Text  style={this.state.daysChecked[index] === true ? styles.checked : styles.unchecked }>{day}</Text>
                   </TouchableHighlight>
                   )
                 })}
             </View>
+          </Card>
+
+          <Card style={{ height: 180, padding: 10 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>Available games</Text>
+
           </Card>
 
         </ScrollView>
@@ -102,7 +123,8 @@ export default class AlarmForm extends Component {
             onPress={() => {
                 this.props.navigation.navigate('AlarmList')
             }}
-            title="balik ke list alarm (ceritanya ini submit)"
+            title="SET ALARM"
+            color="#FF8000"
           />
       </View>
     );
@@ -119,6 +141,15 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#F7F7F7',
   },
+  unchecked: {
+    fontSize: 20,
+    color: '#ADADAD'
+  },
+  checked: {
+    fontSize: 20,
+    color: '#FF8B17',
+  }
+
 });
 
 {/* <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Select games (minimum 3): </Text>

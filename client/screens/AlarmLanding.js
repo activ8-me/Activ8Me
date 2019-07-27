@@ -24,15 +24,16 @@ export default function LinksScreen(props) {
               props.navigation.navigate('Game')
           }}
           title="Snooze"
-          color="#ff8b17"
+          color="#ff8f4d"
           style={styles.buttonStyle}
         />
+        <View style={{margin: 30}}></View>
         <Button
           onPress={() => {
               props.navigation.navigate('Game')
           }}
           title="I'm awake"
-          color="#ff8b17"
+          color="red"
           style={styles.buttonStyle}
         />
       </View>

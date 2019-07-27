@@ -12,7 +12,7 @@ export default function LinksScreen(props) {
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
         <Text style={styles.clock}>You WIN</Text>
-        <Text style={styles.meridiem}>Sila tidur 10 menit lagi</Text>
+        <Text style={styles.meridiem}>You may sleep for 10 more minutes</Text>
         <Image
           source={require('../assets/pics/wakeUp.png')}
           style={{width:200, height:200, margin: 10, marginLeft: 20}}
@@ -25,6 +25,7 @@ export default function LinksScreen(props) {
           color="#ff8b17"
           style={styles.buttonStyle}
         />
+        <View style={{margin: 30}}></View>
         <Button
           onPress={() => {
               props.navigation.navigate('AlarmLanding')
@@ -46,16 +47,18 @@ const win = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
     width: win.width,
     height: win.height,
     backgroundColor: '#ff8b17',
   },
   viewStyle: {
+    display: 'flex',
     margin: 15,
     marginTop: 100,
     width: win.width,
-    alignContent: 'center',
+    alignItems: 'center',
     justifyContent: 'center'
   },
   clock: {

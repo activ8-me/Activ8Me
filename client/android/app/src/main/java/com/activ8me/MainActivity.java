@@ -1,4 +1,4 @@
-package com.client;
+package com.activ8me;
 
 import com.facebook.react.ReactActivity;
 

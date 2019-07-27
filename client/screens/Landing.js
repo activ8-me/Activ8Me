@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Component } from 'react'
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
 
 import {

@@ -2,6 +2,7 @@ import React, { Component }from 'react';
 import { Input, Item, Card } from 'native-base'
 import { Text, View, Button, ScrollView, StyleSheet, TouchableHighlight } from 'react-native'
 import DateTimePicker from "react-native-modal-datetime-picker";
+import moment from "moment"
 
 export default class AlarmForm extends Component {
   constructor(props) {
@@ -12,23 +13,22 @@ export default class AlarmForm extends Component {
       minute: '',
       time: '',
       modalVisible: false,
-      days: ['Mo','Tu','We','Th','Fr','Sa','Su'],
+      days: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
       daysChecked: [false, false, false, false, false, false , false],
       title: ''
-      
     }
   }
 
   componentDidMount() {
     let d = new Date()
-    let hour = d.getHours()
-    let minute = d.getMinutes()
-    if (minute < 10) minute = '0' + minute
-    if (hour < 10) hour = '0' + hour
+    let time = moment(d).format('LT')
+    // let hour = d.getHours()
+    // let minute = d.getMinutes()
+    // if (minute < 10) minute = '0' + minute
+    // if (hour < 10) hour = '0' + hour
 
     this.setState({
-      hour,
-      minute
+      time
     })
   }
 
@@ -41,16 +41,16 @@ export default class AlarmForm extends Component {
   };
 
   handleDatePicked = date => {
-    let hour = date.getHours()
-    let minute = date.getMinutes()
-    if (minute < 10) minute = '0' + minute
-    if (hour < 10) hour = '0' + hour
+    let time = moment(date).format('LT')
+    // let hour = date.getHours()
+    // let minute = date.getMinutes()
+    // if (minute < 10) minute = '0' + minute
+    // if (hour < 10) hour = '0' + hour
     
     this.setState({
-      hour,
-      minute,
-      time: `${hour}:${minute}`
+      time
     })
+
     this.hideDateTimePicker();
   };
 
@@ -77,6 +77,28 @@ export default class AlarmForm extends Component {
     })
   }
 
+  handleSubmit = () => {
+    // console.log(this.state.daysChecked, this.state.time, this.state.title)
+    let inputDays = []
+
+    this.state.daysChecked.forEach((day, index) => {
+      if(day) {
+        inputDays.push(this.state.days[index])
+      }
+    })
+
+    const { time, title } = this.state
+
+    const input = { time, title, status: true, days: inputDays} 
+
+    // axios({
+    //   method: 'post',
+    //   url: 'http://localhost:3000/alarm',
+    //   data: input,
+    //   // headers: 
+    // })
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -90,10 +112,11 @@ export default class AlarmForm extends Component {
 
           <Card>
             <TouchableHighlight underlayColor="#F7F7F7" onPress={this.showDateTimePicker}>
-              <Text style={{ fontSize: 50, textAlign: 'center', fontWeight: 'bold', padding: 30 }}> {this.state.hour} : {this.state.minute} </Text>
+              <Text style={{ fontSize: 50, textAlign: 'center', fontWeight: 'bold', padding: 30 }}> {this.state.time} </Text>
             </TouchableHighlight>
             <DateTimePicker
               mode='time'
+              is24Hour={false}
               isVisible={this.state.isDateTimePickerVisible}
               onConfirm={this.handleDatePicked}
               onCancel={this.hideDateTimePicker}
@@ -106,7 +129,7 @@ export default class AlarmForm extends Component {
             { this.state.days.map((day, index) => {
               return (
                 <TouchableHighlight underlayColor='#F7F7F7' key={index} style={{ padding: 10 }} onPress={() => this.handleChecked(index)}>
-                    <Text  style={this.state.daysChecked[index] === true ? styles.checked : styles.unchecked }>{day}</Text>
+                    <Text  style={this.state.daysChecked[index] === true ? styles.checked : styles.unchecked }>{day.slice(0,2)}</Text>
                   </TouchableHighlight>
                   )
                 })}
@@ -120,9 +143,10 @@ export default class AlarmForm extends Component {
 
         </ScrollView>
           <Button
-            onPress={() => {
-                this.props.navigation.navigate('AlarmList')
-            }}
+            onPress={
+                // this.props.navigation.navigate('AlarmList')
+                this.handleSubmit
+            }
             title="SET ALARM"
             color="#FF8000"
           />

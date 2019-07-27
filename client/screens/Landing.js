@@ -36,7 +36,11 @@ export default function LinksScreen(props) {
             </Text>
         </View>
         <View style={styles.buttonList}>
-          <Button warning large style={styles.button}><Text style={styles.Text}> Let Me In </Text></Button>
+          <Button warning large style={styles.button} onPress={() => {
+            props.navigation.navigate('Form', {
+              type:'signin'
+            })
+          }}><Text style={styles.Text}> Let Me In </Text></Button>
           <Button large style={styles.button2} onPress={() => {
             props.navigation.navigate('Form', {
               type:'signup'

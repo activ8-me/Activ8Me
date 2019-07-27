@@ -1,42 +1,21 @@
 import React, { Fragment, Component } from 'react';
 
 import {
-    Container,
-    Title,
     Content,
     List,
     ListItem,
     InputGroup,
     Input,
-    Piacker,
     Button
   } from 'native-base';
   
   import {
     Image,
-    TouchableHighlight,
-    SafeAreaView,
     StyleSheet,
-    ScrollView,
     View,
     Text,
-    StatusBar,
-    AppRegistry,
-    AsyncStorage,
-    ToolbarAndroid,
-    ActivityIndicator,
-    Icon,
   } from 'react-native';
-  
-  import {
-    LearnMoreLinks,
-    Colors,
-    DebugInstructions,
-    ReloadInstructions,
-  } from 'react-native/Libraries/NewAppScreen';
 
-
-  
   export default class LinksScreen extends Component {
     constructor(props) {
       super(props)
@@ -46,10 +25,18 @@ import {
         password: ''
       }
     }
-    
-    componentDidUpdate(){
-      console.log('okee')
+
+    componentDidMount() {
+      if (this.props.navigation.getParam('type', null) === 'signin'){
+        this.goToSignIn()
+      } else {
+        this.goToSignUp()
+      }
     }
+    
+    // componentDidUpdate(){
+    //   console.log('okee')
+    // }
     
     login() {
       this.props.navigation.navigate('AlarmList')
@@ -59,7 +46,7 @@ import {
       
     }
     
-    goToSignup(){
+    goToSignIn(){
       console.log('trigger')
       this.setState({
         view:'login'
@@ -68,7 +55,7 @@ import {
       })
     }
     
-    goToSignIn(){
+    goToSignUp(){
       console.log('trigger')
       this.setState({
         view:'register'
@@ -121,7 +108,7 @@ import {
                     </Text>
                   </View>
                 </Button>
-                <Button style={styles.primaryButton} onPress={this.goToSignIn.bind(this)}>
+                <Button style={styles.primaryButton} onPress={this.goToSignUp.bind(this)}>
                   <View>
                     <Text style={{fontSize:17,color:'white'}}>
                       Go To Register
@@ -172,7 +159,7 @@ import {
                   </Text>
                 </View>
               </Button>
-              <Button onPress={this.goToSignup.bind(this)} style={styles.primaryButton}>
+              <Button onPress={this.goToSignIn.bind(this)} style={styles.primaryButton}>
                 <View>
                   <Text style={{fontSize:17,color:'white'}}>
                     Go To Login

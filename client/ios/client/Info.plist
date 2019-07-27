@@ -56,6 +56,10 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Iceberg-Regular.ttf</string>
+		<string>Roboto_medium.ttf</string>
+		<string>Roboto.ttf</string>
+		<string>rubicon-icon-font.ttf</string>
+		<string>Fontisto.ttf</string>
 	</array>
 </dict>
 </plist>

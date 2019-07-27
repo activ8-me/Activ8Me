@@ -104,42 +104,43 @@ export default class AlarmForm extends Component {
       <View style={styles.container}>
         
         <ScrollView>
-          <Card>
-            <Item regular>
-              <Input placeholder='Enter alarm title' value={this.state.title} onChangeText={(text) => this.handleChange(text)}/>
-            </Item>
-          </Card>
+          <View style={{ alignItems: 'center' }}>
+            <Card style={styles.cardContainer}>
+              <Item regular>
+                <Input placeholder='Enter alarm title' value={this.state.title} onChangeText={(text) => this.handleChange(text)}/>
+              </Item>
+            </Card>
 
-          <Card>
-            <TouchableHighlight underlayColor="#F7F7F7" onPress={this.showDateTimePicker}>
-              <Text style={{ fontSize: 50, textAlign: 'center', fontWeight: 'bold', padding: 30 }}> {this.state.time} </Text>
-            </TouchableHighlight>
-            <DateTimePicker
-              mode='time'
-              is24Hour={false}
-              isVisible={this.state.isDateTimePickerVisible}
-              onConfirm={this.handleDatePicked}
-              onCancel={this.hideDateTimePicker}
-            />
-          </Card>
+            <Card style={styles.cardContainer}>
+              <TouchableHighlight underlayColor="#F7F7F7" onPress={this.showDateTimePicker}>
+                <Text style={{ fontSize: 50, textAlign: 'center', fontWeight: 'bold', padding: 30 }}> {this.state.time} </Text>
+              </TouchableHighlight>
+              <DateTimePicker
+                mode='time'
+                is24Hour={false}
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={this.handleDatePicked}
+                onCancel={this.hideDateTimePicker}
+              />
+            </Card>
 
-          <Card style={{ padding: 10 }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}t>Repeat</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly'}}>
-            { this.state.days.map((day, index) => {
-              return (
-                <TouchableHighlight underlayColor='#F7F7F7' key={index} style={{ padding: 10 }} onPress={() => this.handleChecked(index)}>
-                    <Text  style={this.state.daysChecked[index] === true ? styles.checked : styles.unchecked }>{day.slice(0,2)}</Text>
-                  </TouchableHighlight>
-                  )
-                })}
-            </View>
-          </Card>
+            <Card style={{ padding: 10, width: '95%' }}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}t>Repeat</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-evenly'}}>
+              { this.state.days.map((day, index) => {
+                return (
+                  <TouchableHighlight underlayColor='#F7F7F7' key={index} style={{ padding: 10 }} onPress={() => this.handleChecked(index)}>
+                      <Text  style={this.state.daysChecked[index] === true ? styles.checked : styles.unchecked }>{day.slice(0,2)}</Text>
+                    </TouchableHighlight>
+                    )
+                  })}
+              </View>
+            </Card>
 
-          <Card style={{ height: 180, padding: 10 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>Available games</Text>
-
-          </Card>
+            <Card style={{ height: 180, padding: 10, width: '95%' }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>Available games</Text>
+            </Card>
+          </View>
 
         </ScrollView>
           <Button
@@ -172,6 +173,9 @@ const styles = StyleSheet.create({
   checked: {
     fontSize: 20,
     color: '#FF8B17',
+  },
+  cardContainer: {
+    width: '95%'
   }
 
 });

@@ -6,109 +6,190 @@
  * @flow
  */
 
-import React, {Fragment} from 'react';
+import React, { Fragment, Component } from 'react';
+
 import {
+  Container,
+  Title,
+  Content,
+  List,
+  ListItem,
+  InputGroup,
+  Input,
+  Text,
+  Piacker,
+  Button
+} from 'native-base';
+
+import {
+  Image,
+  TouchableHighlight,
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
-  Text,
   StatusBar,
+  AppRegistry,
+  AsyncStorage,
+  ToolbarAndroid,
+  ActivityIndicator,
+  Icon
 } from 'react-native';
 
 import {
-  Header,
   LearnMoreLinks,
   Colors,
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App = () => {
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
+// import Icon from 'react-native-vector-icons/FontAwesome';
+
+export default class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      view:'login',
+      email: '',
+      password: ''
+    }
+  }
+
+  componentDidUpdate(){
+    console.log('okee')
+  }
+
+  login() {
+
+  }
+
+  signUp(){
+
+  }
+
+  goToSignup(){
+    console.log('trigger')
+    this.setState({
+      view:'login'
+    },() => {
+      console.log(this.state.view)
+    })
+  }
+
+  goToSignIn(){
+    console.log('trigger')
+    this.setState({
+      view:'register'
+    },() => {
+      console.log(this.state.view)
+    })
+  }
+
+  render() {
+    return (
+      (this.state.view === 'login') ?
+      <Fragment>
+        <View style={styles.container}>
+          <View style={styles.container2}>
+            <Image
+              source={{ uri: "https://www.sketch.com/images/pages/press/sketch-press-kit/app-icons/sketch-mac-icon@2x.png" }}
+              style={{ height: 55, width: 55 }}
+            />
+            <Text style={styles.TextBold}>Activ8Me</Text>
+            <Text>Login</Text>
           </View>
-        </ScrollView>
-      </SafeAreaView>
+        </View>
+        <Content style={{ bottom: '15%' }}>
+          <List>
+            <ListItem>
+              <InputGroup>
+                {/* <Icon name="users" style={{ color: '#0A69FE' }} /> */}
+                <Input
+                  onChangeText={(text) => this.setState({ email: text })}
+                  value={this.state.email}
+                  placeholder={"Email Address"} />
+              </InputGroup>
+            </ListItem>
+            <ListItem>
+              <InputGroup>
+                {/* <Icon name="ios-unlock" style={{ color: '#0A69FE' }} /> */}
+                <Input
+                  onChangeText={(text) => this.setState({ password: text })}
+                  value={this.state.password}
+                  secureTextEntry={true}
+                  placeholder={"Password"} />
+              </InputGroup>
+            </ListItem>
+          </List>
+          <View style={{alignSelf:'center'}}> 
+            <Button style={styles.primaryButton} onPress={this.login.bind(this)}>
+              <View>
+                <Text style={{fontSize:17}}>
+                  Login
+                </Text>
+              </View>
+            </Button>
+            <Button style={styles.primaryButton} onPress={this.goToSignIn.bind(this)}>
+              <View>
+                <Text style={{fontSize:17}}>
+                  Go To Register
+                </Text>
+              </View>
+            </Button>
+          </View>
+        </Content>
+      </Fragment>
+      :  <Fragment>
+      <View style={styles.container}>
+        <View style={styles.container2}>
+          <Image
+            source={{ uri: "https://www.sketch.com/images/pages/press/sketch-press-kit/app-icons/sketch-mac-icon@2x.png" }}
+            style={{ height: 55, width: 55 }}
+          />
+          <Text style={styles.TextBold}>Activ8Me</Text>
+          <Text>Register</Text>
+        </View>
+      </View>
+      <Content style={{ bottom: '15%' }}>
+        <List>
+          <ListItem>
+            <InputGroup>
+              {/* <Icon name="users" style={{ color: '#0A69FE' }} /> */}
+              <Input
+                onChangeText={(text) => this.setState({ email: text })}
+                value={this.state.email}
+                placeholder={"Email Address"} />
+            </InputGroup>
+          </ListItem>
+          <ListItem>
+            <InputGroup>
+              {/* <Icon name="ios-unlock" style={{ color: '#0A69FE' }} /> */}
+              <Input
+                onChangeText={(text) => this.setState({ password: text })}
+                value={this.state.password}
+                secureTextEntry={true}
+                placeholder={"Password"} />
+            </InputGroup>
+          </ListItem>
+        </List>
+        <View style={{alignSelf:'center'}}> 
+          <Button style={styles.primaryButton} onPress={this.login.bind(this)}>
+            <View>
+              <Text style={{fontSize:17}}>
+                Register
+              </Text>
+            </View>
+          </Button>
+          <Button onPress={this.goToSignup.bind(this)} style={styles.primaryButton}>
+            <View>
+              <Text style={{fontSize:17}}>
+                Go To Login
+              </Text>
+            </View>
+          </Button>
+        </View>
+      </Content>
     </Fragment>
-  );
-};
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
-
-export default App;
+    )
+  }
+}

@@ -49,6 +49,7 @@ const win = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
     width: win.width,
     height: win.height,
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     margin: 15,
     marginTop: 100,
     width: win.width,
-    alignContent: 'center',
+    alignItems: 'center',
     justifyContent: 'center'
   },
   clock: {

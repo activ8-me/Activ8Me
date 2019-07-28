@@ -4,6 +4,7 @@ import { Container, Header, Content, Card, CardItem, Body, CheckBox } from "nati
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Icon from 'react-native-ionicons'
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class AlarmList extends Component {
   constructor(props) {
@@ -190,7 +191,16 @@ export default class AlarmList extends Component {
 
           }}
           underlayColor='#ccc'
-          onPress={() => this.props.navigation.navigate('AlarmForm')}
+          onPress={() => {
+            AsyncStorage.getItem('token')
+            .then(token => {
+              if (!token) {
+                this.props.navigation.navigate('Landing')
+              } else {
+                this.props.navigation.navigate('AlarmForm')
+              }
+            })
+          }}
         >
           <Icon name="add" color="white" />
         </TouchableHighlight>

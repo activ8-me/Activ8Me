@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
-import AsyncStorage from '@react-native-community/async-storage';
 import {
   Image,
   TouchableHighlight,

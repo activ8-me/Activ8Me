@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet, Text, Button, View, TouchableHighlight, Dimensions, Image, Alert} from 'react-native';
-import { Container, Header, Content, Card, CardItem, Body, CheckBox } from "native-base";
+import { Container, Header, Content, Card, CardItem, Body, CheckBox, Fab } from "native-base";
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Icon from 'react-native-ionicons'
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
@@ -10,6 +10,7 @@ export default class AlarmList extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      active: false,
       alarmList: [
         {
           title: 'Go to work',
@@ -28,24 +29,6 @@ export default class AlarmList extends Component {
           time: '02:30 AM',
           days: ['Thursday', 'Friday'],
           status: false
-        },
-        {
-          title: 'Go to work',
-          time: '09:10 AM',
-          days: ['Saturday', 'Sunday'],
-          status: true
-        },
-        {
-          title: 'Go to work',
-          time: '09:10 AM',
-          days: ['Saturday', 'Sunday'],
-          status: true
-        },
-        {
-          title: 'Go to work',
-          time: '09:10 AM',
-          days: ['Saturday', 'Sunday'],
-          status: true
         }
       ]
     }
@@ -120,7 +103,7 @@ export default class AlarmList extends Component {
           <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 26, marginBottom: 5 }}>
             1h 10m remaining
           </Text>
-          <Button title="Clear all" color="#007991" onPress ={() => this.timeRemaining()}/>
+          {/* <Button title="Clear all" color="#007991" onPress ={() => this.timeRemaining()}/> */}
         </View>
         
         <ScrollView>
@@ -178,18 +161,7 @@ export default class AlarmList extends Component {
           </View>
         </ScrollView>
         <TouchableHighlight
-          style={{
-            borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
-            width: Dimensions.get('window').width * 0.13,
-            height: Dimensions.get('window').width * 0.13,
-            backgroundColor: '#FF8B17',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'absolute',
-            bottom: 20,
-            right: 20
-
-          }}
+          style={styles.circleContainer}
           underlayColor='#ccc'
           onPress={() => {
             AsyncStorage.getItem('token')
@@ -204,13 +176,27 @@ export default class AlarmList extends Component {
         >
           <Icon name="add" color="white" />
         </TouchableHighlight>
+          
+        <Fab
+          active={this.state.active}
+          direction="up"
+          containerStyle={{}}
+          style={{ backgroundColor: '#454545' }}
+          position="bottomRight"
+          onPress={() => this.setState({ active: !this.state.active })}>
+          <Icon name="person" color="white"/>
+          <Button style={{ backgroundColor: '#888888' }}>
+            <Icon name="log-out" color="white"/>
+          </Button>
+        </Fab>
         
+{/*         
           <Button
             onPress={() => {
                 this.props.navigation.navigate('AlarmLanding')
             }}
             title="ke alarm landing"
-          /> 
+          />  */}
        
       </View>
     );
@@ -218,7 +204,7 @@ export default class AlarmList extends Component {
 }
 
 AlarmList.navigationOptions = {
-  title: 'AlarmList',
+  header: null
 };
 
 const styles = StyleSheet.create({
@@ -236,8 +222,10 @@ const styles = StyleSheet.create({
   },
   standaloneRowBack: {
     alignItems: 'center',
-    backgroundColor: '#D9F4F5',
+    backgroundColor: '#E5F8FC',
     flex: 1,
+    borderWidth:1, 
+    borderColor: 'lightgrey',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -251,5 +239,17 @@ const styles = StyleSheet.create({
   backTextWhite: {
     color: '#FFF'
   },
+
+  circleContainer: {
+    borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
+    width: Dimensions.get('window').width * 0.153,
+    height: Dimensions.get('window').width * 0.153,
+    backgroundColor: '#FF8B17',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 20,
+    right: 85
+  }
 });
 

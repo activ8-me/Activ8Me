@@ -157,7 +157,10 @@ export default class AlarmForm extends Component {
 }
 
 AlarmForm.navigationOptions = {
-  title: 'AlarmForm',
+  title: 'Set alarm',
+  headerTitleStyle: {
+    fontWeight: 'bold'
+  }
 };
 
 const styles = StyleSheet.create({

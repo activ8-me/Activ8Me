@@ -21,6 +21,7 @@ class AlarmList extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      active: false,
       alarmList: []
     }
   }
@@ -171,8 +172,6 @@ class AlarmList extends Component {
   }
 
   deleted(alarm) {
-    console.log('masuk')
-    console.log(alarm)
     let userToken
     AsyncStorage.getItem('tokenActiv8Me')
     .then(token => {
@@ -202,6 +201,18 @@ class AlarmList extends Component {
     .then(() => {
       console.log('done saving alarm')
       this.props.repopulate(true)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
+  logout() {
+    console.log('logging out')
+    AsyncStorage.removeItem('tokenActiv8Me')
+    .then(() => {
+      console.log('masuk then')
+      this.props.navigation.navigate('Landing')
     })
     .catch(err => {
       console.log(err)
@@ -300,18 +311,17 @@ class AlarmList extends Component {
           position="bottomRight"
           onPress={() => this.setState({ active: !this.state.active })}>
           <Icon name="person" color="white"/>
-          <Button style={{ backgroundColor: '#888888' }}>
+          <Button style={{ backgroundColor: '#888888' }} onPress={() => this.logout()}>
             <Icon name="log-out" color="white"/>
           </Button>
         </Fab>
-        
-{/*         
+            
           <Button
             onPress={() => {
                 this.props.navigation.navigate('AlarmLanding')
             }}
             title="ke alarm landing"
-          />  */}
+          /> 
        
       </View>
     );

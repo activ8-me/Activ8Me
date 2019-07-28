@@ -8,17 +8,66 @@ import { ScrollView,
   Button,
   BackHandler } from 'react-native';
 import {connect} from 'react-redux'
-import {resetWin} from '../store/action'
+import {resetWin, repopulate} from '../store/action'
+import server from '../api/server'
+import AsyncStorage from '@react-native-community/async-storage';
+import moment from 'moment'
 
 const mapStateToProps = state => {
   return {
-    snooze: state.snooze
+    snooze: state.snooze,
+    alarmId: state.alarmId
   }
 }
-const mapDispatchToProps = {resetWin}
+const mapDispatchToProps = {resetWin, repopulate}
 
 function LinksScreen(props) {
   useEffect(() => {props.resetWin()}, [])
+
+  function updateAlarm() {
+    let type, userToken
+    if (props.snooze) {
+      type = 'snooze'
+    } else {
+      type = 'reset'
+    }
+    AsyncStorage.getItem('tokenActiv8Me')
+    .then(token => {
+      userToken = token
+      console.log(props.alarmId)
+      return server({
+        method: 'patch',
+        url: `/alarm/${props.alarmId}`,
+        data: {
+          type,
+          time: moment().add(10, "minutes").format('LT')
+        },
+        headers: {
+          token
+        }
+      })
+    })
+    .then(() => {
+      console.log(userToken)
+      return server ({
+        method: 'get',
+        url: '/alarm/',
+        headers: {
+          token: userToken
+        }
+      })
+    })
+    .then(({data}) => {
+      console.log(data)
+      return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
+    })
+    .then(() => {
+      BackHandler.exitApp()
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
   return (
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
@@ -33,27 +82,8 @@ function LinksScreen(props) {
           style={{width:200, height:200, margin: 10, marginLeft: 20}}
         />
         <Button
-          onPress={() => {
-            props.navigation.navigate('AlarmList')
-          }}
-          title="List Alarm"
-          color="#ff8b17"
-          style={styles.buttonStyle}
-        />
-        <View style={{margin: 30}}></View>
-        <Button
-          onPress={() => {
-            props.navigation.navigate('AlarmLanding')
-          }}
-          title="Alarm page"
-          color="#ff8b17"
-          style={styles.buttonStyle}
-        />
-        <Button
-          onPress={() => {
-            BackHandler.exitApp()
-          }}
-          title="Close App"
+          onPress={updateAlarm}
+          title="OK"
           color="#ff8b17"
           style={styles.buttonStyle}
         />

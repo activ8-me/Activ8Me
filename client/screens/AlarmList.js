@@ -222,15 +222,15 @@ class AlarmList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View>
+        {/* <View>
           <Text style={{ textAlign: 'center', fontSize: 16 }}>
             Next alarm
           </Text>
           <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 26, marginBottom: 5 }}>
             1h 10m remaining
           </Text>
-          {/* <Button title="Clear all" color="#007991" onPress ={() => this.timeRemaining()}/> */}
-        </View>
+          <Button title="Clear all" color="#007991" onPress ={() => this.timeRemaining()}/>
+        </View> */}
         
         <ScrollView>
         <View style={{ alignItems: 'center', marginTop: 10}}>
@@ -274,7 +274,7 @@ class AlarmList extends Component {
                         <Text style={{ color: alarm.status ? "#000" : "#9F9C9C" }}>{this.getDays(alarm.days)}</Text>
                       </Col>
                       <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={5}>
-                        <Text style={{ fontSize: 35, fontWeight: 'bold', color: alarm.status ? "#000" : "#9F9C9C" }}>{alarm.time}</Text>
+                        <Text style={{ fontSize: 35, fontWeight: 'bold', color: alarm.status ? "#000" : "#9F9C9C" }}>{alarm.originTime}</Text>
                       </Col>
                     </Grid>
                   </View>

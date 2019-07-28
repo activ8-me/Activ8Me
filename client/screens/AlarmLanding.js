@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { ScrollView, 
   StyleSheet, 
   View,
@@ -8,16 +8,36 @@ import { ScrollView,
 import {connect} from 'react-redux'
 import {snooze, awake, ring, stop} from '../store/action'
 import SoundPlayer from 'react-native-sound-player'
+import AsyncStorage from '@react-native-community/async-storage';
 
 const mapStateToProps = state => {
   return {
-    alarm: state.alarm
+    alarm: state.alarm,
+    alarmId: state.alarmId
   }
 }
  
 const mapDispatchToProps = {snooze, awake, ring, stop}
 
 function LinksScreen(props) {
+  const [time, setTime] = useState('')
+  useEffect(() => {
+    AsyncStorage.getItem('alarmActiv8Me')
+    .then(alarms => {
+      let alarmList = JSON.parse(alarms)
+      for (let i = 0; i < alarmList.length; i++){
+        if (alarmList[i]._id === props.alarmId) {
+          let now = alarmList[i].time 
+          now = now.split(':')
+          if (parseInt(now[0]) < 10){
+            now[0] = '0' + now[0]
+          }
+          now = now.join(':')
+          setTime(now)
+        }
+      }
+    })
+  }, [props.alarmId])
 
   useEffect(() => {
     if (!props.alarm) {
@@ -44,8 +64,8 @@ function LinksScreen(props) {
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
         <View style={{display:'flex', flexDirection:'row', alignContent: 'center'}}>
-          <Text style={styles.clock}>08 : 00</Text>
-          <Text style={styles.meridiem}>AM</Text>
+          <Text style={styles.clock}>{`${time.slice(0,2)} : ${time.slice(3,5)}`}</Text>
+          <Text style={styles.meridiem}>{time.slice(6)}</Text>
         </View>
         <Image
           source={require('../assets/pics/wakeUp.png')}

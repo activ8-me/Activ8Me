@@ -7,60 +7,7 @@ class Game extends React.Component {
     selectedIds: [],
     remainingSeconds: 10,
   };
-  isNumSelected = (i) => {
-    return this.state.selectedIds.indexOf(i) >= 0
-  };
-  componentDidMount() {
-    this.intervalId = setInterval(() => {
-      this.setState((prevState) => {
-        return { remainingSeconds: prevState.remainingSeconds - 1 }
-      }, () => {
-        if (this.state.remainingSeconds === 0) {
-          clearInterval(this.intervalId)
-        }
-      })
-    }, 1000)
-  }
-  componentWillUnmount() {
-    clearInterval(this.intervalId)
-  }
-  componentWillUpdate(nextProps, nextState) {
-    if(nextState.remainingSeconds === 1){
-      this.setState({
-        remainingSeconds:10,
-        selectedIds:[]
-      })
-      this.randNumArray = Array
-        .from({ length: 6 })
-        .map(() => 1 + Math.floor(10 * Math.random()));
-      this.target = this.randNumArray
-        .slice(0, 6 - 2)
-        .reduce((acc, curr) => acc + curr, 0);
-    }
-    if (nextState.selectedIds !== this.state.selectedIds || nextState.remainingSeconds === 0) {
-      this.gameStatus = this.calcGameStatus(nextState)
-    }
-  }
-  calcGameStatus(nextState) {
-    const sumSelected = nextState.selectedIds.reduce((acc, curr) => { return acc + this.randNumArray[curr] }, 0)
-    if (sumSelected === this.target) {
-      return "WIN"
-    } else {
-      return "PLAYING"
-    }
-  };
-
-  gameStatus = "PLAYING"
-  selectNum = (i) => {
-    this.setState((prevState) => ({ selectedIds: [...prevState.selectedIds, i] }))
-  };
-  randNumArray = Array
-    .from({ length: 6 })
-    .map(() => 1 + Math.floor(10 * Math.random()));
-  target = this.randNumArray
-    .slice(0, 6 - 2)
-    .reduce((acc, curr) => acc + curr, 0);
-
+  
   render() {
     const gameStatus = this.gameStatus;
     return (

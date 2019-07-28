@@ -50,6 +50,17 @@ export default class AlarmList extends Component {
     }
   }
 
+  componentDidMount() {
+    AsyncStorage.getItem('alarms')
+    .then(alarms => {
+      if (alarms) {
+        this.setState({
+          alarmList: alarms
+        })
+      }
+    })
+  }
+
   getDays(days) {
     let weekdays = "Mo Tu We Th Fr"
     let weekends = "Sa Su"

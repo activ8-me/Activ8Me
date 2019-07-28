@@ -124,12 +124,117 @@
 //   );
 // }
 
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import Navigation from './navigation/AppNavigation'
 import {Provider} from 'react-redux'
 import store from './store'
+import { AsyncStorage } from 'react-native';
+import firebase from 'react-native-firebase';
 
 const App = () => {
+  useEffect(() => {
+    checkPermission();
+    createNotificationListeners();
+  }, [])
+
+  useEffect(() => {
+    return willUnmount()
+  }, [])
+
+  const willUnmount = () => {
+    notificationListener()
+    notificationOpenedListener()
+  }
+
+  const checkPermission = async () => {
+    console.log('masuk ke checkpermission ==================')
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+      console.log('masuk ke checkPermission enabled ==================')
+        getToken();
+    } else {
+      console.log('checkPermission GAK enabled ==================')
+        requestPermission();
+    }
+  }
+
+  const getToken = async () => {
+    console.log('masuk ke getToken ==================')
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
+      console.log('masuk ke getToken gak pny fcmToken ==================')
+        fcmToken = await firebase.messaging().getToken();
+        if (fcmToken) {
+            // user has a device token
+            await AsyncStorage.setItem('fcmToken', fcmToken);
+        }
+    }
+  }
+
+  const requestPermission = async () => {
+    console.log('masuk ke requestPermission ===========================')
+    try {
+        await firebase.messaging().requestPermission();
+        // User has authorised
+        getToken();
+    } catch (error) {
+        // User has rejected permissions
+        console.log('permission rejected');
+    }
+  }
+
+  const createNotificationListeners = async () => {
+    console.log('masuk ke createNotificationListeners ==================')
+    /*
+    * Triggered when a particular notification has been received in foreground
+    * */
+    notificationListener = firebase.notifications().onNotification((notification) => {
+      console.log('masuk ke notificationListener ===========================')
+      const { title, body } = notification;
+      showAlert(title, body);
+    });
+  
+    /*
+    * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
+    * */
+    notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+      console.log('masuk ke notificationOpenedListener ===========================')
+      const { title, body } = notificationOpen.notification;
+      showAlert(title, body);
+    });
+  
+    /*
+    * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
+    * */
+    const notificationOpen = await firebase.notifications().getInitialNotification();
+    if (notificationOpen) {
+      console.log('masuk ke notificationOpen ==================')
+      const { title, body } = notificationOpen.notification;
+      showAlert(title, body);
+    }
+    /*
+    * Triggered for data only payload in foreground
+    * */
+    messageListener = firebase.messaging().onMessage((message) => {
+      //process data message
+      console.log(JSON.stringify(message));
+    });
+  }
+  
+  const showAlert = (title, body) => {
+    console.log('masuk ke showAlert ==================')
+    
+    Alert.alert(
+      title, body,
+      [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ],
+      { cancelable: false },
+    );
+  }
+  
+  
+
   return (
     <Provider store={store}>
       <Navigation />

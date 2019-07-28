@@ -4,7 +4,6 @@ import { Container, Header, Content, Card, CardItem, Body, CheckBox } from "nati
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Icon from 'react-native-ionicons'
 
-
 export default class AlarmList extends Component {
   constructor(props) {
     super(props)
@@ -119,12 +118,12 @@ export default class AlarmList extends Component {
           <Icon name="add" color="white" />
         </TouchableHighlight>
 
-          {/* <Button
+          <Button
             onPress={() => {
                 this.props.navigation.navigate('AlarmLanding')
             }}
             title="ke alarm landing"
-          /> */}
+          />
       </View>
     );
   }

@@ -2,7 +2,8 @@ const initialState = {
   snooze: false,
   winning: 0,
   gameSelect: 0,
-  gameDone: []
+  gameDone: [],
+  alarm: false
 }
 
 export default function reducer (state = initialState, action) {
@@ -31,7 +32,19 @@ export default function reducer (state = initialState, action) {
     case "RESET":
       return {
         ...state,
-        winning: 0
+        winning: 0,
+        gameSelect: 0,
+        gameDone: []
+      }
+    case "RING":
+      return {
+        ...state,
+        alarm: true
+      }
+    case "STOP":
+      return {
+        ...state,
+        alarm: false
       }
     default:
       return state

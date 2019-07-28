@@ -19,8 +19,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {randomGame, ring, stop}
 
 function LinksScreen (props) {
-  // let game = ['WakeMeUp', 'MemoryGame']
-  let game = ["WakeMeUp"]
+  let game = ['WakeMeUp', 'MemoryGame']
+  // let game = ["MemoryGame"]
 
   useEffect(() => {
     if (props.winning === 2){

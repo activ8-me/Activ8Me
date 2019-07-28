@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import {connect} from 'react-redux'
 import {randomGame, ring, stop} from '../store/action'
 import SoundPlayer from 'react-native-sound-player'
@@ -19,7 +19,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {randomGame, ring, stop}
 
 function LinksScreen (props) {
-  let game = ['WakeMeUp', 'MemoryGame']
+  // let game = ['WakeMeUp', 'MemoryGame']
+  let game = ["WakeMeUp"]
 
   useEffect(() => {
     if (props.winning === 2){
@@ -53,14 +54,12 @@ function LinksScreen (props) {
   }, [props.alarm])
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       {
-        game[props.gameSelect] === "WakeMeUp" && <WakeMeUp {...props} gameId={props.gameSelect}/>
+        game[props.gameSelect] === "WakeMeUp" ? <WakeMeUp {...props} gameId={props.gameSelect}/> :
+          game[props.gameSelect] === "MemoryGame" && <MemoryGame {...props} gameId={props.gameSelect}/>
       }
-      {
-        game[props.gameSelect] === "MemoryGame" && <MemoryGame {...props} gameId={props.gameSelect}/>
-      }
-    </ScrollView>
+    </View>
   );
 }
 
@@ -71,7 +70,7 @@ LinksScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
+    display: 'flex',
     backgroundColor: '#fff',
   },
 });

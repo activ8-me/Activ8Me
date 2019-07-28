@@ -5,49 +5,90 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import Icon from 'react-native-ionicons'
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 import AsyncStorage from '@react-native-community/async-storage';
+import server from '../api/server'
+import {connect} from 'react-redux'
+import {repopulate} from '../store/action'
 
-export default class AlarmList extends Component {
+const mapStateToProps = state => {
+  return {
+    repopulate: state.repopulate
+  }
+}
+
+const mapDispatchToProps = {repopulate}
+
+class AlarmList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      active: false,
-      alarmList: [
-        {
-          title: 'Go to work',
-          time: '09:10 AM',
-          days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-          status: true
-        },
-        {
-          title: 'Workout',
-          time: '12:15 PM',
-          days: ['Tuesday', 'Thursday', 'Friday'],
-          status: true
-        },
-        {
-          title: 'Lorem ipsum sit amet',
-          time: '02:30 AM',
-          days: ['Thursday', 'Friday'],
-          status: false
-        }
-      ]
+      alarmList: []
     }
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('alarms')
+    AsyncStorage.getItem('alarmActiv8Me')
     .then(alarms => {
-      if (alarms) {
-        this.setState({
-          alarmList: alarms
+      if (alarms !== null && alarms) {
+        let alarmList = JSON.parse(alarms)
+        if (alarmList.length >= 0) {
+          this.setState({
+            alarmList: [...alarmList]
+          })
+        } else {
+          return AsyncStorage.getItem('tokenActiv8Me')
+        }
+      }
+    })
+    .then(token => {
+      if (token === null && token) {
+        return server ({
+          method: 'get',
+          url: '/alarm/',
+          headers: {
+            token
+          }
         })
       }
+    })
+    .then(({data}) => {
+      this.setState({
+        alarmList: data
+      })
+      this.props.repopulate(false)
+      return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
+    })
+    .then(() => {
+      console.log('done saving alarm')
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
+  componentDidUpdate(prevProps) {
+    AsyncStorage.getItem('alarmActiv8Me')
+    .then(alarms => {
+      if (alarms !== JSON.stringify(this.state.alarmList)) {
+        if (alarms !== null && alarms) {
+          let alarmList = JSON.parse(alarms)
+          if (alarmList.length >= 0) {
+            this.setState({
+              alarmList: [...alarmList]
+            })
+          }
+        }
+      }
+      this.props.repopulate(false)
+    })
+    .catch(err => {
+      console.log(err)
     })
   }
 
   getDays(days) {
     let weekdays = "Mo Tu We Th Fr"
     let weekends = "Sa Su"
+    let everyday = weekdays + ' ' + weekends
     let temp = []
     for(let day of days) {
       temp.push(day.slice(0, 2)) 
@@ -57,18 +98,53 @@ export default class AlarmList extends Component {
 
     if(showDays === weekdays) return 'Weekdays'
     else if(showDays === weekends) return 'Weekends'
+    else if(showDays === everyday) return 'Daily'
     else return showDays
   }
 
   handleCheck(index){
     let list = this.state.alarmList
-
+    let userToken
     list[index].status ? list[index].status = false : list[index].status = true
 
-    this.setState({
-      alarmList: list
+    console.log(list[index])
+    
+    AsyncStorage.getItem('tokenActiv8Me')
+    .then(token => {
+      userToken = token
+      let data = list[index]
+      console.log(data)
+      return server({
+        method: 'patch',
+        url: `/alarm/${list[index]._id}`,
+        data: {
+          ...data,
+          type: 'update'
+        },
+        headers: {
+          token
+        }
+      })
     })
-
+    .then(() => {
+      return server ({
+        method: 'get',
+        url: '/alarm/',
+        headers: {
+          token: userToken
+        }
+      })
+    })
+    .then(({data}) => {
+      return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
+    })
+    .then(() => {
+      console.log('done saving alarm')
+      this.props.repopulate(true)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   } 
 
   timeRemaining() {
@@ -77,7 +153,7 @@ export default class AlarmList extends Component {
     console.log(t)
   }
 
-  handleDelete() {
+  handleDelete(alarm) {
     Alert.alert(
       'Delete alarm?',
       'This action cannot be undone',
@@ -87,10 +163,49 @@ export default class AlarmList extends Component {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
+        { text: 'OK', onPress: () => this.deleted(alarm)
+        },
       ],
       { cancelable: false },
     );
+  }
+
+  deleted(alarm) {
+    console.log('masuk')
+    console.log(alarm)
+    let userToken
+    AsyncStorage.getItem('tokenActiv8Me')
+    .then(token => {
+      userToken = token
+      let data = alarm
+      console.log(data)
+      return server({
+        method: 'delete',
+        url: `/alarm/${alarm._id}`,
+        headers: {
+          token
+        }
+      })
+    })
+    .then(() => {
+      return server ({
+        method: 'get',
+        url: '/alarm/',
+        headers: {
+          token: userToken
+        }
+      })
+    })
+    .then(({data}) => {
+      return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
+    })
+    .then(() => {
+      console.log('done saving alarm')
+      this.props.repopulate(true)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   render() {
@@ -120,14 +235,14 @@ export default class AlarmList extends Component {
                 <View style={styles.standaloneRowBack}>
                   <Text></Text>
                   <View style={{ height: '100%', width: 75, alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableHighlight onPress={() => this.props.navigation.navigate('AlarmForm', { type: 'update'})} style={{margin: 5}} activeOpacity={1} underlayColor={'#FFA14D'}>
+                    <TouchableHighlight onPress={() => this.props.navigation.navigate('AlarmForm', { type: 'update', alarm})} style={{margin: 5}} activeOpacity={1} underlayColor={'#FFA14D'}>
                       <Image 
                         source={require('../assets/pics/edit.png')}
                         style={{ height: 37, width: 37}}
                       />
 
                     </TouchableHighlight>
-                    <TouchableHighlight onPress={() => this.handleDelete()} style={{margin: 5 }} activeOpacity={1} underlayColor={'#FFA14D'}>
+                    <TouchableHighlight onPress={() => this.handleDelete(alarm)} style={{margin: 5 }} activeOpacity={1} underlayColor={'#FFA14D'}>
                       <Image
                         source={require('../assets/pics/trash.png')}
                         style={{ height: 37, width: 37 }}
@@ -157,15 +272,15 @@ export default class AlarmList extends Component {
             )
           })}
 
-
           </View>
         </ScrollView>
         <TouchableHighlight
           style={styles.circleContainer}
           underlayColor='#ccc'
           onPress={() => {
-            AsyncStorage.getItem('token')
+            AsyncStorage.getItem('tokenActiv8Me')
             .then(token => {
+              console.log('add')
               if (!token) {
                 this.props.navigation.navigate('Landing')
               } else {
@@ -253,3 +368,4 @@ const styles = StyleSheet.create({
   }
 });
 
+export default connect (mapStateToProps, mapDispatchToProps) (AlarmList)

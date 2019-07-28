@@ -9,5 +9,5 @@ const alarmSchema = new Schema({
   days: [{type: String}],
   status: Boolean
 })
-const Article = mongoose.model('article',alarmSchema)
-module.exports = Article
+const Alarm = mongoose.model('alarm', alarmSchema)
+module.exports = Alarm

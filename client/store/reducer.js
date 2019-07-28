@@ -3,7 +3,8 @@ const initialState = {
   winning: 0,
   gameSelect: 0,
   gameDone: [],
-  alarm: false
+  alarm: false,
+  repopulate: false
 }
 
 export default function reducer (state = initialState, action) {
@@ -46,6 +47,11 @@ export default function reducer (state = initialState, action) {
         ...state,
         alarm: false
       }
+    case "REPOPULATE":
+      return {
+        ...state,
+        repopulate: action.state
+      }  
     default:
       return state
   }

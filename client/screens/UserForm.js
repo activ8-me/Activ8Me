@@ -49,10 +49,9 @@ export default class LinksScreen extends Component {
       }
     })
     .then (({data}) => {
-      return AsyncStorage.setItem('token', data.token.toString() )
+      return AsyncStorage.setItem('tokenActiv8Me', data.token.toString() )
     })
     .then(async () => {
-      const token = await AsyncStorage.getItem('token')
       this.props.navigation.navigate('AlarmList')
     })
     .catch (err => {
@@ -80,10 +79,9 @@ export default class LinksScreen extends Component {
       })
     })
     .then (({data}) => {
-      return AsyncStorage.setItem('token', data.token.toString() )
+      return AsyncStorage.setItem('tokenActiv8Me', data.token.toString() )
     })
     .then(async () => {
-      const token = await AsyncStorage.getItem('token')
       this.props.navigation.navigate('AlarmList')
     })
     .catch (err => {

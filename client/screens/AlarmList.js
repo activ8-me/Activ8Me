@@ -9,9 +9,60 @@ export default class AlarmList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      alarmList: []
+      alarmList: [
+        {
+          title: 'Go to work',
+          time: '09:10 AM',
+          days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          status: true
+        },
+        {
+          title: 'Workout',
+          time: '12:15 PM',
+          days: ['Tuesday', 'Thursday', 'Friday'],
+          status: true
+        },
+        {
+          title: 'Lorem ipsum sit amet',
+          time: '02:30 AM',
+          days: ['Thursday', 'Friday'],
+          status: false
+        },
+        {
+          title: 'Go to work',
+          time: '09:10 AM',
+          days: ['Saturday', 'Sunday'],
+          status: true
+        }
+      ]
     }
   }
+
+  getDays(days) {
+    let weekdays = "Mo Tu We Th Fr"
+    let weekends = "Sa Su"
+    let temp = []
+    for(let day of days) {
+      temp.push(day.slice(0, 2)) 
+    }
+
+    let showDays = temp.join(' ')
+
+    if(showDays === weekdays) return 'Weekdays'
+    else if(showDays === weekends) return 'Weekends'
+    else return showDays
+  }
+
+  handleCheck(index){
+    let list = this.state.alarmList
+
+    list[index].status ? list[index].status = false : list[index].status = true
+
+    this.setState({
+      alarmList: list
+    })
+
+  } 
 
   render() {
     return (
@@ -23,97 +74,31 @@ export default class AlarmList extends Component {
           1h 10m remaining
         </Text>
         <ScrollView>
-          <Card style={{ height: 100, }}>
-            <Grid>
-              <Col style={{ justifyContent: 'center' }} size={15}>
-                <CheckBox checked={true} color="#FF8B17" />
-              </Col>
-              <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={30}>
-                <Text style={{ fontSize: 35, fontWeight: 'bold' }}>12:21</Text>
-                <Text>Weekdays</Text>
-              </Col>
-              <Col style={{ justifyContent: 'center' }} size={25}>
-                <Icon name='volume-high' style={{ marginLeft: 15 }} />
-              </Col>
-              <Col style={{ justifyContent: 'center' }} size={30}>
-                <Icon name='alarm' style={{ marginLeft: 15 }} />
-              </Col>
-            </Grid>
-          </Card>
+          <View style={{ alignItems: 'center'}}>
+          {this.state.alarmList.map((alarm, index) => {
+              
+            return (
+              <Card key={index} style={{ height: 100, width: '95%', backgroundColor: alarm.status ? "#fff" : "#F2F2F2"}}>
+              <Grid>
+                <Col style={{ justifyContent: 'center' }} size={15}>
+                  <CheckBox checked={alarm.status ? true : false} color="#FF8B17" onPress={() => this.handleCheck(index)} />
+                </Col>
+                <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={30}>
+                  <Text style={{ fontSize: 35, fontWeight: 'bold', color: alarm.status ? "#000" : "#9F9C9C" }}>{alarm.time}</Text>
+                  <Text style={{ color: alarm.status ? "#000" : "#9F9C9C" }}>{this.getDays(alarm.days)}</Text>
+                </Col>
+                <Col style={{ justifyContent: 'center' }} size={25}>
+                  <Icon name='volume-high' style={{ marginLeft: 15, color: alarm.status ? "#000" : "#9F9C9C" }} />
+                </Col>
+                <Col style={{ justifyContent: 'center' }} size={30}>
+                  <Icon name='alarm' style={{ marginLeft: 15, color: alarm.status ? "#000" : "#9F9C9C"}} />
+                </Col>
+              </Grid>
+            </Card>
+            )
+          })}
 
-          <Card style={{ height: 100 }}>
-            <Grid>
-              <Col style={{ justifyContent: 'center' }} size={15}>
-                <CheckBox checked={true} color="#FF8B17" />
-              </Col>
-              <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={30}>
-                <Text style={{ fontSize: 35, fontWeight: 'bold' }}>09:21</Text>
-                <Text>Mo Tu We Th</Text>
-              </Col>
-              <Col style={{ justifyContent: 'center' }} size={25}>
-                <Icon name='volume-high' style={{ marginLeft: 15 }} />
-              </Col>
-              <Col style={{ justifyContent: 'center' }} size={30}>
-                <Icon name='alarm' style={{ marginLeft: 15 }} />
-              </Col>
-            </Grid>
-          </Card>
-
-
-          <Card style={{ height: 100, backgroundColor: '#F2F2F2' }}>
-            <Grid>
-              <Col style={{ justifyContent: 'center' }} size={15}>
-                <CheckBox checked={false} color="#FF8B17" />
-              </Col>
-              <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={30}>
-                <Text style={{ fontSize: 35, fontWeight: 'bold', color: '#9F9C9C' }}>11:10</Text>
-                <Text style={{ color: "#9F9C9C" }}>Weekends</Text>
-              </Col>
-              <Col style={{ justifyContent: 'center' }} size={25}>
-                <Icon name='volume-high' style={{ marginLeft: 15, color: "#9F9C9C" }} />
-              </Col>
-              <Col style={{ justifyContent: 'center' }} size={30}>
-                <Icon name='alarm' style={{ marginLeft: 15, color: "#9F9C9C" }} />
-              </Col>
-            </Grid>
-          </Card>
-
-          <Card style={{ height: 100, }}>
-            <Grid>
-              <Col style={{ justifyContent: 'center' }} size={15}>
-                <CheckBox checked={true} color="#FF8B17" />
-              </Col>
-              <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={30}>
-                <Text style={{ fontSize: 35, fontWeight: 'bold' }}>08:02</Text>
-                <Text>Mo Tu</Text>
-              </Col>
-              <Col style={{ justifyContent: 'center' }} size={25}>
-                <Icon name='volume-high' style={{ marginLeft: 15 }} />
-              </Col>
-              <Col style={{ justifyContent: 'center' }} size={30}>
-                <Icon name='alarm' style={{ marginLeft: 15 }} />
-              </Col>
-            </Grid>
-          </Card>
-
-          <Card style={{ height: 100, }}>
-            <Grid>
-              <Col style={{ justifyContent: 'center' }} size={15}>
-                <CheckBox checked={true} color="#FF8B17" />
-              </Col>
-              <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={30}>
-                <Text style={{ fontSize: 35, fontWeight: 'bold' }}>12:21</Text>
-                <Text>Weekdays</Text>
-              </Col>
-              <Col style={{ justifyContent: 'center' }} size={25}>
-                <Icon name='volume-high' style={{ marginLeft: 15 }} />
-              </Col>
-              <Col style={{ justifyContent: 'center' }} size={30}>
-                <Icon name='alarm' style={{ marginLeft: 15 }} />
-              </Col>
-            </Grid>
-          </Card>
-
+        </View>
         </ScrollView>
         <TouchableHighlight
           style={{
@@ -156,9 +141,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F7F7F7',
   },
   active: {
-
+    justifyContent: 'center'
   },
   inactive: {
-
+    justifyContent: 'center',
+    
   },
 });

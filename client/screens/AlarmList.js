@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, Button, View, TouchableHighlight, Dimensions, Image} from 'react-native';
+import { ScrollView, StyleSheet, Text, Button, View, TouchableHighlight, Dimensions, Image, Alert} from 'react-native';
 import { Container, Header, Content, Card, CardItem, Body, CheckBox } from "native-base";
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Icon from 'react-native-ionicons'
@@ -27,6 +27,18 @@ export default class AlarmList extends Component {
           time: '02:30 AM',
           days: ['Thursday', 'Friday'],
           status: false
+        },
+        {
+          title: 'Go to work',
+          time: '09:10 AM',
+          days: ['Saturday', 'Sunday'],
+          status: true
+        },
+        {
+          title: 'Go to work',
+          time: '09:10 AM',
+          days: ['Saturday', 'Sunday'],
+          status: true
         },
         {
           title: 'Go to work',
@@ -64,37 +76,63 @@ export default class AlarmList extends Component {
 
   } 
 
+  timeRemaining() {
+    let d = new Date()
+    let t = d.getTime()
+    console.log(t)
+  }
+
+  handleDelete() {
+    Alert.alert(
+      'Delete alarm?',
+      'This action cannot be undone',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ],
+      { cancelable: false },
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={{ textAlign: 'center', fontSize: 16 }}>
-          Next alarm
-        </Text>
-        <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 26 }}>
-          1h 10m remaining
-        </Text>
+        <View>
+          <Text style={{ textAlign: 'center', fontSize: 16 }}>
+            Next alarm
+          </Text>
+          <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 26, marginBottom: 5 }}>
+            1h 10m remaining
+          </Text>
+          <Button title="Clear all" color="#007991" onPress ={() => this.timeRemaining()}/>
+        </View>
+        
         <ScrollView>
-
+        <View style={{ alignItems: 'center', marginTop: 10}}>
           {this.state.alarmList.map((alarm, index) => {
-
+            
             return (
               <SwipeRow
                 disableRightSwipe
                 rightOpenValue={-75}
-                style={{ marginTop: 10 }}
+                style={{ marginBottom: 10, width: '95%' }}
                 key={index}
               >
                 <View style={styles.standaloneRowBack}>
                   <Text></Text>
                   <View style={{ height: '100%', width: 75, alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableHighlight onPress={() => console.log('edit')} style={{margin: 5}} activeOpacity={1} underlayColor={'#FFA14D'}>
+                    <TouchableHighlight onPress={() => this.props.navigation.navigate('AlarmForm', { type: 'update'})} style={{margin: 5}} activeOpacity={1} underlayColor={'#FFA14D'}>
                       <Image 
                         source={require('../assets/pics/edit.png')}
                         style={{ height: 37, width: 37}}
                       />
 
                     </TouchableHighlight>
-                    <TouchableHighlight onPress={() => console.log('delete')} style={{margin: 5 }} activeOpacity={1} underlayColor={'#FFA14D'}>
+                    <TouchableHighlight onPress={() => this.handleDelete()} style={{margin: 5 }} activeOpacity={1} underlayColor={'#FFA14D'}>
                       <Image
                         source={require('../assets/pics/trash.png')}
                         style={{ height: 37, width: 37 }}
@@ -105,7 +143,8 @@ export default class AlarmList extends Component {
                 </View>
 
                 <View style={{ alignItems: 'center' }}>
-                  <View key={index} style={{ height: 100, width: '100%', backgroundColor: alarm.status ? "#fff" : "#F2F2F2" }}>
+                  <View key={index} style={{ height: 100, width: '100%', backgroundColor: alarm.status ? "#fff" : "#F2F2F2", elevation: 3}}>
+                    <Text style={{ position: 'absolute', textAlign: 'center', fontWeight: 'bold', color: alarm.status ? '#007991' : '#588791', alignSelf: 'center', top: 5 }}>{ alarm.title }</Text>
                     <Grid>
                       <Col style={{ justifyContent: 'center' }} size={2}>
                         <CheckBox style={{ marginLeft: 5 }} checked={alarm.status ? true : false} color="#FF8B17" onPress={() => this.handleCheck(index)} />
@@ -118,18 +157,13 @@ export default class AlarmList extends Component {
                       </Col>
                     </Grid>
                   </View>
-
                 </View>
-
               </SwipeRow>
-
-
             )
-
           })}
 
 
-         
+          </View>
         </ScrollView>
         <TouchableHighlight
           style={{
@@ -180,10 +214,10 @@ const styles = StyleSheet.create({
   },
   standaloneRowBack: {
     alignItems: 'center',
-    backgroundColor: '#F9F3D1',
+    backgroundColor: '#D9F4F5',
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 
   standaloneRowFront: {

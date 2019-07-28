@@ -15,20 +15,20 @@ export default class AlarmForm extends Component {
       modalVisible: false,
       days: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
       daysChecked: [false, false, false, false, false, false , false],
-      title: ''
+      title: '',
+      type: ''
     }
   }
 
   componentDidMount() {
+    const type = this.props.navigation.getParam('type')
+
     let d = new Date()
     let time = moment(d).format('LT')
-    // let hour = d.getHours()
-    // let minute = d.getMinutes()
-    // if (minute < 10) minute = '0' + minute
-    // if (hour < 10) hour = '0' + hour
 
     this.setState({
-      time
+      time,
+      type
     })
   }
 
@@ -149,7 +149,7 @@ export default class AlarmForm extends Component {
                 this.handleSubmit
             }
             title="SET ALARM"
-            color="#FF8000"
+            color="#007991"
           />
       </View>
     );

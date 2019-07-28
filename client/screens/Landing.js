@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useEffect } from 'react'
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   Image,
   TouchableHighlight,
@@ -13,6 +13,15 @@ import {
 } from 'react-native';
 
 export default function LinksScreen(props) {
+  useEffect(() => {
+    AsyncStorage.getItem('token')
+    .then(token => {
+      console.log(token)  
+      if (token) {
+        props.navigation.navigate('AlarmList')
+      }
+    })
+  }, [])
   return (
     <Fragment>
       <View style={styles.container}>
@@ -25,8 +34,8 @@ export default function LinksScreen(props) {
         </View>
         <View style={styles.container2}>
           <Image
-            source={{ uri: "https://cdn.dribbble.com/users/4908/screenshots/4126164/feature-1-preview.png" }}
-            style={{ height: 280, width: 280, }}
+            source={require('../assets/pics/kitten.png')}
+            style={{ height: 240, width: 300 }}
           />
           <Text style={styles.HeadText}>
             Welcome to Your Ultimate

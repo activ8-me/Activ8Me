@@ -183,13 +183,14 @@ export default class AlarmList extends Component {
         >
           <Icon name="add" color="white" />
         </TouchableHighlight>
-{/* 
+        
           <Button
             onPress={() => {
                 this.props.navigation.navigate('AlarmLanding')
             }}
             title="ke alarm landing"
-          /> */}
+          /> 
+       
       </View>
     );
   }

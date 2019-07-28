@@ -45,3 +45,10 @@ export function stop () {
     type: "STOP"
   }
 }
+
+export function repopulate (state) {
+  return {
+    type: "REPOPULATE",
+    state
+  }
+}

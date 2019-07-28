@@ -5,8 +5,12 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment"
 import server from '../api/server'
 import AsyncStorage from '@react-native-community/async-storage';
+import {connect} from 'react-redux'
+import {repopulate} from '../store/action'
 
-export default class AlarmForm extends Component {
+const mapDispatchToProps = {repopulate}
+
+class AlarmForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -152,8 +156,7 @@ export default class AlarmForm extends Component {
       return AsyncStorage.getItem('alarmActiv8Me')
     })
     .then(alarms => {
-      console.log('update store')
-      console.log(alarms)
+      this.props.repopulate(true)
       this.props.navigation.navigate('AlarmList')
     })
     .catch(err => {
@@ -177,6 +180,7 @@ export default class AlarmForm extends Component {
               </TouchableHighlight>
               <DateTimePicker
                 mode='time'
+                date={new Date(moment(this.state.time, ["h:mm A"]))}
                 is24Hour={false}
                 isVisible={this.state.isDateTimePickerVisible}
                 onConfirm={this.handleDatePicked}
@@ -205,7 +209,6 @@ export default class AlarmForm extends Component {
         </ScrollView>
           <Button
             onPress={
-                // this.props.navigation.navigate('AlarmList')
                 this.handleSubmit
             }
             title="SET ALARM"
@@ -239,6 +242,8 @@ const styles = StyleSheet.create({
   }
 
 });
+
+export default connect (null, mapDispatchToProps) (AlarmForm)
 
 {/* <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Select games (minimum 3): </Text>
   <TouchableHighlight onPress={() => this.setModalVisible(true)}>

@@ -1,13 +1,45 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { ScrollView, 
   StyleSheet, 
-  Dimensions,
   View,
   Text, 
   Image,
   Button } from 'react-native';
+import {connect} from 'react-redux'
+import {snooze, awake, ring, stop} from '../store/action'
+import SoundPlayer from 'react-native-sound-player'
 
-export default function LinksScreen(props) {
+const mapStateToProps = state => {
+  return {
+    alarm: state.alarm
+  }
+}
+ 
+const mapDispatchToProps = {snooze, awake, ring, stop}
+
+function LinksScreen(props) {
+
+  useEffect(() => {
+    if (!props.alarm) {
+      try {
+        SoundPlayer.playSoundFile('siren', 'wav')
+        props.ring()
+      } catch (e) {
+          console.log(`cannot play the sound file`, e)
+      }
+    } else {
+      try {
+        SoundPlayer.addEventListener('FinishedPlaying', ({ success }) => {
+          if (success) {
+            props.stop()
+          }
+        })
+      } catch (e) {
+          console.log(`cannot play the sound file`, e)
+      }
+    }
+  }, [props.alarm])
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
@@ -21,18 +53,21 @@ export default function LinksScreen(props) {
         />
         <Button
           onPress={() => {
-              props.navigation.navigate('Game')
+            props.snooze()
+            props.navigation.navigate('Game')
           }}
           title="Snooze"
-          color="#ff8b17"
+          color="#ff8f4d"
           style={styles.buttonStyle}
         />
+        <View style={{margin: 30}}></View>
         <Button
           onPress={() => {
-              props.navigation.navigate('Game')
+            props.awake()
+            props.navigation.navigate('Game')
           }}
           title="I'm awake"
-          color="#ff8b17"
+          color="red"
           style={styles.buttonStyle}
         />
       </View>
@@ -44,20 +79,16 @@ LinksScreen.navigationOptions = {
   title: 'AlarmLanding',
 };
 
-const win = Dimensions.get('window');
-
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
-    width: win.width,
-    height: win.height,
     backgroundColor: '#ff8b17',
   },
   viewStyle: {
-    margin: 15,
+    padding: 10,
     marginTop: 100,
-    width: win.width,
-    alignContent: 'center',
+    alignItems: 'center',
     justifyContent: 'center'
   },
   clock: {
@@ -70,6 +101,8 @@ const styles = StyleSheet.create({
     fontFamily: "Iceberg-Regular"
   },
   buttonStyle: {
-    margin: 30,
+    margin: 30
   }
 });
+
+export default connect (mapStateToProps, mapDispatchToProps) (LinksScreen)

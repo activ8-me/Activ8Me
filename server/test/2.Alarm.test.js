@@ -84,18 +84,19 @@ describe('Successfull Sign Up & Sign in unauthorize user', function () {
 
 describe('Testing Alarm Server Endpoint', function () {
   describe('Test Create Alarm Endpoint', function () {
-    describe('POST /alarm/create', function () {
+    describe('POST /alarm', function () {
       let time = moment().format('LN')
       describe('Successfull create alarm', function () {
         it('Should return an object with status code 201', function (done) {
           chai
             .request(app)
-            .post('/alarm/create')
+            .post('/alarm')
             .set('token', `${accessToken}`)
             .send({
               title: "Test",
               time: time,
               days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+              status: true
             })
             .then(res => {
               res.body.should.be.an('object')
@@ -104,8 +105,10 @@ describe('Testing Alarm Server Endpoint', function () {
               res.body.should.be.have.property('days')
               res.body.should.be.have.property('originTime')
               res.body.should.be.have.property('user')
+              res.body.should.be.have.property('status')
               res.body.time.should.equal(time)
               res.body.originTime.should.equal(time)
+              res.body.status.should.equal(true)
               res.should.have.status(201)
               idAlarm = res.body._id
               done()
@@ -119,12 +122,14 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 401 and message: "Please login first!"', function (done) {
           chai
             .request(app)
-            .post('/alarm/create')
+            .post('/alarm')
             // .set('token', `${accessToken}`)
             .send({
               title: "Test",
               time: time,
               days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+              originTime: time,
+              status: true
             })
             .then(res => {
               res.body.message.should.equal('Please login first!')
@@ -140,13 +145,14 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 404 and message: "User not found!"', function (done) {
           chai
             .request(app)
-            .post('/alarm/create')
+            .post('/alarm')
             .set('token', `${wrongToken}`)
             .send({
               title: "Test",
               time: time,
               days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-              originTime: time
+              originTime: time,
+              status: true
             })
             .then(res => {
               res.body.message.should.equal('User not found!')
@@ -162,13 +168,14 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 400 and message: "Invalid Token"', function (done) {
           chai
             .request(app)
-            .post('/alarm/create')
+            .post('/alarm')
             .set('token', `${invalidToken}`)
             .send({
               title: "Test",
               time: time,
               days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-              originTime: time
+              originTime: time,
+              status: true
             })
             .then(res => {
               res.body.message.should.equal('Invalid Token')
@@ -183,12 +190,12 @@ describe('Testing Alarm Server Endpoint', function () {
     })
   })
   describe('Test Read Alarm Endpoint', function () {
-    describe('GET /alarm/list', function () {
+    describe('GET /alarm', function () {
       describe('Successfull get alarm list', function () {
         it('Should return an array with status code 200', function (done) {
           chai
             .request(app)
-            .get('/alarm/list')
+            .get('/alarm')
             .set('token', `${accessToken}`)
             .then(res => {
               res.body.should.be.an('array')
@@ -203,13 +210,13 @@ describe('Testing Alarm Server Endpoint', function () {
     })
   })
   describe('Test Update Alarm Endpoint', function () {
-    describe('PATCH /alarm/update/:id', function () {
+    describe('PATCH /alarm/:id', function () {
       let updateTime = moment().add(10, "minutes").format("LN")
       describe('Successfull update alarm type snooze', function () {
         it('Should return an object with status code 200', function (done) {
           chai
             .request(app)
-            .patch(`/alarm/update/${idAlarm}`)
+            .patch(`/alarm/${idAlarm}`)
             .set('token', `${accessToken}`)
             .send({
               time: updateTime,
@@ -222,6 +229,7 @@ describe('Testing Alarm Server Endpoint', function () {
               res.body.should.be.have.property('days')
               res.body.should.be.have.property('originTime')
               res.body.should.be.have.property('user')
+              res.body.should.be.have.property('status')
               res.body.time.should.equal(updateTime)
               res.should.have.status(201)
               done()
@@ -235,7 +243,7 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an object with status code 200', function (done) {
           chai
             .request(app)
-            .patch(`/alarm/update/${idAlarm}`)
+            .patch(`/alarm/${idAlarm}`)
             .set('token', `${accessToken}`)
             .send({
               type: 'reset'
@@ -247,6 +255,7 @@ describe('Testing Alarm Server Endpoint', function () {
               res.body.should.be.have.property('days')
               res.body.should.be.have.property('originTime')
               res.body.should.be.have.property('user')
+              res.body.should.be.have.property('status')
               res.body.time.should.equal(res.body.originTime)
               res.should.have.status(201)
               done()
@@ -261,13 +270,14 @@ describe('Testing Alarm Server Endpoint', function () {
           let time = moment().format('LN')
           chai
             .request(app)
-            .patch(`/alarm/update/${idAlarm}`)
+            .patch(`/alarm/${idAlarm}`)
             .set('token', `${accessToken}`)
             .send({
               title: "Test",
               time: time,
               days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-              type: 'update'
+              type: 'update',
+              status: false
             })
             .then(res => {
               res.body.should.be.an('object')
@@ -276,6 +286,8 @@ describe('Testing Alarm Server Endpoint', function () {
               res.body.should.be.have.property('days')
               res.body.should.be.have.property('originTime')
               res.body.should.be.have.property('user')
+              res.body.should.be.have.property('status')
+              res.body.status.should.equal(false)
               res.body.time.should.equal(updateTime)
               res.should.have.status(201)
               done()
@@ -289,7 +301,7 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 404 and message: "Alarm with id 5d0cebd686ef101a48b134dd not found!"', function (done) {
           chai
             .request(app)
-            .patch(`/alarm/update/5d0cebd686ef101a48b134dd`)
+            .patch(`/alarm/5d0cebd686ef101a48b134dd`)
             .set('token', `${accessToken}`)
             .send({
               time: updateTime,
@@ -309,7 +321,7 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 401 and message: "Please login first!"', function (done) {
           chai
             .request(app)
-            .patch(`/alarm/update/${idAlarm}`)
+            .patch(`/alarm/${idAlarm}`)
             .send({
               time: updateTime,
               type: 'snooze'
@@ -329,7 +341,7 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 404 and message: "User not found!"', function (done) {
           chai
             .request(app)
-            .patch(`/alarm/update/${idAlarm}`)
+            .patch(`/alarm/${idAlarm}`)
             .send({
               time: updateTime,
               type: 'snooze'
@@ -349,7 +361,7 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 400 and message: "Invalid Token"', function (done) {
           chai
             .request(app)
-            .patch(`/alarm/update/${idAlarm}`)
+            .patch(`/alarm/${idAlarm}`)
             .send({
               time: updateTime,
               type: 'snooze'
@@ -369,7 +381,7 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 403 and message: "Unauthorized"', function (done) {
           chai
             .request(app)
-            .patch(`/alarm/update/${idAlarm}`)
+            .patch(`/alarm/${idAlarm}`)
             .send({
               time: updateTime,
               type: 'snooze'
@@ -388,12 +400,12 @@ describe('Testing Alarm Server Endpoint', function () {
     })
   })
   describe('Test Delete Alarm Endpoint', function () {
-    describe('DELETE /alarm/delete/:id', function () {
+    describe('DELETE /alarm/:id', function () {
       describe('Fail delete alarm with wrong alarm id', function () {
         it('Should return an error with status code 404 and message: "Alarm with id 5d0cebd686ef401a48b134dd not found!"', function (done) {
           chai
             .request(app)
-            .delete(`/alarm/delete/5d0cebd686ef401a48b134dd`)
+            .delete(`/alarm/5d0cebd686ef401a48b134dd`)
             .set('token', `${accessToken}`)
             .then(res => {
               res.body.message.should.equal('Alarm with id 5d0cebd686ef401a48b134dd not found!')
@@ -409,7 +421,7 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 401 and message: "Please login first!"', function (done) {
           chai
             .request(app)
-            .delete(`/alarm/delete/${idAlarm}`)
+            .delete(`/alarm/${idAlarm}`)
             // .set('token', `${accessToken}`)
             .then(res => {
               res.body.message.should.equal('Please login first!')
@@ -425,7 +437,7 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 404 and message: "User not found!"', function (done) {
           chai
             .request(app)
-            .delete(`/alarm/delete/${idAlarm}`)
+            .delete(`/alarm/${idAlarm}`)
             .set('token', `${wrongToken}`)
             .then(res => {
               res.body.message.should.equal('User not found!')
@@ -441,7 +453,7 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 400 and message: "Invalid Token"', function (done) {
           chai
             .request(app)
-            .delete(`/alarm/delete/${idAlarm}`)
+            .delete(`/alarm/${idAlarm}`)
             .set('token', `${invalidToken}`)
             .then(res => {
               res.body.message.should.equal('Invalid Token')
@@ -457,7 +469,7 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an error with status code 403 and message: "Unauthorized"', function (done) {
           chai
             .request(app)
-            .delete(`/alarm/delete/${idAlarm}`)
+            .delete(`/alarm/${idAlarm}`)
             .set('token', `${unauthorizeToken}`)
             .then(res => {
               res.body.message.should.equal('Unauthorized')
@@ -473,7 +485,7 @@ describe('Testing Alarm Server Endpoint', function () {
         it('Should return an object with status code 200', function (done) {
           chai
             .request(app)
-            .delete(`/alarm/delete/${idAlarm}`)
+            .delete(`/alarm/${idAlarm}`)
             .set('token', `${accessToken}`)
             .then(res => {
               res.body.should.be.an('object')

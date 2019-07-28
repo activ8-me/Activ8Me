@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import { View, Text, Image, Button } from 'react-native'
+import {connect} from 'react-redux'
+import {winning} from '../../store/action'
 
-const game1 = (props) => {
+const mapDispatchToProps = {winning}
+
+const game = (props) => {
   const image = [
     require('../../assets/game/wakemeup/closed.png'),
     require('../../assets/game/wakemeup/open-25.png'),
@@ -16,12 +20,14 @@ const game1 = (props) => {
 
   useEffect(() => {
     if (wake) {
-      console.log(wake, "awake")
+      setTimeout(() => {
+        props.winning(props.gameId)
+      }, 500)
     }
   }, [wake])
 
   useEffect(() => {
-    let winCount = 8
+    let winCount = 7
     let rate = count/winCount
     if (rate >= 1) {
       setEye(image[4])
@@ -63,4 +69,4 @@ const game1 = (props) => {
   )
 }
 
-export default game1
+export default connect (null, mapDispatchToProps) (game)

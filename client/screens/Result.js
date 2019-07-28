@@ -1,35 +1,59 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { ScrollView, 
   StyleSheet, 
   Dimensions,
   View,
   Text, 
   Image,
-  Button } from 'react-native';
+  Button,
+  BackHandler } from 'react-native';
+import {connect} from 'react-redux'
+import {resetWin} from '../store/action'
 
-export default function LinksScreen(props) {
+const mapStateToProps = state => {
+  return {
+    snooze: state.snooze
+  }
+}
+const mapDispatchToProps = {resetWin}
+
+function LinksScreen(props) {
+  useEffect(() => {props.resetWin()}, [])
   return (
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
         <Text style={styles.clock}>You WIN</Text>
-        <Text style={styles.meridiem}>Sila tidur 10 menit lagi</Text>
+        {
+          props.snooze ?
+          <Text style={styles.meridiem}>You may sleep for 10 more minutes</Text> :
+          <Text style={styles.meridiem}>Glad you awake</Text>
+        }
         <Image
           source={require('../assets/pics/wakeUp.png')}
           style={{width:200, height:200, margin: 10, marginLeft: 20}}
         />
         <Button
           onPress={() => {
-              props.navigation.navigate('AlarmList')
+            props.navigation.navigate('AlarmList')
           }}
           title="List Alarm"
           color="#ff8b17"
           style={styles.buttonStyle}
         />
+        <View style={{margin: 30}}></View>
         <Button
           onPress={() => {
-              props.navigation.navigate('AlarmLanding')
+            props.navigation.navigate('AlarmLanding')
           }}
           title="Alarm page"
+          color="#ff8b17"
+          style={styles.buttonStyle}
+        />
+        <Button
+          onPress={() => {
+            BackHandler.exitApp()
+          }}
+          title="Close App"
           color="#ff8b17"
           style={styles.buttonStyle}
         />
@@ -42,21 +66,18 @@ LinksScreen.navigationOptions = {
   title: 'Result',
 };
 
-const win = Dimensions.get('window');
-
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flex: 1,
-    width: win.width,
-    height: win.height,
     backgroundColor: '#ff8b17',
   },
   viewStyle: {
-    margin: 15,
+    display: 'flex',
     marginTop: 100,
-    width: win.width,
-    alignContent: 'center',
-    justifyContent: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 5
   },
   clock: {
     fontSize: 80,
@@ -65,9 +86,12 @@ const styles = StyleSheet.create({
   meridiem: {
     fontSize: 50,
     marginTop: 20,
-    fontFamily: "Iceberg-Regular"
+    fontFamily: "Iceberg-Regular",
+    textAlign: 'center'
   },
   buttonStyle: {
     margin: 30,
   }
 });
+
+export default connect (mapStateToProps, mapDispatchToProps) (LinksScreen)

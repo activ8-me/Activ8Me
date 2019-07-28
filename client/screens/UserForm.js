@@ -38,6 +38,8 @@ export default class LinksScreen extends Component {
   }
   
   login() {
+    // console.log('masuk login')
+    console.log(this.state.email, this.state.password)
     server({
       method: 'post',
       url: '/user/signIn',

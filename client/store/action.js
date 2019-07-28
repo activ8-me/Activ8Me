@@ -52,3 +52,10 @@ export function repopulate (state) {
     state
   }
 }
+
+export function setAlarm (id) {
+  return {
+    type: "SET_ALARM",
+    id
+  }
+}

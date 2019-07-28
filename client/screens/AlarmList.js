@@ -99,14 +99,12 @@ export default class AlarmList extends Component {
                         source={require('../assets/pics/trash.png')}
                         style={{ height: 37, width: 37 }}
                       />
-
                     </TouchableHighlight>
 
                   </View>
                 </View>
 
                 <View style={{ alignItems: 'center' }}>
-                  {/* <Text>I am a standalone test SwipeRow</Text> */}
                   <View key={index} style={{ height: 100, width: '100%', backgroundColor: alarm.status ? "#fff" : "#F2F2F2" }}>
                     <Grid>
                       <Col style={{ justifyContent: 'center' }} size={2}>
@@ -118,9 +116,6 @@ export default class AlarmList extends Component {
                       <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={5}>
                         <Text style={{ fontSize: 35, fontWeight: 'bold', color: alarm.status ? "#000" : "#9F9C9C" }}>{alarm.time}</Text>
                       </Col>
-                      {/* <Col style={{ justifyContent: 'center' }} size={30}>
-                        <Icon name='alarm' style={{ marginLeft: 15, color: alarm.status ? "#000" : "#9F9C9C" }} />
-                      </Col> */}
                     </Grid>
                   </View>
 
@@ -134,31 +129,7 @@ export default class AlarmList extends Component {
           })}
 
 
-          {/* <View style={{ alignItems: 'center'}}>
-          {this.state.alarmList.map((alarm, index) => {
-              
-            return (
-              <Card key={index} style={{ height: 100, width: '95%', backgroundColor: alarm.status ? "#fff" : "#F2F2F2"}}>
-              <Grid>
-                <Col style={{ justifyContent: 'center' }} size={15}>
-                  <CheckBox checked={alarm.status ? true : false} color="#FF8B17" onPress={() => this.handleCheck(index)} />
-                </Col>
-                <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={30}>
-                  <Text style={{ fontSize: 35, fontWeight: 'bold', color: alarm.status ? "#000" : "#9F9C9C" }}>{alarm.time}</Text>
-                  <Text style={{ color: alarm.status ? "#000" : "#9F9C9C" }}>{this.getDays(alarm.days)}</Text>
-                </Col>
-                <Col style={{ justifyContent: 'center' }} size={25}>
-                  <Icon name='volume-high' style={{ marginLeft: 15, color: alarm.status ? "#000" : "#9F9C9C" }} />
-                </Col>
-                <Col style={{ justifyContent: 'center' }} size={30}>
-                  <Icon name='alarm' style={{ marginLeft: 15, color: alarm.status ? "#000" : "#9F9C9C"}} />
-                </Col>
-              </Grid>
-            </Card>
-            )
-          })}
-
-        </View> */}
+         
         </ScrollView>
         <TouchableHighlight
           style={{
@@ -225,3 +196,4 @@ const styles = StyleSheet.create({
     color: '#FFF'
   },
 });
+

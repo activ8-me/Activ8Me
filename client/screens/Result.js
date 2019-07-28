@@ -5,7 +5,8 @@ import { ScrollView,
   View,
   Text, 
   Image,
-  Button } from 'react-native';
+  Button,
+  BackHandler } from 'react-native';
 import {connect} from 'react-redux'
 import {resetWin} from '../store/action'
 
@@ -46,6 +47,14 @@ function LinksScreen(props) {
             props.navigation.navigate('AlarmLanding')
           }}
           title="Alarm page"
+          color="#ff8b17"
+          style={styles.buttonStyle}
+        />
+        <Button
+          onPress={() => {
+            BackHandler.exitApp()
+          }}
+          title="Close App"
           color="#ff8b17"
           style={styles.buttonStyle}
         />

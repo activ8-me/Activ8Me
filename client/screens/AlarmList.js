@@ -133,13 +133,6 @@ export default class AlarmList extends Component {
         >
           <Icon name="add" color="white" />
         </TouchableHighlight>
-          {/* <Button
-            onPress={() => {
-                this.props.navigation.navigate('AlarmForm')
-            }}
-            title="ke form alarm"
-          /> */}
-
 
           {/* <Button
             onPress={() => {

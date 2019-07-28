@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { ScrollView, 
   StyleSheet, 
   Dimensions,
   View,
   Text, 
   Image,
-  Button } from 'react-native';
+  Button,
+  BackHandler } from 'react-native';
 import {connect} from 'react-redux'
 import {resetWin} from '../store/action'
 
@@ -17,6 +18,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {resetWin}
 
 function LinksScreen(props) {
+  useEffect(() => {props.resetWin()}, [])
   return (
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
@@ -32,7 +34,6 @@ function LinksScreen(props) {
         />
         <Button
           onPress={() => {
-            props.resetWin()
             props.navigation.navigate('AlarmList')
           }}
           title="List Alarm"
@@ -42,10 +43,17 @@ function LinksScreen(props) {
         <View style={{margin: 30}}></View>
         <Button
           onPress={() => {
-            props.resetWin()
             props.navigation.navigate('AlarmLanding')
           }}
           title="Alarm page"
+          color="#ff8b17"
+          style={styles.buttonStyle}
+        />
+        <Button
+          onPress={() => {
+            BackHandler.exitApp()
+          }}
+          title="Close App"
           color="#ff8b17"
           style={styles.buttonStyle}
         />

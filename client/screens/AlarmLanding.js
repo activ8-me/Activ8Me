@@ -44,7 +44,7 @@ function LinksScreen(props) {
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
         <View style={{display:'flex', flexDirection:'row', alignContent: 'center'}}>
-          <Text style={styles.clock}>08 : 00   </Text>
+          <Text style={styles.clock}>08 : 00</Text>
           <Text style={styles.meridiem}>AM</Text>
         </View>
         <Image

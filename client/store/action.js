@@ -33,3 +33,15 @@ export function resetWin () {
     type: 'RESET'
   }
 }
+
+export function ring () {
+  return {
+    type: "RING"
+  }
+}
+
+export function stop () {
+  return {
+    type: "STOP"
+  }
+}

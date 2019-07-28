@@ -1,17 +1,45 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { ScrollView, 
   StyleSheet, 
-  Dimensions,
   View,
   Text, 
   Image,
   Button } from 'react-native';
 import {connect} from 'react-redux'
-import {snooze, awake} from '../store/action'
+import {snooze, awake, ring, stop} from '../store/action'
+import SoundPlayer from 'react-native-sound-player'
 
-const mapDispatchToProps = {snooze, awake}
+const mapStateToProps = state => {
+  return {
+    alarm: state.alarm
+  }
+}
+ 
+const mapDispatchToProps = {snooze, awake, ring, stop}
 
 function LinksScreen(props) {
+
+  useEffect(() => {
+    if (!props.alarm) {
+      try {
+        SoundPlayer.playSoundFile('siren', 'wav')
+        props.ring()
+      } catch (e) {
+          console.log(`cannot play the sound file`, e)
+      }
+    } else {
+      try {
+        SoundPlayer.addEventListener('FinishedPlaying', ({ success }) => {
+          if (success) {
+            props.stop()
+          }
+        })
+      } catch (e) {
+          console.log(`cannot play the sound file`, e)
+      }
+    }
+  }, [props.alarm])
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
@@ -77,4 +105,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect (null, mapDispatchToProps) (LinksScreen)
+export default connect (mapStateToProps, mapDispatchToProps) (LinksScreen)

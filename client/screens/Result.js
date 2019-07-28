@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { ScrollView, 
   StyleSheet, 
   Dimensions,
@@ -18,6 +18,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {resetWin}
 
 function LinksScreen(props) {
+  useEffect(() => {props.resetWin()}, [])
   return (
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
@@ -33,7 +34,6 @@ function LinksScreen(props) {
         />
         <Button
           onPress={() => {
-            props.resetWin()
             props.navigation.navigate('AlarmList')
           }}
           title="List Alarm"
@@ -43,7 +43,6 @@ function LinksScreen(props) {
         <View style={{margin: 30}}></View>
         <Button
           onPress={() => {
-            props.resetWin()
             props.navigation.navigate('AlarmLanding')
           }}
           title="Alarm page"

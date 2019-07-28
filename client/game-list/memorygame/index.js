@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, Image, TouchableHighlight } from 'react-native'
+import { View, Text, Image, TouchableHighlight, StyleSheet } from 'react-native'
 import {connect} from 'react-redux'
 import {winning} from '../../store/action'
 
@@ -68,23 +68,62 @@ const game = (props) => {
   }, [pair1, pair2])
 
   return (
-    <View>
-      <Text>Memory Game</Text>
-      {
-        answer.map((pic, i) => {
-          return (
-            <TouchableHighlight key={i} onPress={() => setPair(i)}>
-              <View>
+    <View style={styles.game}>
+      <Text style={styles.title}>Memory Game</Text>
+      <View style={styles.content}>
+        {
+          answer.map((pic, i) => {
+            return (
+              <View style={styles.cardContainer} key={i}>
                 {
-                  open.indexOf(i) < 0 ? <Image source={image[0]} style={{width: 50, height: 50}}/> : <Image source={image[pic]} style={{width: 50, height: 50}}/>
+                  open.indexOf(i) < 0 ? 
+                  <TouchableHighlight onPress={() => setPair(i)} activeOpacity={0.2} underlayColor={'#FFA14D'}>
+                    <Image source={image[0]} style={styles.card}/> 
+                  </TouchableHighlight> :
+                  <Image source={image[pic]} style={styles.card}/>
                 }
               </View>
-            </TouchableHighlight>
-          )
-        })
-      }
+            )
+          })
+        }
+      </View>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  game: {
+    display: 'flex',
+    flexDirection: "column",
+    backgroundColor: '#ff8b17',
+    justifyContent: 'flex-start',
+    alignItems: "center",
+    height: '100%'
+  },
+  title: {
+    fontSize: 60,
+    fontFamily: "Iceberg-Regular",
+    padding: 10
+  },
+  content: {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexWrap: 'wrap'
+  },
+  card: {
+    width: 125,
+    height: 125,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: "#FFE8D6",
+    backgroundColor: "#FFC08A",
+  },
+  cardContainer: {
+    margin: 10
+  }
+});
 
 export default connect (null, mapDispatchToProps) (game)

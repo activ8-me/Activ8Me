@@ -64,10 +64,10 @@ class Game extends React.Component {
   render() {
     const gameStatus = this.gameStatus;
     return (
-      <View>
-         <Text style={{alignSelf:'center',fontSize:30, textAlign:'center'}}>Sum The Number To Match Target Number</Text>
+      <View style={{backgroundColor:'#FF8000',flex:1}}>
+         <Text style={{alignSelf:'center',fontSize:20, textAlign:'center'}}>Sum The Number To Match Target Number</Text>
          <Image
-          style={{width: 70, height: 70, alignSelf:'center', marginVertical:25}}
+          style={{width: 55, height: 55, alignSelf:'center', marginVertical:15}}
           source={{uri: 'https://image.flaticon.com/icons/png/512/227/227922.png'}}
         />
          <Text style={{alignSelf:'center',fontSize:30, textAlign:'center',marginVertical:6}}>Target</Text>
@@ -91,7 +91,7 @@ class Game extends React.Component {
 const styles = StyleSheet.create({
   target: {
     color:'white',
-    fontSize: 40,
+    fontSize: 30,
     marginHorizontal: 50,
     textAlign: 'center',
   },

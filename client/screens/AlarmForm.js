@@ -1,22 +1,23 @@
 import React, { Component }from 'react';
 import { Input, Item, Card } from 'native-base'
-import { Text, View, Button, ScrollView, StyleSheet, TouchableHighlight } from 'react-native'
+import { Text, View, Button, ScrollView, StyleSheet, TouchableHighlight, TextInput } from 'react-native'
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment"
+import server from '../api/server'
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class AlarmForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isDateTimePickerVisible: false,
-      hour: '',
-      minute: '',
       time: '',
       modalVisible: false,
       days: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
       daysChecked: [false, false, false, false, false, false , false],
       title: '',
-      type: ''
+      type: '',
+      id: ''
     }
   }
 
@@ -26,10 +27,30 @@ export default class AlarmForm extends Component {
     let d = new Date()
     let time = moment(d).format('LT')
 
-    this.setState({
-      time,
-      type
-    })
+    if (type === 'update'){
+      let alarm = this.props.navigation.getParam('alarm')
+      let check = this.state.daysChecked
+
+      for (let i = 0 ; i < this.state.days.length; i++){
+        for (let j = 0; j < alarm.days.length; j++){
+          if (alarm.days[j] === this.state.days[i]) {
+            check[i] = true
+          }
+        }
+      }
+
+      this.setState({
+        time: alarm.time,
+        daysChecked: check,
+        title: alarm.title,
+        id: alarm._id,
+        type
+      })
+    } else {
+      this.setState({
+        time
+      })
+    }
   }
 
   showDateTimePicker = () => {
@@ -42,10 +63,6 @@ export default class AlarmForm extends Component {
 
   handleDatePicked = date => {
     let time = moment(date).format('LT')
-    // let hour = date.getHours()
-    // let minute = date.getMinutes()
-    // if (minute < 10) minute = '0' + minute
-    // if (hour < 10) hour = '0' + hour
     
     this.setState({
       time
@@ -78,7 +95,6 @@ export default class AlarmForm extends Component {
   }
 
   handleSubmit = () => {
-    // console.log(this.state.daysChecked, this.state.time, this.state.title)
     let inputDays = []
 
     this.state.daysChecked.forEach((day, index) => {
@@ -90,13 +106,59 @@ export default class AlarmForm extends Component {
     const { time, title } = this.state
 
     const input = { time, title, status: true, days: inputDays} 
+    let userToken
 
-    // axios({
-    //   method: 'post',
-    //   url: 'http://localhost:3000/alarm',
-    //   data: input,
-    //   // headers: 
-    // })
+    AsyncStorage.getItem('tokenActiv8Me')
+    .then(token => {
+      userToken = token
+      if (token) {
+        if (this.state.type === 'update') {
+          return server({
+            method: 'patch',
+            url: `/alarm/${this.state.id}`,
+            data: {
+              ...input,
+              type: this.state.type
+            },
+            headers: {
+              token
+            }
+          })
+        } else {
+          return server({
+            method: 'post',
+            url: '/alarm/',
+            data: input,
+            headers: {
+              token
+            }
+          })
+        }
+      }
+    })
+    .then(() => {
+      return server({
+        method: 'get',
+        url: '/alarm/',
+        headers: {
+          token: userToken
+        }
+      })
+    })
+    .then(async ({data}) => {
+      return AsyncStorage.setItem('alarmActiv8Me', `${JSON.stringify(data)}`)
+    })
+    .then(() => {
+      return AsyncStorage.getItem('alarmActiv8Me')
+    })
+    .then(alarms => {
+      console.log('update store')
+      console.log(alarms)
+      this.props.navigation.navigate('AlarmList')
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   render() {
@@ -106,9 +168,7 @@ export default class AlarmForm extends Component {
         <ScrollView>
           <View style={{ alignItems: 'center' }}>
             <Card style={styles.cardContainer}>
-              <Item regular>
-                <Input placeholder='Enter alarm title' value={this.state.title} onChangeText={(text) => this.handleChange(text)}/>
-              </Item>
+              <TextInput placeholder='Enter alarm title' value={this.state.title} onChangeText={(text) => this.handleChange(text)} style={{marginLeft: 10}}/>
             </Card>
 
             <Card style={styles.cardContainer}>

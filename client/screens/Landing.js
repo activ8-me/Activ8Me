@@ -1,6 +1,5 @@
-import React, { Component, Fragment, useEffect } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Container, Content, Form, Item, Input, Button } from 'native-base';
-import AsyncStorage from '@react-native-community/async-storage';
 import {
   Image,
   TouchableHighlight,
@@ -13,15 +12,6 @@ import {
 } from 'react-native';
 
 export default function LinksScreen(props) {
-  useEffect(() => {
-    AsyncStorage.getItem('token')
-    .then(token => {
-      console.log(token)  
-      if (token) {
-        props.navigation.navigate('AlarmList')
-      }
-    })
-  }, [])
   return (
     <Fragment>
       <View style={styles.container}>

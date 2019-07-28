@@ -51,7 +51,7 @@ const SwitchNavigator1 = createSwitchNavigator(
     StackNavigatorAlarm
   },
   {
-    initialRouteName: 'StackNavigatorUser',
+    initialRouteName: 'StackNavigatorAlarm',
     defaultNavigationOptions: {
       title: 'Activ8Me',
     }

@@ -87,14 +87,14 @@ export default class AlarmList extends Component {
                 <View style={styles.standaloneRowBack}>
                   <Text></Text>
                   <View style={{ height: '100%', width: 75, alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableHighlight onPress={() => console.log('edit')} style={{margin: 5}}>
+                    <TouchableHighlight onPress={() => console.log('edit')} style={{margin: 5}} activeOpacity={1} underlayColor={'#FFA14D'}>
                       <Image 
                         source={require('../assets/pics/edit.png')}
                         style={{ height: 37, width: 37}}
                       />
 
                     </TouchableHighlight>
-                    <TouchableHighlight onPress={() => console.log('delete')} style={{margin: 5 }}>
+                    <TouchableHighlight onPress={() => console.log('delete')} style={{margin: 5 }} activeOpacity={1} underlayColor={'#FFA14D'}>
                       <Image
                         source={require('../assets/pics/trash.png')}
                         style={{ height: 37, width: 37 }}

@@ -55,7 +55,6 @@ class AlarmList extends Component {
       this.setState({
         alarmList: data
       })
-      this.props.repopulate(false)
       return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
     })
     .then(() => {
@@ -69,7 +68,6 @@ class AlarmList extends Component {
   componentDidUpdate(prevProps) {
     AsyncStorage.getItem('alarmActiv8Me')
     .then(alarms => {
-      if (alarms !== JSON.stringify(this.state.alarmList)) {
         if (alarms !== null && alarms) {
           let alarmList = JSON.parse(alarms)
           if (alarmList.length >= 0) {
@@ -78,8 +76,6 @@ class AlarmList extends Component {
             })
           }
         }
-      }
-      this.props.repopulate(false)
     })
     .catch(err => {
       console.log(err)
@@ -114,7 +110,6 @@ class AlarmList extends Component {
     .then(token => {
       userToken = token
       let data = list[index]
-      console.log(data)
       return server({
         method: 'patch',
         url: `/alarm/${list[index]._id}`,
@@ -140,7 +135,6 @@ class AlarmList extends Component {
       return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
     })
     .then(() => {
-      console.log('done saving alarm')
       this.props.repopulate(true)
     })
     .catch(err => {
@@ -177,7 +171,6 @@ class AlarmList extends Component {
     .then(token => {
       userToken = token
       let data = alarm
-      console.log(data)
       return server({
         method: 'delete',
         url: `/alarm/${alarm._id}`,
@@ -211,7 +204,9 @@ class AlarmList extends Component {
     console.log('logging out')
     AsyncStorage.removeItem('tokenActiv8Me')
     .then(() => {
-      console.log('masuk then')
+      return AsyncStorage.removeItem('alarmActiv8Me')
+    })
+    .then(() => {
       this.props.navigation.navigate('Landing')
     })
     .catch(err => {
@@ -222,15 +217,15 @@ class AlarmList extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View>
+        {/* <View>
           <Text style={{ textAlign: 'center', fontSize: 16 }}>
             Next alarm
           </Text>
           <Text style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 26, marginBottom: 5 }}>
             1h 10m remaining
           </Text>
-          {/* <Button title="Clear all" color="#007991" onPress ={() => this.timeRemaining()}/> */}
-        </View>
+          <Button title="Clear all" color="#007991" onPress ={() => this.timeRemaining()}/>
+        </View> */}
         
         <ScrollView>
         <View style={{ alignItems: 'center', marginTop: 10}}>
@@ -274,7 +269,7 @@ class AlarmList extends Component {
                         <Text style={{ color: alarm.status ? "#000" : "#9F9C9C" }}>{this.getDays(alarm.days)}</Text>
                       </Col>
                       <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={5}>
-                        <Text style={{ fontSize: 35, fontWeight: 'bold', color: alarm.status ? "#000" : "#9F9C9C" }}>{alarm.time}</Text>
+                        <Text style={{ fontSize: 35, fontWeight: 'bold', color: alarm.status ? "#000" : "#9F9C9C" }}>{alarm.originTime}</Text>
                       </Col>
                     </Grid>
                   </View>

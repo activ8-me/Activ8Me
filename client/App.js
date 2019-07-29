@@ -157,6 +157,7 @@ export default class App extends Component {
     this.checkPermission();
     this.createNotificationListeners(); //add this line
   }
+  
   componentWillUnmount() {
     this.notificationListener();
     this.notificationOpenedListener();
@@ -172,13 +173,31 @@ async checkPermission() {
   }
 }
 
+// InLocoEngage.init(options);
+
+// // Set the current token if it exists
+// firebase.messaging().getToken().then((fcmToken) => {
+//    if (fcmToken) {
+//     InLocoEngage.setPushProvider({
+//       name: "google_fcm",
+//       token: fcmToken
+//     });
+//   }
+// }
+
+// // Register a callback to forward the Firebase token to Engage in case it gets refreshd
+// this.onTokenRefreshListener = firebase.messaging().onTokenRefresh((fcmToken) => {
+//   this.setPushProvider(fcmToken));
+// }
   //3
 async getToken() {
   let fcmToken = await AsyncStorage.getItem('fcmToken');
+  console.log(fcmToken, '=================== ini fcmtoken ===========')
   if (!fcmToken) {
       fcmToken = await firebase.messaging().getToken();
       if (fcmToken) {
           // user has a device token
+          console.log(fcmToken, '=================== ini fcmtoken baru ===========')
           await AsyncStorage.setItem('fcmToken', fcmToken);
       }
   }
@@ -202,16 +221,18 @@ async createNotificationListeners() {
   * Triggered when a particular notification has been received in foreground
   * */
   this.notificationListener = firebase.notifications().onNotification((notification) => {
-      const { title, body } = notification;
-      this.showAlert(title, body);
+    console.log('masuk notification listener', notification)
+    const { title, body } = notification.data;
+    this.showAlert(title, body);
   });
 
   /*
   * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
   * */
   this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-      const { title, body } = notificationOpen.notification;
-      this.showAlert(title, body);
+    console.log('masuk notification opened listener')
+    const { title, body } = notificationOpen.notification;
+    this.showAlert(title, body);
   });
 
   /*
@@ -219,8 +240,9 @@ async createNotificationListeners() {
   * */
   const notificationOpen = await firebase.notifications().getInitialNotification();
   if (notificationOpen) {
-      const { title, body } = notificationOpen.notification;
-      this.showAlert(title, body);
+    console.log('masuk notification open')
+    const { title, body } = notificationOpen.notification;
+    this.showAlert(title, body);
   }
   /*
   * Triggered for data only payload in foreground

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Button, ScrollView, Text } from 'react-native';
+import {connect} from 'react-redux'
+import {winning} from '../../store/action'
 
-export default function Game(props) {
+const mapDispatchToProps = {winning}
+
+function game(props) {
   const [find, setFind] = useState(0)
   const [arr, setArr] = useState([])
   const [totalButton, setTotalButton] = useState(3)
@@ -22,7 +26,7 @@ export default function Game(props) {
 
   const finished = (num) => {
     if (find === num){
-      props.navigation.navigate('Result')
+      props.winning(props.gameId)
     }
   }
 
@@ -66,3 +70,5 @@ const styles = StyleSheet.create({
     marginLeft: 50
   }
 });
+
+export default connect (null, mapDispatchToProps) (game)

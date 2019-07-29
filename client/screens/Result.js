@@ -34,7 +34,6 @@ function LinksScreen(props) {
     AsyncStorage.getItem('tokenActiv8Me')
     .then(token => {
       userToken = token
-      console.log(props.alarmId)
       return server({
         method: 'patch',
         url: `/alarm/${props.alarmId}`,
@@ -48,7 +47,6 @@ function LinksScreen(props) {
       })
     })
     .then(() => {
-      console.log(userToken)
       return server ({
         method: 'get',
         url: '/alarm/',
@@ -58,7 +56,6 @@ function LinksScreen(props) {
       })
     })
     .then(({data}) => {
-      console.log(data)
       return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
     })
     .then(() => {

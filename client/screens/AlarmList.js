@@ -55,7 +55,6 @@ class AlarmList extends Component {
       this.setState({
         alarmList: data
       })
-      this.props.repopulate(false)
       return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
     })
     .then(() => {
@@ -69,7 +68,6 @@ class AlarmList extends Component {
   componentDidUpdate(prevProps) {
     AsyncStorage.getItem('alarmActiv8Me')
     .then(alarms => {
-      if (alarms !== JSON.stringify(this.state.alarmList)) {
         if (alarms !== null && alarms) {
           let alarmList = JSON.parse(alarms)
           if (alarmList.length >= 0) {
@@ -78,8 +76,6 @@ class AlarmList extends Component {
             })
           }
         }
-      }
-      this.props.repopulate(false)
     })
     .catch(err => {
       console.log(err)
@@ -114,7 +110,6 @@ class AlarmList extends Component {
     .then(token => {
       userToken = token
       let data = list[index]
-      console.log(data)
       return server({
         method: 'patch',
         url: `/alarm/${list[index]._id}`,
@@ -140,7 +135,6 @@ class AlarmList extends Component {
       return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
     })
     .then(() => {
-      console.log('done saving alarm')
       this.props.repopulate(true)
     })
     .catch(err => {
@@ -177,7 +171,6 @@ class AlarmList extends Component {
     .then(token => {
       userToken = token
       let data = alarm
-      console.log(data)
       return server({
         method: 'delete',
         url: `/alarm/${alarm._id}`,

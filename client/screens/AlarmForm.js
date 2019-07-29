@@ -44,7 +44,7 @@ class AlarmForm extends Component {
       }
 
       this.setState({
-        time: alarm.time,
+        time: alarm.originTime,
         daysChecked: check,
         title: alarm.title,
         id: alarm._id,

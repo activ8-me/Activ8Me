@@ -6,6 +6,7 @@ import SoundPlayer from 'react-native-sound-player'
 
 import WakeMeUp from '../game-list/wakemeup'
 import MemoryGame from '../game-list/memorygame'
+import FindMe from '../game-list/findme'
 
 const mapStateToProps = state => {
   return {
@@ -19,11 +20,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {randomGame, ring, stop}
 
 function LinksScreen (props) {
-  let game = ['WakeMeUp', 'MemoryGame']
-  // let game = ["MemoryGame"]
+  let game = ['WakeMeUp', 'MemoryGame', 'FindMe']
+  // let game = ["FindMe"]
 
   useEffect(() => {
-    if (props.winning === 2){
+    if (props.winning === 3){
       SoundPlayer.stop()
       props.stop()
       props.navigation.navigate('Result')
@@ -57,7 +58,8 @@ function LinksScreen (props) {
     <View style={styles.container}>
       {
         game[props.gameSelect] === "WakeMeUp" ? <WakeMeUp {...props} gameId={props.gameSelect}/> :
-          game[props.gameSelect] === "MemoryGame" && <MemoryGame {...props} gameId={props.gameSelect}/>
+          game[props.gameSelect] === "MemoryGame" ? <MemoryGame {...props} gameId={props.gameSelect}/> :
+          game[props.gameSelect] === "FindMe" && <FindMe {...props} gameId={props.gameSelect}/>
       }
     </View>
   );

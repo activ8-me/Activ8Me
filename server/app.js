@@ -12,6 +12,7 @@ const mongoose = require('mongoose')
 const error = require('./helpers/error')
 /* istanbul ignore next */
 let url
+
 /* istanbul ignore next */
 if (process.env.NODE_ENV === 'test') {
   url = process.env.DATABASE_URL_TEST

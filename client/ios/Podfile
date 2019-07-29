@@ -30,6 +30,8 @@ target 'client' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
   target 'clientTests' do
     inherit! :search_paths
     # Pods for testing

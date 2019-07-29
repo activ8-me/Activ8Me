@@ -7,26 +7,82 @@ import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 import AsyncStorage from '@react-native-community/async-storage';
 import server from '../api/server'
 import {connect} from 'react-redux'
-import {repopulate} from '../store/action'
+import {repopulate, setAlarm} from '../store/action'
+import moment from 'moment';
 
 const mapStateToProps = state => {
   return {
-    repopulate: state.repopulate
+    repopulateState: state.repopulate
   }
 }
 
-const mapDispatchToProps = {repopulate}
+const mapDispatchToProps = {repopulate, setAlarm}
 
 class AlarmList extends Component {
   constructor(props) {
     super(props)
     this.state = {
       active: false,
-      alarmList: []
+      alarmList: [],
+      time: moment().format('LT')
     }
   }
 
   componentDidMount() {
+    let check = setInterval (() => {
+      let redirect = false
+      AsyncStorage.getItem('alarmTrigger')
+      .then(data => {
+        console.log('interval')
+        console.log(data)
+        if (data !== null && data) {
+          let trigger = JSON.parse(data)
+          console.log(trigger.alarmId)
+          if (trigger.alarmId && trigger.alarmId.length > 0) {
+            console.log(trigger.alarmId, "ini trigger data")
+            let alarmList = this.state.alarmList
+            let alarmPlay = trigger.alarmId
+            console.log(moment().format('LT'))
+            let found = false
+            for (let i = 0; i < alarmList.length; i++){
+              for (let j = 0; j < alarmPlay.length; j++){
+                if (alarmPlay[j] === alarmList[i]._id) {
+                  console.log('found alarm')
+                  if (alarmList[i].time === moment().format('LT')) {
+                    console.log('found alarm now')
+                    if (alarmList[i].days.length === 0 && alarmList[i].status){
+                      console.log("one time")
+                      found = true
+                      this.props.setAlarm(alarmPlay[j])
+                    } else {
+                      for (let k = 0; k < alarmList[i].days.length; k++){
+                        if (alarmList[i].days[k] === moment().format('dddd') && alarmList[i].status) {
+                          console.log("day")
+                          found = true
+                          this.props.setAlarm(alarmPlay[j])
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            if (found) {
+              redirect = true
+              found = false
+              return AsyncStorage.removeItem('alarmTrigger')
+            }
+          }
+        }
+      })
+      .then(() => {
+        if (redirect) {
+          redirect = false
+          this.props.navigation.navigate('AlarmLanding')
+        }
+      })
+    }, 1000)
+
     AsyncStorage.getItem('alarmActiv8Me')
     .then(alarms => {
       if (alarms !== null && alarms) {
@@ -68,14 +124,15 @@ class AlarmList extends Component {
   componentDidUpdate(prevProps) {
     AsyncStorage.getItem('alarmActiv8Me')
     .then(alarms => {
-        if (alarms !== null && alarms) {
-          let alarmList = JSON.parse(alarms)
-          if (alarmList.length >= 0) {
-            this.setState({
-              alarmList: [...alarmList]
-            })
-          }
+      if (alarms !== null && alarms) {
+        let alarmList = JSON.parse(alarms)
+        if (alarmList.length >= 0 && this.props.repopulateState) {
+          this.props.repopulate(false)
+          this.setState({
+            alarmList: [...alarmList]
+          })
         }
+      }
     })
     .catch(err => {
       console.log(err)

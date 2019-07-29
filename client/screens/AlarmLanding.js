@@ -9,6 +9,7 @@ import {connect} from 'react-redux'
 import {snooze, awake, ring, stop} from '../store/action'
 import SoundPlayer from 'react-native-sound-player'
 import AsyncStorage from '@react-native-community/async-storage';
+import { set } from 'mongoose';
 
 const mapStateToProps = state => {
   return {
@@ -35,6 +36,7 @@ function LinksScreen(props) {
           }
           now = now.join(':')
           setTime(now)
+          setTitle(alarmList[i].title)
         }
       }
     })

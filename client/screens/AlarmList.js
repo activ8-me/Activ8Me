@@ -17,6 +17,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {repopulate, setAlarm}
+let check
 
 class AlarmList extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class AlarmList extends Component {
   }
 
   componentDidMount() {
-    let check = setInterval (() => {
+    check = setInterval (() => {
       let redirect = false
       AsyncStorage.getItem('alarmTrigger')
       .then(data => {
@@ -135,6 +136,10 @@ class AlarmList extends Component {
     .catch(err => {
       console.log(err)
     })
+  }
+
+  componentWillUnmount() {
+    clearInterval(check);
   }
 
   getDays(days) {

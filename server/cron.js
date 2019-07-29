@@ -58,12 +58,18 @@ const CronJob = cron.CronJob
 const job = new CronJob('57 * * * * *', async function () {
     let currentTime = new Date()
     try {
-        let alarms = await Alarm.find({
+        let alarm1 = await Alarm.find({
             days: moment(currentTime).format('dddd'),
             time: moment(currentTime).add(1, "minute").format('LT'),
             status: true
         })
+        let alarm2 = await Alarm.find({
+            days: { $size: 0 },
+            time: moment(currentTime).add(1, "minute").format('LT'),
+            status: true
+        })
         let alarmId = []
+        let alarms = alarm1.concat(alarm2)
         let registrationTokens = []
         for(let i = 0; i < alarms.length; i++){
             alarmId.push(alarms[i]._id)

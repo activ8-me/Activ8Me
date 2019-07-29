@@ -17,7 +17,7 @@ class RandomNumber extends React.Component{
     let {num, isDisabled} =this.props
     return (
       <TouchableOpacity  style={styles.button} onPress={this.handlePress}>
-        <Text style={[styles.num, isDisabled && styles.disabled]}>{num}</Text>
+        <Text style={[styles.num, isDisabled ? styles.disabled : styles.active]}>{num}</Text>
       </TouchableOpacity>
     )
   }
@@ -31,6 +31,9 @@ const styles = StyleSheet.create({
   },
   disabled:{
     opacity:0.3
+  },
+  active: {
+    opacity: 1
   },
   button: {
     width:100,

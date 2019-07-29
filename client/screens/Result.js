@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import { ScrollView, 
-  StyleSheet, 
-  Dimensions,
+  StyleSheet,
   View,
   Text, 
   Image,
@@ -69,7 +68,7 @@ function LinksScreen(props) {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
-        <Text style={styles.clock}>You WIN</Text>
+        <Text style={styles.clock}>YOU WIN!</Text>
         {
           props.snooze ?
           <Text style={styles.meridiem}>You may sleep for 10 more minutes</Text> :

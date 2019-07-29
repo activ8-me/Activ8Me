@@ -43,8 +43,10 @@ function LinksScreen(props) {
 
   useEffect(() => {
     if (!props.alarm) {
+      const sound = ['siren', 'airhorn', 'gunshot']
+      let ind = Math.floor(Math.random() * Math.floor(sound.length))
       try {
-        SoundPlayer.playSoundFile('siren', 'wav')
+        SoundPlayer.playSoundFile(sound[ind], 'wav')
         props.ring()
       } catch (e) {
           console.log(`cannot play the sound file`, e)

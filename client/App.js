@@ -5,6 +5,7 @@ import store from './store'
 import AsyncStorage from '@react-native-community/async-storage';
 import { Alert } from 'react-native';
 import firebase from 'react-native-firebase';
+import moment from 'moment'
 
 export default class App extends Component {
 
@@ -58,8 +59,10 @@ async createNotificationListeners() {
   * Triggered when a particular notification has been received in foreground
   * */
   this.notificationListener = firebase.notifications().onNotification((notification) => {
-      const { title, body } = notification;
-      this.showAlert(title, body);
+      const { alarmId } = notification.data;
+      console.log(alarmId)
+      let payload = { alarmId: JSON.parse(alarmId), from: 1 }
+      this.handleNotif(payload);
   });
 
   /*
@@ -68,7 +71,8 @@ async createNotificationListeners() {
   this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
     console.log('masuk notification opened listener')
     const { title, body } = notificationOpen.notification;
-    this.showAlert(title, body);
+    const payload = {title, body, from: 2}
+    this.handleNotif(payload);
   });
 
   /*
@@ -78,7 +82,8 @@ async createNotificationListeners() {
   if (notificationOpen) {
     console.log('masuk notification open')
     const { title, body } = notificationOpen.notification;
-    this.showAlert(title, body);
+    const payload = {title, body, from: 3}
+    this.handleNotif(payload)
   }
   /*
   * Triggered for data only payload in foreground
@@ -88,14 +93,23 @@ async createNotificationListeners() {
   });
 }
 
-showAlert(title, body) {
-  Alert.alert(
-    title, body,
-    [
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
-    ],
-    { cancelable: false },
-  );
+async handleNotif(payload) {
+  console.log(payload.from)
+  console.log(payload.alarmId)
+  let trigger = {
+    alarmId: payload.alarmId
+  }
+
+  console.log(trigger, "trigerrrr")
+
+  await AsyncStorage.setItem('alarmTrigger', JSON.stringify(trigger))
+  // Alert.alert(
+  //   title, body,
+  //   [
+  //       { text: 'OK', onPress: () => console.log('OK Pressed') },
+  //   ],
+  //   { cancelable: false },
+  // );
 }
 
   render() {

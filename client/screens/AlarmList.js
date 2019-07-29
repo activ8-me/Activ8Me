@@ -69,6 +69,7 @@ class AlarmList extends Component {
             }
             if (found) {
               redirect = true
+              found = false
               return AsyncStorage.removeItem('alarmTrigger')
             }
           }

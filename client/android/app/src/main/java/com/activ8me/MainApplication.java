@@ -8,7 +8,7 @@ import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
 import io.invertase.firebase.RNFirebasePackage;
-import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;  
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.johnsonsu.rnsoundplayer.RNSoundPlayerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -36,6 +36,14 @@ public class MainApplication extends Application implements ReactApplication {
       packages.add(new RNFirebaseNotificationsPackage());
       return packages;
     }
+    // protected List<ReactPackage> getPackages() {
+    //   return Arrays.<ReactPackage>asList(
+    //     new MainReactPackage(),
+    //     new RNFirebasePackage(),
+    //     new RNFirebaseMessagingPackage(),
+    //     new RNFirebaseNotificationsPackage()
+    //   );                               
+    // }
 
     @Override
     protected String getJSMainModuleName() {

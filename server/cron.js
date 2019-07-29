@@ -17,22 +17,20 @@ admin.initializeApp({
   databaseURL: "https://activ8me-alarm.firebaseio.com"
 });
 
-// /* istanbul ignore next */
-// let url
-// /* istanbul ignore next */
-// if (process.env.NODE_ENV === 'test') {
-//   url = process.env.DATABASE_URL_TEST
-// }
-// /* istanbul ignore next */
-// else if (process.env.NODE_ENV === 'development') {
-//   url = process.env.DATABASE_URL_DEV
-// }
-// /* istanbul ignore next */
-// else {
-//   url = process.env.DATABASE_URL_PROD
-// }
-
-let url = 'mongodb://localhost:27017/activ8me-' + process.env.NODE_ENV
+/* istanbul ignore next */
+let url
+/* istanbul ignore next */
+if (process.env.NODE_ENV === 'test') {
+  url = process.env.DATABASE_URL_TEST
+}
+/* istanbul ignore next */
+else if (process.env.NODE_ENV === 'development') {
+  url = process.env.DATABASE_URL_DEV
+}
+/* istanbul ignore next */
+else {
+  url = process.env.DATABASE_URL_PROD
+}
 
 /* istanbul ignore next */
 mongoose.connect(url, {
@@ -57,9 +55,8 @@ app.use(express.json())
 
 const CronJob = cron.CronJob
 
-const job = new CronJob('58 * * * * *', async function () {
+const job = new CronJob('57 * * * * *', async function () {
     let currentTime = new Date()
-    console.log("Running every minute", moment(currentTime).format('hh:mm:ss'))
     try {
         let alarms = await Alarm.find({
             days: moment(currentTime).format('dddd'),
@@ -78,7 +75,7 @@ const job = new CronJob('58 * * * * *', async function () {
                 body: 'Dari CRON',
             },
             data: {
-                alarmId
+                alarmId: JSON.stringify(alarmId)
             }
         }
         if(registrationTokens.length!==0){

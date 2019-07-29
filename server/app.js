@@ -11,21 +11,20 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const error = require('./helpers/error')
 /* istanbul ignore next */
-// let url
-let url = 'mongodb://localhost:27017/activ8me-' + process.env.NODE_ENV
+let url
 
 /* istanbul ignore next */
-// if (process.env.NODE_ENV === 'test') {
-//   url = process.env.DATABASE_URL_TEST
-// }
-// /* istanbul ignore next */
-// else if (process.env.NODE_ENV === 'development') {
-//   url = process.env.DATABASE_URL_DEV
-// }
-// /* istanbul ignore next */
-// else {
-//   url = process.env.DATABASE_URL_PROD
-// }
+if (process.env.NODE_ENV === 'test') {
+  url = process.env.DATABASE_URL_TEST
+}
+/* istanbul ignore next */
+else if (process.env.NODE_ENV === 'development') {
+  url = process.env.DATABASE_URL_DEV
+}
+/* istanbul ignore next */
+else {
+  url = process.env.DATABASE_URL_PROD
+}
 
 /* istanbul ignore next */
 mongoose.connect(url, {

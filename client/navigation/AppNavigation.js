@@ -11,8 +11,6 @@ import AlarmLanding from '../screens/AlarmLanding'
 import Game from '../screens/Game'
 import Result from '../screens/Result'
 
-// import AlarmLanding from '../game-list/findme/index'
-
 const StackNavigatorUser = createStackNavigator(
   {
     Landing: {

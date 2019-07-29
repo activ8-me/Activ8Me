@@ -36,14 +36,6 @@ public class MainApplication extends Application implements ReactApplication {
       packages.add(new RNFirebaseNotificationsPackage());
       return packages;
     }
-    // protected List<ReactPackage> getPackages() {
-    //   return Arrays.<ReactPackage>asList(
-    //     new MainReactPackage(),
-    //     new RNFirebasePackage(),
-    //     new RNFirebaseMessagingPackage(),
-    //     new RNFirebaseNotificationsPackage()
-    //   );                               
-    // }
 
     @Override
     protected String getJSMainModuleName() {

@@ -3,55 +3,48 @@ import Navigation from './navigation/AppNavigation'
 import {Provider} from 'react-redux'
 import store from './store'
 import AsyncStorage from '@react-native-community/async-storage';
-import { Alert } from 'react-native';
 import firebase from 'react-native-firebase';
-import moment from 'moment'
 
 export default class App extends Component {
 
   async componentDidMount() {
     this.checkPermission();
-    this.createNotificationListeners(); //add this line
+    this.createNotificationListeners();
   }
   componentWillUnmount() {
     this.notificationListener();
     this.notificationOpenedListener();
   }
 
-  //1
-async checkPermission() {
-  const enabled = await firebase.messaging().hasPermission();
-  if (enabled) {
+  async checkPermission() {
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
       this.getToken();
-  } else {
+    } else {
       this.requestPermission();
+    }
   }
-}
 
-  //3
-async getToken() {
-  let fcmToken = await AsyncStorage.getItem('fcmToken');
-  if (!fcmToken) {
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
       fcmToken = await firebase.messaging().getToken();
       if (fcmToken) {
-          // user has a device token
-          console.log(fcmToken)
-          await AsyncStorage.setItem('fcmToken', fcmToken);
+        await AsyncStorage.setItem('fcmToken', fcmToken);
       }
+    }
   }
-}
 
-  //2
-async requestPermission() {
-  try {
+  async requestPermission() {
+    try {
       await firebase.messaging().requestPermission();
       // User has authorised
       this.getToken();
-  } catch (error) {
+    } catch (error) {
       // User has rejected permissions
-      console.log('permission rejected');
+      console.log('Permission rejected');
+    }
   }
-}
 
 
 async createNotificationListeners() {
@@ -103,13 +96,6 @@ async handleNotif(payload) {
   console.log(trigger, "trigerrrr")
 
   await AsyncStorage.setItem('alarmTrigger', JSON.stringify(trigger))
-  // Alert.alert(
-  //   title, body,
-  //   [
-  //       { text: 'OK', onPress: () => console.log('OK Pressed') },
-  //   ],
-  //   { cancelable: false },
-  // );
 }
 
   render() {

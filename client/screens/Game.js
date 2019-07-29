@@ -25,7 +25,7 @@ function LinksScreen (props) {
   // let game = ["MathGame"]
 
   useEffect(() => {
-    if (props.winning === 3) {
+    if (props.winning === 4) {
       SoundPlayer.stop()
       props.stop()
       props.navigation.navigate('Result')

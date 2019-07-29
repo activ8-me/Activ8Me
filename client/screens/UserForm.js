@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage'
 import {connect} from 'react-redux'
 import {repopulate} from '../store/action'
+import {ToastAndroid} from 'react-native';
 
 const mapDispatchToProps = {repopulate}
 
@@ -29,7 +30,7 @@ class LinksScreen extends Component {
     this.state = {
       view:'login',
       email: '',
-      password: ''
+      password: '',
     }
   }
 
@@ -42,7 +43,6 @@ class LinksScreen extends Component {
   }
   
   login() {
-    // console.log('masuk login')
     let userToken
     server({
       method: 'post',
@@ -73,6 +73,13 @@ class LinksScreen extends Component {
     })
     .catch (err => {
       console.log(err)
+      ToastAndroid.showWithGravityAndOffset(
+        'Failed To Login!',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50,
+      );
     })
   }
   
@@ -117,6 +124,13 @@ class LinksScreen extends Component {
     })
     .catch (err => {
       console.log(err)
+      ToastAndroid.showWithGravityAndOffset(
+        'Failed To Register!',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50,
+      );
     })
   }
   

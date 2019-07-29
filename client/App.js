@@ -6,10 +6,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'react-native-firebase';
 
 export default class App extends Component {
-
   async componentDidMount() {
     this.checkPermission();
     this.createNotificationListeners();
+    console.disableYellowBox = true;
   }
   componentWillUnmount() {
     this.notificationListener();

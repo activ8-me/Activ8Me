@@ -34,6 +34,7 @@ async getToken() {
       fcmToken = await firebase.messaging().getToken();
       if (fcmToken) {
           // user has a device token
+          console.log(fcmToken)
           await AsyncStorage.setItem('fcmToken', fcmToken);
       }
   }

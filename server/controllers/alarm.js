@@ -2,6 +2,7 @@ const Alarm = require('../models/alarm')
 
 class AlarmCont {
   static create (req, res, next) {
+    console.log('create')
     let newAlarm = {
       user: req.decoded._id,
       title: req.body.title,
@@ -18,6 +19,7 @@ class AlarmCont {
   }
   
   static list (req, res, next) {
+    console.log('get')
     Alarm.find({user: req.decoded._id}).exec(function (err, alarms) {
       /* istanbul ignore next */
       if (err) {
@@ -29,6 +31,7 @@ class AlarmCont {
   }
   
   static update (req, res, next) {
+    console.log('update')
     Alarm.findById(req.params.id, (err, alarm) => {
       /* istanbul ignore next */
       if (err) {
@@ -55,6 +58,7 @@ class AlarmCont {
   }
   
   static delete (req, res, next) {
+    console.log('delete')
     Alarm.deleteOne({ _id: req.params.id })
     .then(result =>{
       res.status(200).json(result)

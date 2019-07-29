@@ -21,7 +21,10 @@ class AlarmForm extends Component {
       daysChecked: [false, false, false, false, false, false , false],
       title: '',
       type: '',
-      id: ''
+      id: '',
+      weekdays: false,
+      weekends: false,
+      everyday: false
     }
   }
 
@@ -44,7 +47,7 @@ class AlarmForm extends Component {
       }
 
       this.setState({
-        time: alarm.time,
+        time: alarm.originTime,
         daysChecked: check,
         title: alarm.title,
         id: alarm._id,
@@ -97,6 +100,21 @@ class AlarmForm extends Component {
       title: text
     })
   }
+
+  handleTypeSelect = (type) => {
+    let daysChecked = [false, false, false, false, false, false, false]
+
+    if (type === 'weekdays' && !this.state.weekdays) daysChecked = [true, true, true, true, true, false, false]
+    else if (type === 'weekends' && !this.state.weekends) daysChecked = [false, false, false, false, false, true, true]
+    else if(type === 'everyday' && !this.state.everyday) daysChecked = [true, true, true, true, true, true, true]
+
+    this.setState({
+      daysChecked,
+      weekdays: this.state.weekdays ? false : true,
+      weekends: this.state.weekends ? false : true,
+      everyday: this.state.everyday ? false : true
+    })
+  } 
 
   handleSubmit = () => {
     let inputDays = []
@@ -193,11 +211,24 @@ class AlarmForm extends Component {
               <View style={{ flexDirection: 'row', justifyContent: 'space-evenly'}}>
               { this.state.days.map((day, index) => {
                 return (
-                  <TouchableHighlight underlayColor='#F7F7F7' key={index} style={{ padding: 10 }} onPress={() => this.handleChecked(index)}>
-                      <Text  style={this.state.daysChecked[index] === true ? styles.checked : styles.unchecked }>{day.slice(0,2)}</Text>
-                    </TouchableHighlight>
+                      <TouchableHighlight underlayColor='#F7F7F7' key={index} style={{ padding: 10 }} onPress={() => this.handleChecked(index)}>
+                        <Text  style={this.state.daysChecked[index] === true ? styles.checked : styles.unchecked }>{day.slice(0,2)}</Text>
+                      </TouchableHighlight>
                     )
                   })}
+
+              </View>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
+
+                <TouchableHighlight underlayColor='#F7F7F7' style={styles.typeButton} onPress={() => this.handleTypeSelect('weekends')}>
+                  <Text style={styles.typeText}>Weekends</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor='#F7F7F7' style={styles.typeButton} onPress={() => this.handleTypeSelect('weekdays')}>
+                  <Text style={styles.typeText}>Weekdays</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor='#F7F7F7' style={styles.typeButton} onPress={() => this.handleTypeSelect('everyday')}>
+                  <Text style={styles.typeText}>Everyday</Text>
+                </TouchableHighlight>
               </View>
             </Card>
 
@@ -242,6 +273,14 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     width: '95%'
+  },
+
+  typeButton : {
+    padding: 10,
+  },
+
+  typeText: {
+    color: '#007991'
   }
 
 });

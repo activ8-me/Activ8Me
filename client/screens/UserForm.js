@@ -1,5 +1,9 @@
 import React, { Fragment, Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage'
+import {connect} from 'react-redux'
+import {repopulate} from '../store/action'
+
+const mapDispatchToProps = {repopulate}
 
 import {
   Content,
@@ -19,7 +23,7 @@ import {
 
 import server from '../api/server'
 
-export default class LinksScreen extends Component {
+class LinksScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -39,7 +43,7 @@ export default class LinksScreen extends Component {
   
   login() {
     // console.log('masuk login')
-    console.log(this.state.email, this.state.password)
+    let userToken
     server({
       method: 'post',
       url: '/user/signIn',
@@ -49,9 +53,22 @@ export default class LinksScreen extends Component {
       }
     })
     .then (({data}) => {
+      userToken = data.token
       return AsyncStorage.setItem('tokenActiv8Me', data.token.toString() )
     })
-    .then(async () => {
+    .then(() => {
+      return server ({
+        method: 'get',
+        url: '/alarm/',
+        headers: {
+          token: userToken
+        }
+      })
+    })
+    .then(({data}) => {
+      return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
+    })
+    .then(() => {
       this.props.navigation.navigate('AlarmList')
     })
     .catch (err => {
@@ -60,6 +77,7 @@ export default class LinksScreen extends Component {
   }
   
   signUp(){
+    let userToken
     server({
       method: 'post',
       url: '/user/signUp',
@@ -79,9 +97,22 @@ export default class LinksScreen extends Component {
       })
     })
     .then (({data}) => {
+      userToken = data.token
       return AsyncStorage.setItem('tokenActiv8Me', data.token.toString() )
     })
-    .then(async () => {
+    .then(() => {
+      return server ({
+        method: 'get',
+        url: '/alarm/',
+        headers: {
+          token: userToken
+        }
+      })
+    })
+    .then(({data}) => {
+      return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
+    })
+    .then(() => {
       this.props.navigation.navigate('AlarmList')
     })
     .catch (err => {
@@ -234,3 +265,5 @@ const styles = StyleSheet.create({
 LinksScreen.navigationOptions = {
   title: 'UserForm',
 };
+
+export default connect (null, mapDispatchToProps) (LinksScreen)

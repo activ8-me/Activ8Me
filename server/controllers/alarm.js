@@ -39,8 +39,12 @@ class AlarmCont {
       } else {
         if (req.body.type === 'reset') {
           alarm.time = alarm.originTime
+          if (alarm.days.length === 0){
+            alarm.status = false
+          }
         } else if (req.body.type === 'snooze') {
           alarm.time = req.body.time
+          alarm.status = true
         } else if (req.body.type === 'update') {
           alarm.time = req.body.time
           alarm.originTime = req.body.time

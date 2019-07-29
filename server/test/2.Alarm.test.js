@@ -25,9 +25,9 @@ after(function(done) {
 });
 
 let accessToken, unauthorizeToken
-const wrongToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDEwY2MxYzk5YjZlMTRjMWI0MWU0MmEiLCJlbWFpbCI6ImhhaGFAdGVzdC5jb20iLCJpYXQiOjE1MTYyMzkwMjJ9.-MY2HYrdbVxhRfQ1EBpLF3Tjw-RKi2UkdKAxt2PKCOI"
+const wrongToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDNkNzQ1YWY2ODFhMjAxZTA4Mzg5YmMiLCJlbWFpbCI6ImFAYWEuYWEifQ.ZHKw09Bf9lzdTMihoe64zz6XoYXHSBjDnt4k1akuZHc"
 const invalidToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNlciIsIWlsIjoidXNlckB0ZXN0LmNvbSIsImlhdCI6MTUxNjIzOTAyMn0.QrZ5a9QoubRSSltG9e-TFrgG1Bco3Cck7Q_ayk-Fj00"
-let idAlarm
+let idAlarm, idAlarm2
 
 describe('Successfull Sign In user', function () {
   it('Sign In User', function (done) {
@@ -111,6 +111,38 @@ describe('Testing Alarm Server Endpoint', function () {
               res.body.status.should.equal(true)
               res.should.have.status(201)
               idAlarm = res.body._id
+              done()
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        })
+      })
+      describe('Successfull create alarm no repeat', function () {
+        it('Should return an object with status code 201', function (done) {
+          chai
+            .request(app)
+            .post('/alarm')
+            .set('token', `${accessToken}`)
+            .send({
+              title: "Test",
+              time: time,
+              days: [],
+              status: true
+            })
+            .then(res => {
+              res.body.should.be.an('object')
+              res.body.should.be.have.property('_id')
+              res.body.should.be.have.property('time')
+              res.body.should.be.have.property('days')
+              res.body.should.be.have.property('originTime')
+              res.body.should.be.have.property('user')
+              res.body.should.be.have.property('status')
+              res.body.time.should.equal(time)
+              res.body.originTime.should.equal(time)
+              res.body.status.should.equal(true)
+              res.should.have.status(201)
+              idAlarm2 = res.body._id
               done()
             })
             .catch(err => {
@@ -244,6 +276,32 @@ describe('Testing Alarm Server Endpoint', function () {
           chai
             .request(app)
             .patch(`/alarm/${idAlarm}`)
+            .set('token', `${accessToken}`)
+            .send({
+              type: 'reset'
+            })
+            .then(res => {
+              res.body.should.be.an('object')
+              res.body.should.be.have.property('_id')
+              res.body.should.be.have.property('time')
+              res.body.should.be.have.property('days')
+              res.body.should.be.have.property('originTime')
+              res.body.should.be.have.property('user')
+              res.body.should.be.have.property('status')
+              res.body.time.should.equal(res.body.originTime)
+              res.should.have.status(201)
+              done()
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        })
+      })
+      describe('Successfull update alarm type reset no repeat', function () {
+        it('Should return an object with status code 200', function (done) {
+          chai
+            .request(app)
+            .patch(`/alarm/${idAlarm2}`)
             .set('token', `${accessToken}`)
             .send({
               type: 'reset'

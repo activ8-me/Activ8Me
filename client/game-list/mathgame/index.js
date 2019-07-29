@@ -1,6 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image} from 'react-native';
 import RandomNumber from './RandomNumber';
+import {connect} from 'react-redux'
+import {winning} from '../../store/action'
+
+const mapDispatchToProps = {winning}
 
 class Game extends React.Component {
   state = {
@@ -44,6 +48,9 @@ class Game extends React.Component {
   calcGameStatus(nextState) {
     const sumSelected = nextState.selectedIds.reduce((acc, curr) => { return acc + this.randNumArray[curr] }, 0)
     if (sumSelected === this.target) {
+      setTimeout(() => {
+        this.props.winning(this.props.gameId)
+      }, 1000)
       return "WIN"
     } else {
       return "PLAYING"
@@ -68,7 +75,7 @@ class Game extends React.Component {
          <Text style={{alignSelf:'center',fontSize:20, textAlign:'center'}}>Sum The Number To Match Target Number</Text>
          <Image
           style={{width: 55, height: 55, alignSelf:'center', marginVertical:15}}
-          source={{uri: 'https://image.flaticon.com/icons/png/512/227/227922.png'}}
+          source={require('../../assets/game/mathgame/game-logo.png')}
         />
          <Text style={{alignSelf:'center',fontSize:30, textAlign:'center',marginVertical:6}}>Target</Text>
         <Text style={[styles.target, styles[`${gameStatus}`]]}>{this.target}</Text>
@@ -116,4 +123,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Game;
+export default connect (null, mapDispatchToProps) (Game)

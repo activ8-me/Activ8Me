@@ -211,7 +211,9 @@ class AlarmList extends Component {
     console.log('logging out')
     AsyncStorage.removeItem('tokenActiv8Me')
     .then(() => {
-      console.log('masuk then')
+      return AsyncStorage.removeItem('alarmActiv8Me')
+    })
+    .then(() => {
       this.props.navigation.navigate('Landing')
     })
     .catch(err => {

@@ -58,11 +58,28 @@ const job = new CronJob('58 * * * * *', async function () {
             time: moment(currentTime).add(1, "minute").format('LT'),
             status: true
         })
-        let alarmsId = []
+        let alarmId = []
+        let registrationTokens = []
         for(let i = 0; i < alarms.length; i++){
-            alarmsId.push(alarms[i]._id)
+            alarmId.push(alarms[i]._id)
+            registrationTokens.push(alarms[i].fcmToken)
         }
-        console.log(alarmsId, "-----------")
+        let payload = {
+            data: {
+                alarmId
+            }
+        }
+        admin
+            .messaging()
+            .sendToDevice(registrationToken, payload)
+            .then(function(response) {
+                // See the MessagingDevicesResponse reference documentation for
+                // the contents of response.
+                console.log('Successfully sent message:', response);
+            })
+            .catch(function(error) {
+                console.log('Error sending message:', error);
+            });
     }
     catch (err) {
         console.log(err)

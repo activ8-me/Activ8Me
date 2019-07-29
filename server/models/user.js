@@ -24,7 +24,6 @@ function isUnique(email) {
 }
 
 let userSchema = new Schema({
-  name: String,
   email: {
     type: String,
     validate: [{

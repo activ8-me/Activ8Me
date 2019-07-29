@@ -9,6 +9,14 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const cron = require('cron')
 const moment = require('moment')
+const admin = require('firebase-admin');
+const serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://activ8me-alarm.firebaseio.com"
+});
+
 // /* istanbul ignore next */
 // let url
 // /* istanbul ignore next */
@@ -65,21 +73,27 @@ const job = new CronJob('58 * * * * *', async function () {
             registrationTokens.push(alarms[i].fcmToken)
         }
         let payload = {
+            notification: {
+                title: 'CRON check alarm',
+                body: 'Dari CRON',
+            },
             data: {
                 alarmId
             }
         }
-        admin
-            .messaging()
-            .sendToDevice(registrationToken, payload)
-            .then(function(response) {
-                // See the MessagingDevicesResponse reference documentation for
-                // the contents of response.
-                console.log('Successfully sent message:', response);
-            })
-            .catch(function(error) {
-                console.log('Error sending message:', error);
-            });
+        if(registrationTokens.length!==0){
+            admin
+                .messaging()
+                .sendToDevice(registrationTokens, payload)
+                .then(function(response) {
+                    // See the MessagingDevicesResponse reference documentation for
+                    // the contents of response.
+                    console.log('Successfully sent message:', response);
+                })
+                .catch(function(error) {
+                    console.log('Error sending message:', error);
+                });
+        }
     }
     catch (err) {
         console.log(err)

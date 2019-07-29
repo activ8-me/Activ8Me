@@ -1,23 +1,71 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { ScrollView, 
   StyleSheet, 
-  Dimensions,
   View,
   Text, 
   Image,
   Button } from 'react-native';
 import {connect} from 'react-redux'
-import {snooze, awake} from '../store/action'
+import {snooze, awake, ring, stop} from '../store/action'
+import SoundPlayer from 'react-native-sound-player'
+import AsyncStorage from '@react-native-community/async-storage';
 
-const mapDispatchToProps = {snooze, awake}
+const mapStateToProps = state => {
+  return {
+    alarm: state.alarm,
+    alarmId: state.alarmId
+  }
+}
+ 
+const mapDispatchToProps = {snooze, awake, ring, stop}
 
 function LinksScreen(props) {
+  const [time, setTime] = useState('')
+  useEffect(() => {
+    AsyncStorage.getItem('alarmActiv8Me')
+    .then(alarms => {
+      let alarmList = JSON.parse(alarms)
+      for (let i = 0; i < alarmList.length; i++){
+        if (alarmList[i]._id === props.alarmId) {
+          let now = alarmList[i].time 
+          now = now.split(':')
+          if (parseInt(now[0]) < 10){
+            now[0] = '0' + now[0]
+          }
+          now = now.join(':')
+          setTime(now)
+        }
+      }
+    })
+  }, [props.alarmId])
+
+  useEffect(() => {
+    if (!props.alarm) {
+      try {
+        SoundPlayer.playSoundFile('siren', 'wav')
+        props.ring()
+      } catch (e) {
+          console.log(`cannot play the sound file`, e)
+      }
+    } else {
+      try {
+        SoundPlayer.addEventListener('FinishedPlaying', ({ success }) => {
+          if (success) {
+            props.stop()
+          }
+        })
+      } catch (e) {
+          console.log(`cannot play the sound file`, e)
+      }
+    }
+  }, [props.alarm])
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.viewStyle}>
         <View style={{display:'flex', flexDirection:'row', alignContent: 'center'}}>
-          <Text style={styles.clock}>08 : 00   </Text>
-          <Text style={styles.meridiem}>AM</Text>
+          <Text style={styles.clock}>{`${time.slice(0,2)} : ${time.slice(3,5)}`}</Text>
+          <Text style={styles.meridiem}>{time.slice(6)}</Text>
         </View>
         <Image
           source={require('../assets/pics/wakeUp.png')}
@@ -77,4 +125,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect (null, mapDispatchToProps) (LinksScreen)
+export default connect (mapStateToProps, mapDispatchToProps) (LinksScreen)

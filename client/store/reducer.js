@@ -2,7 +2,10 @@ const initialState = {
   snooze: false,
   winning: 0,
   gameSelect: 0,
-  gameDone: []
+  gameDone: [],
+  alarm: false,
+  repopulate: false,
+  alarmId: '5d3dad6d60e10448092837e7'
 }
 
 export default function reducer (state = initialState, action) {
@@ -31,8 +34,30 @@ export default function reducer (state = initialState, action) {
     case "RESET":
       return {
         ...state,
-        winning: 0
+        winning: 0,
+        gameSelect: 0,
+        gameDone: []
       }
+    case "RING":
+      return {
+        ...state,
+        alarm: true
+      }
+    case "STOP":
+      return {
+        ...state,
+        alarm: false
+      }
+    case "REPOPULATE":
+      return {
+        ...state,
+        repopulate: action.state
+      }
+    case "SET_ALARM":
+      return {
+        ...state,
+        alarmId: action.id
+      } 
     default:
       return state
   }

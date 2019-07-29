@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const {Schema} = mongoose
-const articleSchema = new Schema({
+const alarmSchema = new Schema({
   user : { type: Schema.Types.ObjectId, ref: 'User'},
   title: String,
   time: String,
@@ -9,5 +9,5 @@ const articleSchema = new Schema({
   days: [{type: String}],
   status: Boolean
 })
-const Article = mongoose.model('article', articleSchema)
-module.exports = Article
+const Alarm = mongoose.model('alarm', alarmSchema)
+module.exports = Alarm

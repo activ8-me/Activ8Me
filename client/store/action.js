@@ -33,3 +33,29 @@ export function resetWin () {
     type: 'RESET'
   }
 }
+
+export function ring () {
+  return {
+    type: "RING"
+  }
+}
+
+export function stop () {
+  return {
+    type: "STOP"
+  }
+}
+
+export function repopulate (state) {
+  return {
+    type: "REPOPULATE",
+    state
+  }
+}
+
+export function setAlarm (id) {
+  return {
+    type: "SET_ALARM",
+    id
+  }
+}

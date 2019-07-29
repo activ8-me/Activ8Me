@@ -7,7 +7,8 @@ const alarmSchema = new Schema({
   time: String,
   originTime: String,
   days: [{type: String}],
-  status: Boolean
+  status: Boolean,
+  fcmToken: String
 })
 const Alarm = mongoose.model('alarm', alarmSchema)
 module.exports = Alarm

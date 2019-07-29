@@ -21,6 +21,7 @@ const mapDispatchToProps = {snooze, awake, ring, stop}
 
 function LinksScreen(props) {
   const [time, setTime] = useState('')
+  const [title, setTitle] = useState('')
   useEffect(() => {
     AsyncStorage.getItem('alarmActiv8Me')
     .then(alarms => {

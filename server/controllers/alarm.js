@@ -9,7 +9,8 @@ class AlarmCont {
       time: req.body.time,
       days: req.body.days,
       originTime: req.body.time,
-      status: req.body.status 
+      status: req.body.status,
+      fcmToken: req.body.fcmToken 
     }
     Alarm.create(newAlarm)
     .then(alarm => {
@@ -51,6 +52,7 @@ class AlarmCont {
           alarm.days = req.body.days
           alarm.title = req.body.title
           alarm.status = req.body.status
+          alarm.fcmToken = req.body.fcmToken
         }
         alarm.save()
         .then (alarm => {

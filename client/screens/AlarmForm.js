@@ -116,7 +116,7 @@ class AlarmForm extends Component {
     })
   } 
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     let inputDays = []
 
     this.state.daysChecked.forEach((day, index) => {
@@ -127,7 +127,9 @@ class AlarmForm extends Component {
 
     const { time, title } = this.state
 
-    const input = { time, title, status: true, days: inputDays} 
+    let fcmToken = await AsyncStorage.getItem('fcmToken')
+
+    const input = { time, title, status: true, days: inputDays, fcmToken} 
     let userToken
 
     AsyncStorage.getItem('tokenActiv8Me')

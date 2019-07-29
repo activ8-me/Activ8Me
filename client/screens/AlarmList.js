@@ -53,24 +53,22 @@ class AlarmList extends Component {
                     if (alarmList[i].days.length === 0 && alarmList[i].status){
                       console.log("one time")
                       found = true
+                      redirect = true
                       this.props.setAlarm(alarmPlay[j])
+                      return AsyncStorage.removeItem('alarmTrigger')
                     } else {
                       for (let k = 0; k < alarmList[i].days.length; k++){
                         if (alarmList[i].days[k] === moment().format('dddd') && alarmList[i].status) {
                           console.log("day")
-                          found = true
+                          redirect = true
                           this.props.setAlarm(alarmPlay[j])
+                          return AsyncStorage.removeItem('alarmTrigger')
                         }
                       }
                     }
                   }
                 }
               }
-            }
-            if (found) {
-              redirect = true
-              found = false
-              return AsyncStorage.removeItem('alarmTrigger')
             }
           }
         }

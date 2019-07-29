@@ -89,8 +89,6 @@ const job = new CronJob('57 * * * * *', async function () {
                 .messaging()
                 .sendToDevice(registrationTokens, payload)
                 .then(function(response) {
-                    // See the MessagingDevicesResponse reference documentation for
-                    // the contents of response.
                     console.log('Successfully sent message:', response);
                 })
                 .catch(function(error) {

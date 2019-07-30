@@ -17,6 +17,7 @@
     "react": "16.8.6",
     "react-native": "0.60.4",
     "react-native-firebase": "^5.5.5",
+    "react-native-floating-action": "^1.17.0",
     "react-native-gesture-handler": "^1.3.0",
     "react-native-ionicons": "^4.6.1",
     "react-native-modal-datetime-picker": "^7.5.0",

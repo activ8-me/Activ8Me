@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet, Text, Button, View, TouchableHighlight, Dimensions, Image, Alert} from 'react-native';
-import { Container, Header, Content, Card, CardItem, Body, CheckBox, Fab } from "native-base";
-import { Col, Row, Grid } from 'react-native-easy-grid';
+import { CheckBox, Fab } from "native-base";
+import { Col, Grid } from 'react-native-easy-grid';
 import Icon from 'react-native-ionicons'
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import { SwipeRow } from 'react-native-swipe-list-view';
 import AsyncStorage from '@react-native-community/async-storage';
 import server from '../api/server'
 import {connect} from 'react-redux'
 import {repopulate, setAlarm} from '../store/action'
 import moment from 'moment';
+import { FloatingAction } from 'react-native-floating-action'
 
 const mapStateToProps = state => {
   return {
@@ -350,7 +351,48 @@ class AlarmList extends Component {
 
           </View>
         </ScrollView>
-        <TouchableHighlight
+
+        <FloatingAction
+          overlayColor="rgba(68, 68, 68, 0.5)"
+          color="#F28213"
+          actions={
+            [
+              {
+                text: "Log out",
+                icon: require("../assets/pics/logout.png"),
+                name: "logOut",
+                position: 1,
+                color: '#424242',
+                textBackground: '#424242',
+                textColor: '#fff'
+              },
+              {
+                text: "Set alarm",
+                icon: require("../assets/pics/set-alarm.png"),
+                name: "setAlarm",
+                position: 2,
+                color: '#3B8EA5',
+                textBackground: '#3B8EA5',
+                textColor: '#fff'
+              },
+
+            ]
+          }
+          onPressItem={name => {
+            if(name === 'setAlarm') {
+              AsyncStorage.getItem('tokenActiv8Me')
+                .then(token => {
+                  console.log('add')
+                  if (!token) {
+                    this.props.navigation.navigate('Landing')
+                  } else {
+                    this.props.navigation.navigate('AlarmForm')
+                  }
+                })
+            }
+          }}
+        />
+        {/* <TouchableHighlight
           style={styles.circleContainer}
           underlayColor='#ccc'
           onPress={() => {
@@ -379,7 +421,7 @@ class AlarmList extends Component {
           <Button style={{ backgroundColor: '#888888' }} onPress={() => this.logout()}>
             <Icon name="log-out" color="white"/>
           </Button>
-        </Fab>
+        </Fab> */}
             
           {/* <Button
             onPress={() => {

@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const ip = '35.247.177.52'
+const ip = '192.168.42.44'
 
 const server = axios.create({
   baseURL: `http://${ip}:3000`

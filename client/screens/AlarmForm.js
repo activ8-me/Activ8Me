@@ -1,6 +1,6 @@
 import React, { Component }from 'react';
 import { Input, Item, Card, Grid, Col } from 'native-base'
-import { Text, View, Button, ScrollView, StyleSheet, TouchableHighlight, TextInput } from 'react-native'
+import { Text, View, Button, ScrollView, StyleSheet, TouchableHighlight, TextInput, ToastAndroid } from 'react-native'
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment"
 import server from '../api/server'
@@ -125,63 +125,74 @@ class AlarmForm extends Component {
       }
     })
 
-    const { time, title } = this.state
+    if(inputDays.length === 0) {
+      ToastAndroid.showWithGravityAndOffset(
+          'Select at least one day',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          250,
+        );
+    }
+    else {
+      const { time, title } = this.state
 
-    let fcmToken = await AsyncStorage.getItem('fcmToken')
+      let fcmToken = await AsyncStorage.getItem('fcmToken')
 
-    const input = { time, title, status: true, days: inputDays, fcmToken} 
-    let userToken
+      const input = { time, title, status: true, days: inputDays, fcmToken} 
+      let userToken
 
-    AsyncStorage.getItem('tokenActiv8Me')
-    .then(token => {
-      userToken = token
-      if (token) {
-        if (this.state.type === 'update') {
-          return server({
-            method: 'patch',
-            url: `/alarm/${this.state.id}`,
-            data: {
-              ...input,
-              type: this.state.type
-            },
-            headers: {
-              token
-            }
-          })
-        } else {
-          return server({
-            method: 'post',
-            url: '/alarm/',
-            data: input,
-            headers: {
-              token
-            }
-          })
-        }
-      }
-    })
-    .then(() => {
-      return server({
-        method: 'get',
-        url: '/alarm/',
-        headers: {
-          token: userToken
+      AsyncStorage.getItem('tokenActiv8Me')
+      .then(token => {
+        userToken = token
+        if (token) {
+          if (this.state.type === 'update') {
+            return server({
+              method: 'patch',
+              url: `/alarm/${this.state.id}`,
+              data: {
+                ...input,
+                type: this.state.type
+              },
+              headers: {
+                token
+              }
+            })
+          } else {
+            return server({
+              method: 'post',
+              url: '/alarm/',
+              data: input,
+              headers: {
+                token
+              }
+            })
+          }
         }
       })
-    })
-    .then(async ({data}) => {
-      return AsyncStorage.setItem('alarmActiv8Me', `${JSON.stringify(data)}`)
-    })
-    .then(() => {
-      return AsyncStorage.getItem('alarmActiv8Me')
-    })
-    .then(alarms => {
-      this.props.repopulate(true)
-      this.props.navigation.navigate('AlarmList')
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      .then(() => {
+        return server({
+          method: 'get',
+          url: '/alarm/',
+          headers: {
+            token: userToken
+          }
+        })
+      })
+      .then(async ({data}) => {
+        return AsyncStorage.setItem('alarmActiv8Me', `${JSON.stringify(data)}`)
+      })
+      .then(() => {
+        return AsyncStorage.getItem('alarmActiv8Me')
+      })
+      .then(alarms => {
+        this.props.repopulate(true)
+        this.props.navigation.navigate('AlarmList')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
   }
 
   render() {
@@ -255,7 +266,7 @@ class AlarmForm extends Component {
           </View>
 
           <View style={{ flex: 1}}>
-            <TouchableHighlight underlayColor='#005D70' style={{ backgroundColor: '#007991', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }} onPress={this.handleSubmit}> 
+            <TouchableHighlight underlayColor='#005D70' style={{ backgroundColor: '#E8811B', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }} onPress={this.handleSubmit}> 
             <Text style={styles.touchableText}>SET ALARM</Text>
             </TouchableHighlight>
           </View>

@@ -5473,6 +5473,11 @@ react-native-safe-area-view@^0.14.1:
   dependencies:
     debounce "^1.2.0"
 
+react-native-send-intent@^1.0.30:
+  version "1.0.30"
+  resolved "https://registry.yarnpkg.com/react-native-send-intent/-/react-native-send-intent-1.0.30.tgz#cbefcbc562f4df57f28d6ddebd76b0005b9c69b2"
+  integrity sha512-SZ2Y/Gpsa3cG2rGG7D5ff978XZnuyyZ2+yHKQEbkQBiMctnvVjd3tY9YSDMCSSl7Nb9WggvBZdZ8ng7/6berFg==
+
 react-native-sound-player@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/react-native-sound-player/-/react-native-sound-player-0.10.0.tgz#9f503a5c96865d6ab0b1d366ccee6731a1293e60"

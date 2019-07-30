@@ -75,19 +75,14 @@ const job = new CronJob('57 * * * * *', async function () {
             alarmId.push(alarms[i]._id)
             registrationTokens.push(alarms[i].fcmToken)
         }
-        let payload = {
-            notification: {
-                title: 'CRON check alarm',
-                body: 'Dari CRON',
-            },
-            data: {
-                alarmId: JSON.stringify(alarmId)
-            }
+        const payload = {
+            data: {alarmId: JSON.stringify(alarmId)},
+            tokens: registrationTokens,
         }
         if(registrationTokens.length!==0){
             admin
                 .messaging()
-                .sendToDevice(registrationTokens, payload)
+                .sendMulticast(payload)
                 .then(function(response) {
                     console.log('Successfully sent message:', response);
                 })

@@ -125,16 +125,16 @@ class AlarmForm extends Component {
       }
     })
 
-    if(inputDays.length === 0) {
-      ToastAndroid.showWithGravityAndOffset(
-          'Select at least one day',
-          ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
-          25,
-          250,
-        );
-    }
-    else {
+    // if(inputDays.length === 0) {
+    //   ToastAndroid.showWithGravityAndOffset(
+    //       'Select at least one day',
+    //       ToastAndroid.LONG,
+    //       ToastAndroid.BOTTOM,
+    //       25,
+    //       250,
+    //     );
+    // }
+    // else {
       const { time, title } = this.state
 
       let fcmToken = await AsyncStorage.getItem('fcmToken')
@@ -192,7 +192,7 @@ class AlarmForm extends Component {
       .catch(err => {
         console.log(err)
       })
-    }
+    // }
   }
 
   render() {

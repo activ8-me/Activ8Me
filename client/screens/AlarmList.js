@@ -29,7 +29,8 @@ class AlarmList extends Component {
     }
   }
 
-  componentDidMount() {
+  check () {
+    console.log('check')
     check = setInterval (() => {
       let redirect = false
       if (moment().second() === 0) {
@@ -78,6 +79,7 @@ class AlarmList extends Component {
         .then(() => {
           if (redirect) {
             redirect = false
+            clearInterval(check)
             console.log('navigation')
             console.log(this.props.navigation.navigate)
             this.props.navigation.navigate('AlarmLanding')
@@ -85,22 +87,14 @@ class AlarmList extends Component {
         })
       }
     }, 1000)
-
-    AsyncStorage.getItem('alarmActiv8Me')
-    .then(alarms => {
-      if (alarms !== null && alarms) {
-        let alarmList = JSON.parse(alarms)
-        if (alarmList.length >= 0) {
-          this.setState({
-            alarmList: [...alarmList]
-          })
-        } else {
-          return AsyncStorage.getItem('tokenActiv8Me')
-        }
-      }
-    })
+  }
+  
+  componentDidMount() {
+    AsyncStorage.getItem('tokenActiv8Me')
     .then(token => {
-      if (token === null && token) {
+      console.log(2)
+      console.log(token)
+      if (token !== null && token) {
         return server ({
           method: 'get',
           url: '/alarm/',
@@ -110,14 +104,13 @@ class AlarmList extends Component {
         })
       }
     })
-    .then(({data}) => {
+    .then(async ({data}) => {
+      await AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
+      clearInterval(check)
+      this.check()
       this.setState({
         alarmList: data
       })
-      return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
-    })
-    .then(() => {
-      console.log('done saving alarm')
     })
     .catch(err => {
       console.log(err)
@@ -125,6 +118,8 @@ class AlarmList extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    clearInterval(check)
+    this.check()
     AsyncStorage.getItem('alarmActiv8Me')
     .then(alarms => {
       console.log('update')

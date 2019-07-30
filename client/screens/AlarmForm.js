@@ -266,7 +266,7 @@ class AlarmForm extends Component {
           </View>
 
           <View style={{ flex: 1}}>
-            <TouchableHighlight underlayColor='#005D70' style={{ backgroundColor: '#E8811B', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }} onPress={this.handleSubmit}> 
+            <TouchableHighlight underlayColor='#D37619' style={{ backgroundColor: '#E8811B', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }} onPress={this.handleSubmit}> 
             <Text style={styles.touchableText}>SET ALARM</Text>
             </TouchableHighlight>
           </View>

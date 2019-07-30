@@ -23,12 +23,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {randomGame, ring, stop}
 
 function LinksScreen (props) {
-  let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame', 'BoxFall']
+  // let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame', 'BoxFall']
   // let game = ["MathGame"]
-  // let game = ['none', 'BoxFall']
+  let game = ['none', 'WakeMeUp']
 
   useEffect(() => {
-    if (props.winning === 5) {
+    if (props.winning === 1) {
       SoundPlayer.stop()
       props.stop()
       props.navigation.navigate('Result')

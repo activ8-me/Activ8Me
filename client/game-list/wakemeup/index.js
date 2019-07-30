@@ -35,7 +35,7 @@ const game = (props) => {
   }, [wake])
 
   useEffect(() => {
-    let winCount = 6
+    let winCount = 8
     let rate = count/winCount
     if (rate >= 1) {
       setEye(image[4])
@@ -72,17 +72,27 @@ const game = (props) => {
 
   return (
     <View style={styles.game}>
-      <Text style={styles.title}>Wake Me Up</Text>
-      <View style={styles.image}>
-        <Image source={eye} style={{width: 160, height: 80}}/>
+      <Text style={styles.title}>Wake me up</Text>
+      {/* <Image
+        source={require('../../assets/pics/zzz.gif')}
+        style={{ width: 100, height: 100 }}
+      /> */}
+
+      <Image
+        source={require('../../assets/pics/pusheensleep.gif')}
+        style={{ width: 200, height: 200 }}
+      />
+
+      {/* <View style={styles.image}>
+        <Image source={eye} style={{width: 130, height: 80, resizeMode: 'contain'}}/>
         <View style={{padding: 10}}/>
-        <Image source={eyeFlip} style={{width: 160, height: 80}}/>
-      </View>
-      {
+        <Image source={eyeFlip} style={{ width: 130, height: 80, resizeMode: 'contain'}}/>
+      </View> */}
+      {/* {
         eye === image[4] ? 
         <Image source={require('../../assets/game/wakemeup/mouth.png')} style={{width: 300, height: 200}}/> :
         <View style={{width: 300, height: 200}}/>
-      }
+      } */}
       <TouchableHighlight style={styles.button} onPress={countClick} activeOpacity={0.2} underlayColor={'#FFA14D'}>
         <Text style={styles.buttonText}>Wake Me!</Text>
       </TouchableHighlight>
@@ -94,19 +104,19 @@ const styles = StyleSheet.create({
   game: {
     display: 'flex',
     flexDirection: "column",
-    backgroundColor: '#ff8b17',
+    backgroundColor: '#FFF',
     justifyContent: 'space-between',
     alignItems: "center",
     height: '100%'
   },
   title: {
     fontSize: 60,
-    fontFamily: "Iceberg-Regular",
+    // fontFamily: "Iceberg-Regular",
     padding: 10
   },
   buttonText: {
     fontSize: 20,
-    fontFamily: "Iceberg-Regular"
+    // fontFamily: "Iceberg-Regular"
   },
   button: {
     width: 100,

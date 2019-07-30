@@ -72,7 +72,7 @@ function LinksScreen(props) {
         {
           props.snooze ?
           <Text style={styles.meridiem}>You may sleep for 10 more minutes</Text> :
-          <Text style={styles.meridiem}>Glad you awake</Text>
+          <Text style={styles.meridiem}>Glad you're awake</Text>
         }
         <Image
           source={require('../assets/pics/wakeUp.png')}

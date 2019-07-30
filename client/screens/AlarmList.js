@@ -150,7 +150,7 @@ class AlarmList extends Component {
 
     if(showDays === weekdays) return 'Weekdays'
     else if(showDays === weekends) return 'Weekends'
-    else if(showDays === everyday) return 'Daily'
+    else if(showDays === everyday) return 'Everyday'
     else return showDays
   }
 
@@ -292,6 +292,12 @@ class AlarmList extends Component {
                 rightOpenValue={-75}
                 style={{ marginBottom: 10, width: '95%' }}
                 key={index}
+                tension={40}
+                preview
+                previewOpenValue={-75}
+                swipeToOpenPercent={80}
+                swipeToOpenVelocityContribution={30}
+                friction={10}
               >
                 <View style={styles.standaloneRowBack}>
                   <Text></Text>
@@ -315,16 +321,17 @@ class AlarmList extends Component {
 
                 <View style={{ alignItems: 'center' }}>
                   <View key={index} style={{ height: 100, width: '100%', backgroundColor: alarm.status ? "#fff" : "#F2F2F2", elevation: 3}}>
-                    <Text style={{ position: 'absolute', textAlign: 'center', fontWeight: 'bold', color: alarm.status ? '#007991' : '#588791', alignSelf: 'center', top: 5 }}>{ alarm.title }</Text>
+                    
                     <Grid>
-                      <Col style={{ justifyContent: 'center' }} size={2}>
+                      <Col style={{ justifyContent: 'center' }} size={17}>
                         <CheckBox style={{ marginLeft: 5 }} checked={alarm.status ? true : false} color="#FF8B17" onPress={() => this.handleCheck(index)} />
                       </Col>
-                      <Col style={{ justifyContent: 'center'}} size={3}>
-                        <Text style={{ color: alarm.status ? "#000" : "#9F9C9C" }}>{this.getDays(alarm.days)}</Text>
+                      <Col style={{ justifyContent: 'center', padding: 5}} size={33}>
+                        <Text style={{ fontSize: 17,  fontWeight: 'bold', color: alarm.status ? '#007991' : '#588791'}}>{alarm.title}</Text>
                       </Col>
-                      <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={5}>
+                      <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={50}>
                         <Text style={{ fontSize: 35, fontWeight: 'bold', color: alarm.status ? "#000" : "#9F9C9C" }}>{alarm.originTime}</Text>
+                        <Text style={{ color: alarm.status ? "#000" : "#9F9C9C" }}>{this.getDays(alarm.days)}</Text>
                       </Col>
                     </Grid>
                   </View>
@@ -332,6 +339,8 @@ class AlarmList extends Component {
               </SwipeRow>
             )
           })}
+
+            <View style={{ height: 100, width: '100%' }}></View>
 
           </View>
         </ScrollView>
@@ -366,13 +375,13 @@ class AlarmList extends Component {
           </Button>
         </Fab>
             
-          <Button
+          {/* <Button
             onPress={() => {
                 this.props.navigation.navigate('AlarmLanding')
             }}
             title="ke alarm landing"
           /> 
-       
+        */}
       </View>
     );
   }
@@ -424,7 +433,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: 20,
-    right: 85
+    right: 85,
+    elevation: 3
   }
 });
 

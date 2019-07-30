@@ -23,7 +23,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {randomGame, ring, stop}
 
 function LinksScreen (props) {
-  // let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame', 'BoxFall']
+  // let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame']
   // let game = ["MathGame"]
   let game = ['none', 'WakeMeUp']
 

@@ -53,10 +53,11 @@ const game = (props) => {
       setEye(image[0])
       setEyeFlip(imageFlip[0])
     }
+    console.log(count)
     const interval = setInterval(() => {
       setTime(prevTime => prevTime + 1)
-      setCount(0)
-    }, 1000);
+      setCount(prevCount => prevCount === 0 ? prevCount : prevCount - 1)
+    }, 200);
     return () => clearInterval(interval);
   }, [time])
 

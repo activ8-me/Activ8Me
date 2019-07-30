@@ -10,21 +10,62 @@ import AlarmForm from '../screens/AlarmForm'
 import AlarmLanding from '../screens/AlarmLanding'
 import Game from '../screens/Game'
 import Result from '../screens/Result'
+import {Text, View} from 'react-native'
+import React from 'react'
+import {Button} from 'native-base'
 
 const StackNavigatorUser = createStackNavigator(
   {
     Landing: {
-      screen: Landing
+      screen: Landing,
+      navigationOptions: {
+        headerTitle: 'Activ8Me',
+        headerStyle: {
+          backgroundColor: '#FF8B17',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          textAlign: 'center',
+          flex: 1
+        }
+      }
     },
     Form: {
-      screen: UserForm
+      screen: UserForm,
+      navigationOptions: ({navigation}) => ({
+        headerLeft: () => {
+          return (
+            <View>
+              <Button 
+              onPress={() => navigation.navigate('Landing')} 
+              style={{
+                marginLeft: 5,
+                padding: 15,
+                justifyContent: 'center',
+                borderColor: "white",
+                borderWidth: 2,
+                backgroundColor:'#FF9831',
+                borderRadius: 10,
+              }}>
+                  <Text style={{ fontSize: 15, color: 'white', }}>BACK</Text>
+                </Button>
+            </View>)
+        },
+        headerStyle: {
+          backgroundColor: '#FF8B17',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          flex: 1,
+          justifyContent: 'flex-start'
+        }
+      })
     }
   },
   {
     initialRouteName: 'Landing',
-    defaultNavigationOptions: {
-      title: 'Activ8Me',
-    }
   }
 );
 
@@ -79,8 +120,5 @@ export default createAppContainer(createSwitchNavigator(
   },
   {
     initialRouteName: 'SwitchNavigator1',
-    defaultNavigationOptions: {
-      title: 'Activ8Me',
-    }
   }
 ));

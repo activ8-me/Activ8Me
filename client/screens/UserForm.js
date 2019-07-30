@@ -309,8 +309,4 @@ const styles = StyleSheet.create({
   }
 });
 
-LinksScreen.navigationOptions = {
-  title: 'UserForm',
-};
-
 export default connect(null, mapDispatchToProps)(LinksScreen)

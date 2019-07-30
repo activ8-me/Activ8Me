@@ -51,10 +51,6 @@ export default function LinksScreen(props) {
   );
 }
 
-LinksScreen.navigationOptions = {
-  title: 'Landing',
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

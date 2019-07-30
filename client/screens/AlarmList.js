@@ -102,6 +102,8 @@ class AlarmList extends Component {
             token
           }
         })
+      } else {
+        this.props.navigation.navigate('Landing')
       }
     })
     .then(async ({data}) => {

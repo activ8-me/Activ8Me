@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from 'react-redux'
 import { repopulate } from '../store/action'
-import { ToastAndroid } from 'react-native';
+import { ToastAndroid, KeyboardAvoidingView} from 'react-native';
 
 const mapDispatchToProps = { repopulate }
 
@@ -77,7 +77,7 @@ class LinksScreen extends Component {
         ToastAndroid.showWithGravityAndOffset(
           'Failed To Login!',
           ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
+          ToastAndroid.CENTER,
           25,
           50,
         );
@@ -128,7 +128,7 @@ class LinksScreen extends Component {
         ToastAndroid.showWithGravityAndOffset(
           'Failed To Register!',
           ToastAndroid.LONG,
-          ToastAndroid.BOTTOM,
+          ToastAndroid.CENTER,
           25,
           50,
         );
@@ -149,7 +149,7 @@ class LinksScreen extends Component {
 
   render() {
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}>
           <View style={styles.container2}>
             <View style={[styles.container2, { marginVertical: '5%' }]}>
               <Image
@@ -206,7 +206,7 @@ class LinksScreen extends Component {
             }
           </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
     )
   }
 }

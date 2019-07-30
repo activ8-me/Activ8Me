@@ -1,102 +1,82 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, View, Text, Image, TouchableHighlight } from 'react-native'
+import { StyleSheet, View, Text, Image, TouchableHighlight, Dimensions } from 'react-native'
 import {connect} from 'react-redux'
 import {winning} from '../../store/action'
-
+import ProgressBarAnimated from 'react-native-progress-bar-animated'
+let winCount = 8
 const mapDispatchToProps = {winning}
 
 const game = (props) => {
-  const image = [
-    require('../../assets/game/wakemeup/closed.png'),
-    require('../../assets/game/wakemeup/open-25.png'),
-    require('../../assets/game/wakemeup/open-50.png'),
-    require('../../assets/game/wakemeup/open-75.png'),
-    require('../../assets/game/wakemeup/open-full.png')
-  ]
-  const imageFlip = [
-    require('../../assets/game/wakemeup/closed-flip.png'),
-    require('../../assets/game/wakemeup/open-25-flip.png'),
-    require('../../assets/game/wakemeup/open-50-flip.png'),
-    require('../../assets/game/wakemeup/open-75-flip.png'),
-    require('../../assets/game/wakemeup/open-full-flip.png')
-  ]
   const [wake, setWake] = useState(false)
-  const [eye, setEye] = useState(image[0])
-  const [eyeFlip, setEyeFlip] = useState(imageFlip[0])
   const [count, setCount] = useState(0)
   const [time, setTime] = useState(0)
+  const [zzz, setZzz] = useState(true)
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     if (wake) {
-      setTimeout(() => {
-        props.winning(props.gameId)
-      }, 500)
+      setTimeout (() => {
+        setZzz(false)
+        setTimeout(() => {
+          props.winning(props.gameId)
+        }, 2050)
+      }, 1250)
     }
-  }, [wake])
+  }, [wake, progress])
 
   useEffect(() => {
-    let winCount = 8
     let rate = count/winCount
-    if (rate >= 1) {
-      setEye(image[4])
-      setEyeFlip(imageFlip[4])
-    } else if (rate >= 0.75) {
-      setEye(image[3])
-      setEyeFlip(imageFlip[3])
-    } else if (rate >= 0.5) {
-      setEye(image[2])
-      setEyeFlip(imageFlip[2])
-    } else if (rate >= 0.25) {
-      setEye(image[1])
-      setEyeFlip(imageFlip[1])
+    if (progress < 100 ) {
+      setProgress(Math.floor(rate * 100))
     } else {
-      setEye(image[0])
-      setEyeFlip(imageFlip[0])
-    }
-    console.log(count)
-    const interval = setInterval(() => {
-      setTime(prevTime => prevTime + 1)
-      setCount(prevCount => prevCount === 0 ? prevCount : prevCount - 1)
-    }, 200);
-    return () => clearInterval(interval);
-  }, [time])
-
-  useEffect(() => {
-    if (eye === image[4]) {
+      setProgress(100)
       setWake(true)
     }
-  }, [eye])
+    const interval = setInterval(() => {
+      setTime(prevTime => prevTime + 0.1)
+      setCount(prevCount => prevCount <= 0 ? 0 : prevCount - 0.7)
+    }, 100);
+    return () => clearInterval(interval);
+  }, [time])
 
   function countClick () {
     setCount(count + 1)
   }
 
+
   return (
     <View style={styles.game}>
-      <Text style={styles.title}>Wake me up</Text>
-      {/* <Image
-        source={require('../../assets/pics/zzz.gif')}
-        style={{ width: 100, height: 100 }}
-      /> */}
+      <Text style={styles.title}>Wake me up!</Text>
 
-      <Image
-        source={require('../../assets/pics/pusheensleep.gif')}
-        style={{ width: 200, height: 200 }}
-      />
+        {
+          zzz &&   
+          <Image
+          source={require('../../assets/pics/zzz.gif')}
+          style={{ width: 100, height: 100, position: 'absolute', top: 320, right: 15, zIndex: 99 }}
+          />
+        }
 
-      {/* <View style={styles.image}>
-        <Image source={eye} style={{width: 130, height: 80, resizeMode: 'contain'}}/>
-        <View style={{padding: 10}}/>
-        <Image source={eyeFlip} style={{ width: 130, height: 80, resizeMode: 'contain'}}/>
-      </View> */}
-      {/* {
-        eye === image[4] ? 
-        <Image source={require('../../assets/game/wakemeup/mouth.png')} style={{width: 300, height: 200}}/> :
-        <View style={{width: 300, height: 200}}/>
-      } */}
-      <TouchableHighlight style={styles.button} onPress={countClick} activeOpacity={0.2} underlayColor={'#FFA14D'}>
-        <Text style={styles.buttonText}>Wake Me!</Text>
-      </TouchableHighlight>
+        <Image
+        source={wake ? require('../../assets/game/wakemeup/wakeMe2.gif') : require('../../assets/game/wakemeup/wakeMe1.gif')}
+        style={{ width: 350, resizeMode: 'contain', position: 'absolute', top: 200, zIndex: wake ? 2 : 1}}
+        fadeDuration={0}
+          />
+          
+       <Image
+          source={require('../../assets/game/wakemeup/wakeMe1.gif')}
+          style={{ width: 350, resizeMode: 'contain', position: 'absolute', top: 200, zIndex: wake ? 1 : 2}}
+        />
+
+      <View style={{display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'space-between'}}>
+        <ProgressBarAnimated
+          width={Dimensions.get('screen').width - 30}
+          value={progress}
+          backgroundColorOnComplete="#6CC644"
+        />
+        <TouchableHighlight style={styles.button} onPress={countClick} activeOpacity={0.2} underlayColor={'#FFA14D'}>
+          <Text style={styles.buttonText}>Wake me!</Text>
+        </TouchableHighlight>
+      </View>
     </View>
   )
 }
@@ -106,18 +86,19 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: "column",
     backgroundColor: '#FFF',
-    justifyContent: 'space-between',
     alignItems: "center",
     height: '100%'
   },
   title: {
-    fontSize: 60,
-    // fontFamily: "Iceberg-Regular",
-    padding: 10
+    fontSize: 50,
+    padding: 10,
+    fontWeight: 'bold'
   },
   buttonText: {
     fontSize: 20,
-    // fontFamily: "Iceberg-Regular"
+    padding: 20,
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
   button: {
     width: 100,

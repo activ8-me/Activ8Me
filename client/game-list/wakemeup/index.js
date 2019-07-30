@@ -35,7 +35,7 @@ const game = (props) => {
   }, [wake])
 
   useEffect(() => {
-    let winCount = 8
+    let winCount = 6
     let rate = count/winCount
     if (rate >= 1) {
       setEye(image[4])

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { ScrollView, StyleSheet, Text, Button, View, TouchableHighlight, Dimensions, Image, Alert} from 'react-native';
 import { CheckBox, Fab } from "native-base";
 import { Col, Grid } from 'react-native-easy-grid';
-import Icon from 'react-native-ionicons'
 import { SwipeRow } from 'react-native-swipe-list-view';
 import AsyncStorage from '@react-native-community/async-storage';
 import server from '../api/server'
@@ -33,38 +32,40 @@ class AlarmList extends Component {
   componentDidMount() {
     check = setInterval (() => {
       let redirect = false
-      AsyncStorage.getItem('alarmTrigger')
-      .then(data => {
-        // console.log('interval')
-        // console.log(data)
-        if (data !== null && data) {
-          let trigger = JSON.parse(data)
-          console.log(trigger.alarmId)
-          if (trigger.alarmId && trigger.alarmId.length > 0) {
-            console.log(trigger.alarmId, "ini trigger data")
-            let alarmList = this.state.alarmList
-            let alarmPlay = trigger.alarmId
-            // console.log(moment().format('LT'))
-            let found = false
-            for (let i = 0; i < alarmList.length; i++){
-              for (let j = 0; j < alarmPlay.length; j++){
-                if (alarmPlay[j] === alarmList[i]._id) {
-                  // console.log('found alarm')
-                  if (alarmList[i].time === moment().format('LT')) {
-                    console.log('found alarm now')
-                    if (alarmList[i].days.length === 0 && alarmList[i].status){
-                      console.log("one time")
-                      found = true
-                      redirect = true
-                      this.props.setAlarm(alarmPlay[j])
-                      return AsyncStorage.removeItem('alarmTrigger')
-                    } else {
-                      for (let k = 0; k < alarmList[i].days.length; k++){
-                        if (alarmList[i].days[k] === moment().format('dddd') && alarmList[i].status) {
-                          console.log("day")
-                          redirect = true
-                          this.props.setAlarm(alarmPlay[j])
-                          return AsyncStorage.removeItem('alarmTrigger')
+      if (moment().second() === 0) {
+        AsyncStorage.getItem('alarmTrigger')
+        .then(data => {
+          console.log('interval')
+          console.log(data)
+          if (data !== null && data) {
+            let trigger = JSON.parse(data)
+            // console.log(trigger.alarmId)
+            if (trigger.alarmId && trigger.alarmId.length > 0) {
+              // console.log(trigger.alarmId, "ini trigger data")
+              let alarmList = this.state.alarmList
+              let alarmPlay = trigger.alarmId
+              // console.log(moment().format('LT'))
+              let found = false
+              for (let i = 0; i < alarmList.length; i++){
+                for (let j = 0; j < alarmPlay.length; j++){
+                  if (alarmPlay[j] === alarmList[i]._id) {
+                    console.log('found alarm')
+                    if (alarmList[i].time === moment().format('LT')) {
+                      console.log('found alarm now')
+                      if (alarmList[i].days.length === 0 && alarmList[i].status){
+                        console.log("one time")
+                        found = true
+                        redirect = true
+                        this.props.setAlarm(alarmPlay[j])
+                        return AsyncStorage.removeItem('alarmTrigger')
+                      } else {
+                        for (let k = 0; k < alarmList[i].days.length; k++){
+                          if (alarmList[i].days[k] === moment().format('dddd') && alarmList[i].status) {
+                            console.log("day")
+                            redirect = true
+                            this.props.setAlarm(alarmPlay[j])
+                            return AsyncStorage.removeItem('alarmTrigger')
+                          }
                         }
                       }
                     }
@@ -73,14 +74,16 @@ class AlarmList extends Component {
               }
             }
           }
-        }
-      })
-      .then(() => {
-        if (redirect) {
-          redirect = false
-          this.props.navigation.navigate('AlarmLanding')
-        }
-      })
+        })
+        .then(() => {
+          if (redirect) {
+            redirect = false
+            console.log('navigation')
+            console.log(this.props.navigation.navigate)
+            this.props.navigation.navigate('AlarmLanding')
+          }
+        })
+      }
     }, 1000)
 
     AsyncStorage.getItem('alarmActiv8Me')
@@ -138,10 +141,6 @@ class AlarmList extends Component {
     .catch(err => {
       console.log(err)
     })
-  }
-
-  componentWillUnmount() {
-    clearInterval(check);
   }
 
   getDays(days) {

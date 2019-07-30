@@ -66,10 +66,41 @@ class LinksScreen extends Component {
           }
         })
       })
-      .then(({ data }) => {
-        return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
+      .then(async ({ data }) => {
+        let promise = []
+        let fcmToken = await AsyncStorage.getItem('fcmToken')
+        console.log(fcmToken)
+        for (let i = 0; i < data.length; i++) {
+          promise.push(new Promise((resolve, reject) => {
+            let newData = {...data[i]}
+            newData.fcmToken = fcmToken
+            newData.time = newData.originTime
+            resolve (server({
+              method: 'patch',
+              url: `/alarm/${data[i]._id}`,
+              data: {
+                ...newData,
+                type: 'update'
+              },
+              headers: {
+                token: userToken
+              }
+            }))
+          }))
+        }
+        return Promise.all(promise)
       })
       .then(() => {
+        return server({
+          method: 'get',
+          url: '/alarm/',
+          headers: {
+            token: userToken
+          }
+        })
+      })
+      .then(async ({data}) => {
+        await AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
         this.props.navigation.navigate('AlarmList')
       })
       .catch(err => {

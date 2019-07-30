@@ -8,6 +8,7 @@ import WakeMeUp from '../game-list/wakemeup'
 import MemoryGame from '../game-list/memorygame'
 import FindMe from '../game-list/findme'
 import MathGame from '../game-list/mathgame'
+import BoxFall from '../game-list/boxfall'
 
 const mapStateToProps = state => {
   return {
@@ -22,12 +23,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {randomGame, ring, stop}
 
 function LinksScreen (props) {
-  let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame']
+  let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame', 'BoxFall']
   // let game = ["MathGame"]
-  // let game = ['none', 'WakeMeUp']
+  // let game = ['none', 'BoxFall']
 
   useEffect(() => {
-    if (props.winning === 1) {
+    if (props.winning === 5) {
       SoundPlayer.stop()
       props.stop()
       props.navigation.navigate('Result')
@@ -60,11 +61,13 @@ function LinksScreen (props) {
   return (
     <View style={styles.container}>
       {
-        game[props.gameSelect] === "WakeMeUp" ? <WakeMeUp {...props} gameId={props.gameSelect}/> :
+          game[props.gameSelect] === "WakeMeUp" ? <WakeMeUp {...props} gameId={props.gameSelect}/> :
           game[props.gameSelect] === "MemoryGame" ? <MemoryGame {...props} gameId={props.gameSelect}/> :
           game[props.gameSelect] === "MathGame" ? <MathGame {...props} gameId={props.gameSelect}/> :
+          game[props.gameSelect] === "BoxFall" ? <BoxFall {...props} gameId={props.gameSelect}/> :
           game[props.gameSelect] === "FindMe" && <FindMe {...props} gameId={props.gameSelect}/>
         // <WakeMeUp {...props} gameId={props.gameSelect} />
+        // <BoxFall />
       }
     </View>
   );

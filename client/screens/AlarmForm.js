@@ -1,5 +1,5 @@
 import React, { Component }from 'react';
-import { Input, Item, Card } from 'native-base'
+import { Input, Item, Card, Grid, Col } from 'native-base'
 import { Text, View, Button, ScrollView, StyleSheet, TouchableHighlight, TextInput } from 'react-native'
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment"
@@ -240,23 +240,39 @@ class AlarmForm extends Component {
           </View>
 
         </ScrollView>
-          <Button
+          {/* <Button
             onPress={
                 this.handleSubmit
             }
             title="SET ALARM"
             color="#007991"
-          />
+          /> */}
+       <View style={{ flexDirection: 'row', height: 50, backgroundColor: '#007991', justifyContent: 'space-evenly'}}>
+          <View style={{ flex: 1 }}>
+            <TouchableHighlight underlayColor='#424242' onPress={() => this.props.navigation.goBack()} style={{ backgroundColor: '#646464', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={styles.touchableText}>CANCEL</Text>
+          </TouchableHighlight>
+          </View>
+
+          <View style={{ flex: 1}}>
+            <TouchableHighlight underlayColor='#005D70' style={{ backgroundColor: '#007991', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }} onPress={this.handleSubmit}> 
+            <Text style={styles.touchableText}>SET ALARM</Text>
+            </TouchableHighlight>
+          </View>
+      </View> 
+
+
       </View>
     );
   }
 }
 
 AlarmForm.navigationOptions = {
-  title: 'Set alarm',
-  headerTitleStyle: {
-    fontWeight: 'bold'
-  }
+  // title: 'Set alarm',
+  // headerTitleStyle: {
+  //   fontWeight: 'bold'
+  // },
+  header: null
 };
 
 const styles = StyleSheet.create({
@@ -283,70 +299,12 @@ const styles = StyleSheet.create({
 
   typeText: {
     color: '#007991'
+  },
+  touchableText: {
+    color: '#fff',
+    fontSize: 17,
   }
 
 });
 
 export default connect (null, mapDispatchToProps) (AlarmForm)
-
-{/* <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Select games (minimum 3): </Text>
-  <TouchableHighlight onPress={() => this.setModalVisible(true)}>
-    <Text>test</Text>
-  </TouchableHighlight>
-
-  // <Modal */}
-  //   animationType="fade"
-  //   transparent={true}
-  //   visible={this.state.modalVisible}
-  //   onRequestClose={() => {
-  //     Alert.alert('Modal has been closed.');
-  //   }}>
-  //   <View style={{
-  //     flex: 1,
-  //     flexDirection: 'column',
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //     backgroundColor: 'rgba(80,80,80,0.5)'
-  //   }}>
-  //     <View style={{ height: 300, width: 300, backgroundColor: '#fff' }}>
-  //       <Grid>
-  //         <Row>
-  //           <Col style={{ borderWidth: 1, borderColor: 'black' }}>
-  //             <Text>test</Text>
-  //           </Col>
-  //           <Col style={{ borderWidth: 1, borderColor: 'black' }}>
-  //             <Text>test</Text>
-  //           </Col>
-  //           <Col style={{ borderWidth: 1, borderColor: 'black' }}>
-  //             <Text>test</Text>
-  //           </Col>
-
-  //         </Row>
-
-  //         <Row>
-  //           <Col style={{ borderWidth: 1, borderColor: 'black' }}>
-  //             <Text>test</Text>
-  //           </Col>
-  //           <Col style={{ borderWidth: 1, borderColor: 'black' }}>
-  //             <Text>test</Text>
-  //           </Col>
-  //           <Col style={{ borderWidth: 1, borderColor: 'black' }}>
-  //             <Text>test</Text>
-  //           </Col>
-  //         </Row>
-
-  //       </Grid>
-  //       <Text>Hello World!</Text>
-
-  //       <TouchableHighlight
-
-  //         onPress={() => {
-  //           this.setModalVisible(!this.state.modalVisible);
-  //         }}
-  //         style={{ padding: 10, backgroundColor: 'red' }}
-  //       >
-  //         <Text>Cancel</Text>
-  //       </TouchableHighlight>
-  //     </View>
-  //   </View>
-  // </Modal>

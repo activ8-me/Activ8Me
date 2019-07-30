@@ -390,6 +390,9 @@ class AlarmList extends Component {
                   }
                 })
             }
+            else {
+              this.logout()
+            }
           }}
         />
         {/* <TouchableHighlight

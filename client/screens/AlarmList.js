@@ -426,11 +426,11 @@ class AlarmList extends Component {
           </Button>
         </Fab> */}
         
-         <Button
+         {/* <Button
             onPress={() => {
                 this.props.navigation.navigate('AlarmLanding')
             }}
-            title="ke alarm landing"/>    
+            title="ke alarm landing"/>     */}
       </View>
     );
   }

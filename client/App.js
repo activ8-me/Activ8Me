@@ -51,28 +51,9 @@ export default class App extends Component {
 
 
 async createNotificationListeners() {
-<<<<<<< HEAD
-  /*
-  * Triggered when a particular notification has been received in foreground
-  * */
-  this.notificationListener = firebase.notifications().onNotification((notification) => {
-      const { alarmId } = notification.data;
-      let payload = { alarmId: JSON.parse(alarmId), from: 1 }
-      this.handleNotif(payload);
-  });
-
-  /*
-  * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
-  * */
-  this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-    console.log('masuk notification opened listener')
-    const { title, body } = notificationOpen.notification;
-    const payload = {title, body, from: 2}
-=======
   this.messageListener = firebase.messaging().onMessage(async (notification) => {
     const { alarmId } = notification.data;
     let payload = { alarmId: JSON.parse(alarmId), from: 1 }
->>>>>>> stylingMonday
     this.handleNotif(payload);
   });
 }

@@ -160,7 +160,7 @@ class BoxFall extends Component {
         DEBRIS_WIDTH,
         DEBRIS_HEIGHT,
         {
-          frictionAir: getRandomDecimal(0.08, 0.1),
+          frictionAir: 0.05,
           label: 'debris'
         }
       );
@@ -296,7 +296,7 @@ class BoxFall extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFA851',
+    backgroundColor: '#ff952b',
   },
   header: {
     padding: 20,

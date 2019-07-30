@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, Button, View, TouchableHighlight, Dimensions, Image, Alert} from 'react-native';
+import { ScrollView, StyleSheet, Text, Button, View, TouchableHighlight, Dimensions, Image, Alert, Switch} from 'react-native';
 import { CheckBox, Fab } from "native-base";
 import { Col, Grid } from 'react-native-easy-grid';
 import { SwipeRow } from 'react-native-swipe-list-view';
@@ -154,6 +154,7 @@ class AlarmList extends Component {
     if(showDays === weekdays) return 'Weekdays'
     else if(showDays === weekends) return 'Weekends'
     else if(showDays === everyday) return 'Everyday'
+    else if(showDays === '') return 'One-time'
     else return showDays
   }
 
@@ -209,7 +210,7 @@ class AlarmList extends Component {
   handleDelete(alarm) {
     Alert.alert(
       'Delete alarm?',
-      'This action cannot be undone',
+      '',
       [
         {
           text: 'Cancel',
@@ -326,8 +327,9 @@ class AlarmList extends Component {
                   <View key={index} style={{ height: 100, width: '100%', backgroundColor: alarm.status ? "#fff" : "#F2F2F2", elevation: 3}}>
                     
                     <Grid>
-                      <Col style={{ justifyContent: 'center' }} size={17}>
-                        <CheckBox style={{ marginLeft: 5 }} checked={alarm.status ? true : false} color="#FF8B17" onPress={() => this.handleCheck(index)} />
+                      <Col style={{ justifyContent: 'center', alignItems: 'center'}} size={17}>
+                        <Switch value={alarm.status} trackColor={ {true: '#ffb31c'}} thumbColor={alarm.status ? '#F28213' : '#d1d1d1'} onChange={() => this.handleCheck(index)} style={{ marginTop: 5 }}/>
+                        {/* <CheckBox style={{ marginLeft: 5 }} checked={alarm.status ? true : false} color="#FF8B17" onPress={() => this.handleCheck(index)} /> */}
                       </Col>
                       <Col style={{ justifyContent: 'center', padding: 5}} size={33}>
                         <Text style={{ fontSize: 17,  fontWeight: 'bold', color: alarm.status ? '#007991' : '#588791'}}>{alarm.title}</Text>
@@ -421,12 +423,12 @@ class AlarmList extends Component {
             <Icon name="log-out" color="white"/>
           </Button>
         </Fab> */}
-        
+{/*         
          <Button
             onPress={() => {
                 this.props.navigation.navigate('AlarmLanding')
             }}
-            title="ke alarm landing"/>    
+            title="ke alarm landing"/>     */}
       </View>
     );
   }

@@ -76,6 +76,7 @@ function LinksScreen(props) {
         <View style={{display:'flex', flexDirection:'row', alignContent: 'center'}}>
           <Text style={styles.clock}>{`${time.slice(0,2)} : ${time.slice(3,5)}`}</Text>
           <Text style={styles.meridiem}>{time.slice(6)}</Text>
+          <Text>{title}</Text>
         </View>
         <Image
           source={require('../assets/pics/wakeUp.png')}

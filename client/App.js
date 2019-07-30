@@ -4,6 +4,7 @@ import {Provider} from 'react-redux'
 import store from './store'
 import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'react-native-firebase';
+import SendIntentAndroid from 'react-native-send-intent'
 
 export default class App extends Component {
   async componentDidMount() {
@@ -81,7 +82,9 @@ async createNotificationListeners() {
   * Triggered for data only payload in foreground
   * */
   this.messageListener = firebase.messaging().onMessage((message) => {
-    console.log(JSON.stringify(message));
+    const { alarmId } = message._data;
+    let payload = { alarmId: JSON.parse(alarmId), from: 4 }
+    this.handleNotif(payload);
   });
 }
 
@@ -93,7 +96,6 @@ async handleNotif(payload) {
   }
 
   console.log(trigger, "trigerrrr")
-
   await AsyncStorage.setItem('alarmTrigger', JSON.stringify(trigger))
 }
 

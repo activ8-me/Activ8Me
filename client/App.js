@@ -7,13 +7,15 @@ import firebase from 'react-native-firebase';
 
 export default class App extends Component {
   async componentDidMount() {
+    console.log('masuk didmount')
     this.checkPermission();
     this.createNotificationListeners();
     console.disableYellowBox = true;
   }
+
   componentWillUnmount() {
-    this.notificationListener();
-    this.notificationOpenedListener();
+    console.log('keluar')
+    this.messageListener();
   }
 
   async checkPermission() {
@@ -27,6 +29,7 @@ export default class App extends Component {
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
+    console.log('fcmtoken', fcmToken, '======================')
     if (!fcmToken) {
       fcmToken = await firebase.messaging().getToken();
       if (fcmToken) {
@@ -48,41 +51,10 @@ export default class App extends Component {
 
 
 async createNotificationListeners() {
-  /*
-  * Triggered when a particular notification has been received in foreground
-  * */
-  this.notificationListener = firebase.notifications().onNotification((notification) => {
-      const { alarmId } = notification.data;
-      console.log(alarmId)
-      let payload = { alarmId: JSON.parse(alarmId), from: 1 }
-      this.handleNotif(payload);
-  });
-
-  /*
-  * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
-  * */
-  this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-    console.log('masuk notification opened listener')
-    const { title, body } = notificationOpen.notification;
-    const payload = {title, body, from: 2}
+  this.messageListener = firebase.messaging().onMessage(async (notification) => {
+    const { alarmId } = notification.data;
+    let payload = { alarmId: JSON.parse(alarmId), from: 1 }
     this.handleNotif(payload);
-  });
-
-  /*
-  * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
-  * */
-  const notificationOpen = await firebase.notifications().getInitialNotification();
-  if (notificationOpen) {
-    console.log('masuk notification open')
-    const { title, body } = notificationOpen.notification;
-    const payload = {title, body, from: 3}
-    this.handleNotif(payload)
-  }
-  /*
-  * Triggered for data only payload in foreground
-  * */
-  this.messageListener = firebase.messaging().onMessage((message) => {
-    console.log(JSON.stringify(message));
   });
 }
 
@@ -92,9 +64,7 @@ async handleNotif(payload) {
   let trigger = {
     alarmId: payload.alarmId
   }
-
   console.log(trigger, "trigerrrr")
-
   await AsyncStorage.setItem('alarmTrigger', JSON.stringify(trigger))
 }
 

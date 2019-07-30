@@ -47,6 +47,34 @@ app.use(express.urlencoded({
 }))
 app.use(express.json())
 
+let counter = 0 
+
+const admin = require('firebase-admin');
+const serviceAccount = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://activ8me-alarm.firebaseio.com"
+});
+
+/* istanbul ignore next */
+app.get('/test', (req, res) => {
+  const payload = { 
+    data: { alarmId: '["5d3ea0ad8ae67c524e74d114"]' },
+    tokens: [ 'cOh5AHGi8ac:APA91bEDXnt9N-D3zFcdJME-eZ_pgdWiJySn8Hxlt90wi409HXKDIVI56itrdxbTuvpX-xGsf0iUqJtQcpi7bfvQE1zLYmgY_uIaEnEUg5wskRPwHhOtS6tyEH3_Bl_U9s5ivNWuL4hC' ] 
+  }
+  admin
+    .messaging()
+    .sendMulticast(payload)
+    .then(function(response) {
+        console.log('Sent test notif:', response);
+        res.json(response)
+    })
+    .catch(function(error) {
+        console.log('Error sending message:', error);
+    });
+})
+
 app.use('/', index)
 app.use(error)
 

@@ -34,8 +34,8 @@ class AlarmList extends Component {
       let redirect = false
       AsyncStorage.getItem('alarmTrigger')
       .then(data => {
-        console.log('interval')
-        console.log(data)
+        // console.log('interval')
+        // console.log(data)
         if (data !== null && data) {
           let trigger = JSON.parse(data)
           console.log(trigger.alarmId)
@@ -43,12 +43,12 @@ class AlarmList extends Component {
             console.log(trigger.alarmId, "ini trigger data")
             let alarmList = this.state.alarmList
             let alarmPlay = trigger.alarmId
-            console.log(moment().format('LT'))
+            // console.log(moment().format('LT'))
             let found = false
             for (let i = 0; i < alarmList.length; i++){
               for (let j = 0; j < alarmPlay.length; j++){
                 if (alarmPlay[j] === alarmList[i]._id) {
-                  console.log('found alarm')
+                  // console.log('found alarm')
                   if (alarmList[i].time === moment().format('LT')) {
                     console.log('found alarm now')
                     if (alarmList[i].days.length === 0 && alarmList[i].status){

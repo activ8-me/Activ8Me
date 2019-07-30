@@ -6,22 +6,24 @@ import { ScrollView,
   Image,
   Button } from 'react-native';
 import {connect} from 'react-redux'
-import {snooze, awake, ring, stop} from '../store/action'
+import {snooze, awake, ring, stop, setAlarmSound} from '../store/action'
 import SoundPlayer from 'react-native-sound-player'
 import AsyncStorage from '@react-native-community/async-storage';
 
 const mapStateToProps = state => {
   return {
     alarm: state.alarm,
-    alarmId: state.alarmId
+    alarmId: state.alarmId,
+    alarmSound: state.alarmSound,
   }
 }
  
-const mapDispatchToProps = {snooze, awake, ring, stop}
+const mapDispatchToProps = {snooze, awake, ring, stop, setAlarmSound}
 
 function LinksScreen(props) {
   const [time, setTime] = useState('')
   const [title, setTitle] = useState('')
+
   useEffect(() => {
     AsyncStorage.getItem('alarmActiv8Me')
     .then(alarms => {
@@ -42,11 +44,15 @@ function LinksScreen(props) {
   }, [props.alarmId])
 
   useEffect(() => {
-    if (!props.alarm) {
+    if (props.alarmSound === '') {
       const sound = ['siren', 'airhorn', 'gunshot']
       let ind = Math.floor(Math.random() * Math.floor(sound.length))
-      try {
-        SoundPlayer.playSoundFile(sound[ind], 'wav')
+      props.setAlarmSound(sound[ind])
+    }
+    if (!props.alarm && props.alarmSound !== '') {
+      try { 
+        console.log(props.alarmSound)
+        SoundPlayer.playSoundFile(props.alarmSound, 'wav')
         props.ring()
       } catch (e) {
           console.log(`cannot play the sound file`, e)
@@ -62,7 +68,7 @@ function LinksScreen(props) {
           console.log(`cannot play the sound file`, e)
       }
     }
-  }, [props.alarm])
+  }, [props.alarm, props.alarmSound])
 
   return (
     <ScrollView style={styles.container}>

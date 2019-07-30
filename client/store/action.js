@@ -59,3 +59,10 @@ export function setAlarm (id) {
     id
   }
 }
+
+export function setAlarmSound (sound) {
+  return {
+    type: "ALARM_SOUND",
+    sound
+  }
+}

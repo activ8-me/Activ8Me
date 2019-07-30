@@ -14,7 +14,8 @@ const mapStateToProps = state => {
     winning: state.winning,
     gameSelect: state.gameSelect,
     gameDone: state.gameDone,
-    alarm: state.alarm
+    alarm: state.alarm,
+    alarmSound: state.alarmSound,
   }
 }
 
@@ -37,7 +38,7 @@ function LinksScreen (props) {
   useEffect(() => {
     if (!props.alarm) {
       try {
-        SoundPlayer.playSoundFile('siren', 'wav')
+        SoundPlayer.playSoundFile(props.alarmSound, 'wav')
         props.ring()
       } catch (e) {
           console.log(`cannot play the sound file`, e)

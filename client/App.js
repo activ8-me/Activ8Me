@@ -53,7 +53,6 @@ async createNotificationListeners() {
   * */
   this.notificationListener = firebase.notifications().onNotification((notification) => {
       const { alarmId } = notification.data;
-      console.log(alarmId)
       let payload = { alarmId: JSON.parse(alarmId), from: 1 }
       this.handleNotif(payload);
   });

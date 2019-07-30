@@ -312,14 +312,14 @@ class AlarmList extends Component {
                     <TouchableHighlight onPress={() => this.props.navigation.navigate('AlarmForm', { type: 'update', alarm})} style={{margin: 5}} activeOpacity={1} underlayColor={'#FFA14D'}>
                       <Image 
                         source={require('../assets/pics/edit.png')}
-                        style={{ height: 37, width: 37}}
+                        style={{ height: 32, width: 32}}
                       />
 
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => this.handleDelete(alarm)} style={{margin: 5 }} activeOpacity={1} underlayColor={'#FFA14D'}>
                       <Image
                         source={require('../assets/pics/trash.png')}
-                        style={{ height: 37, width: 37 }}
+                        style={{ height: 32, width: 32 }}
                       />
                     </TouchableHighlight>
 
@@ -425,12 +425,12 @@ class AlarmList extends Component {
             <Icon name="log-out" color="white"/>
           </Button>
         </Fab> */}
-        {/* <Button
+        
+         <Button
             onPress={() => {
                 this.props.navigation.navigate('AlarmLanding')
             }}
-            title="ke alarm landing"/>  
-        */}
+            title="ke alarm landing"/>    
       </View>
     );
   }

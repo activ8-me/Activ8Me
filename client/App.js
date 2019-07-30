@@ -4,7 +4,6 @@ import {Provider} from 'react-redux'
 import store from './store'
 import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'react-native-firebase';
-import SendIntentAndroid from 'react-native-send-intent'
 
 export default class App extends Component {
   async componentDidMount() {

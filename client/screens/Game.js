@@ -22,11 +22,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {randomGame, ring, stop}
 
 function LinksScreen (props) {
-  let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame']
+  // let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame']
   // let game = ["MathGame"]
+  let game = ['none', 'WakeMeUp']
 
   useEffect(() => {
-    if (props.winning === 4) {
+    if (props.winning === 1) {
       SoundPlayer.stop()
       props.stop()
       props.navigation.navigate('Result')
@@ -63,6 +64,7 @@ function LinksScreen (props) {
           game[props.gameSelect] === "MemoryGame" ? <MemoryGame {...props} gameId={props.gameSelect}/> :
           game[props.gameSelect] === "MathGame" ? <MathGame {...props} gameId={props.gameSelect}/> :
           game[props.gameSelect] === "FindMe" && <FindMe {...props} gameId={props.gameSelect}/>
+        // <WakeMeUp {...props} gameId={props.gameSelect} />
       }
     </View>
   );

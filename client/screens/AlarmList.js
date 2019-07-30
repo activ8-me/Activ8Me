@@ -123,6 +123,7 @@ class AlarmList extends Component {
   componentDidUpdate(prevProps) {
     AsyncStorage.getItem('alarmActiv8Me')
     .then(alarms => {
+      console.log('update')
       if (alarms !== null && alarms) {
         let alarmList = JSON.parse(alarms)
         if (alarmList.length >= 0 && this.props.repopulateState) {

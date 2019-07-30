@@ -2,7 +2,7 @@ const initialState = {
   snooze: false,
   winning: 0,
   gameSelect: 0,
-  gameDone: [],
+  gameDone: [0],
   alarm: false,
   repopulate: false,
   alarmId: '5d3dad6d60e10448092837e7'
@@ -36,7 +36,7 @@ export default function reducer (state = initialState, action) {
         ...state,
         winning: 0,
         gameSelect: 0,
-        gameDone: []
+        gameDone: [0]
       }
     case "RING":
       return {

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import { View, StyleSheet } from 'react-native';
 import {connect} from 'react-redux'
 import {randomGame, ring, stop} from '../store/action'
-import SoundPlayer from 'react-native-sound-player'
+import Sound from 'react-native-sound'
 
 import WakeMeUp from '../game-list/wakemeup'
 import MemoryGame from '../game-list/memorygame'
@@ -23,39 +23,19 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {randomGame, ring, stop}
 
 function LinksScreen (props) {
-  // let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame', 'BoxFall']
-  let game = ['none', 'BoxFall']
+  let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame', 'BoxFall']
+  // let game = ['none', 'BoxFall']
+  let alarm = props.navigation.getParam('alarm', null)
 
   useEffect(() => {
-    if (props.winning === 1) {
-      SoundPlayer.stop()
+    if (props.winning === 5) {
+      alarm.stop()
       props.stop()
       props.navigation.navigate('Result')
     } else {
       props.randomGame(game.length, props.gameDone)
     }
   }, [props.winning])
-
-  useEffect(() => {
-    if (!props.alarm) {
-      try {
-        SoundPlayer.playSoundFile(props.alarmSound, 'wav')
-        props.ring()
-      } catch (e) {
-          console.log(`cannot play the sound file`, e)
-      }
-    } else {
-      try {
-        SoundPlayer.addEventListener('FinishedPlaying', ({ success }) => {
-          if (success) {
-            props.stop()
-          }
-        })
-      } catch (e) {
-          console.log(`cannot play the sound file`, e)
-      }
-    }
-  }, [props.alarm])
 
   return (
     <View style={styles.container}>

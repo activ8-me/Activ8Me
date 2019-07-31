@@ -7,7 +7,7 @@ import { ScrollView,
   Button } from 'react-native';
 import {connect} from 'react-redux'
 import {snooze, awake, ring, stop, setAlarmSound} from '../store/action'
-import SoundPlayer from 'react-native-sound-player'
+import Sound from 'react-native-sound'
 import AsyncStorage from '@react-native-community/async-storage';
 
 const mapStateToProps = state => {
@@ -19,6 +19,8 @@ const mapStateToProps = state => {
 }
  
 const mapDispatchToProps = {snooze, awake, ring, stop, setAlarmSound}
+Sound.setCategory('Playback');
+let alarm
 
 function LinksScreen(props) {
   const [time, setTime] = useState('')
@@ -44,31 +46,22 @@ function LinksScreen(props) {
   }, [props.alarmId])
 
   useEffect(() => {
-    const sound = ['siren', 'airhorn', 'vitas', 'star']
+    const sound = ['siren.wav', 'airhorn.wav', 'vitas.wav', 'star.wav', 'crab.wav']
     let ind = Math.floor(Math.random() * Math.floor(sound.length))
     if (props.alarmSound === '') {
       props.setAlarmSound(sound[ind])
+      alarm = new Sound(sound[ind], Sound.MAIN_BUNDLE, (error) => {
+        if (error) {
+          console.log('failed to load the sound', error);
+          return;
+        }
+        // loaded successfully
+        console.log('duration in seconds: ' + alarm.getDuration() + 'number of channels: ' + alarm.getNumberOfChannels());
+        alarm.setVolume(1)
+        alarm.setNumberOfLoops(-1)
+      });
     }
-    if (!props.alarm && props.alarmSound !== '') {
-      try { 
-        console.log(props.alarmSound)
-        SoundPlayer.playSoundFile(props.alarmSound, ext[sound.indexOf(props.alarmSound)])
-        // SoundPlayer.playSoundFile('star', 'wav')
-        props.ring()
-      } catch (e) {
-          console.log(`cannot play the sound file`, e)
-      }
-    } else {
-      try {
-        SoundPlayer.addEventListener('FinishedPlaying', ({ success }) => {
-          if (success) {
-            props.stop()
-          }
-        })
-      } catch (e) {
-          console.log(`cannot play the sound file`, e)
-      }
-    }
+    alarm.play()
   }, [props.alarm, props.alarmSound])
 
   return (
@@ -86,7 +79,7 @@ function LinksScreen(props) {
         <Button
           onPress={() => {
             props.snooze()
-            props.navigation.navigate('Game')
+            props.navigation.navigate('Game', {alarm})
           }}
           title="Snooze"
           color="#ff8f4d"
@@ -96,7 +89,7 @@ function LinksScreen(props) {
         <Button
           onPress={() => {
             props.awake()
-            props.navigation.navigate('Game')
+            props.navigation.navigate('Game', {alarm})
           }}
           title="I'm awake"
           color="red"

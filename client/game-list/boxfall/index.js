@@ -124,7 +124,7 @@ class BoxFall extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.score === 30 && this.state.won === false && this._isMounted) { // KONDISI MENANG
+    if (this.state.score === 20 && this.state.won === false && this._isMounted) { // KONDISI MENANG
       // Alert.alert('You win', 'Next game');
       this.debris.forEach((debris) => {
         Matter.Body.set(debris, {

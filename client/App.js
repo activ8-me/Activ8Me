@@ -4,7 +4,6 @@ import {Provider} from 'react-redux'
 import store from './store'
 import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'react-native-firebase';
-import Result from './screens/Result'
 
 export default class App extends Component {
   async componentDidMount() {
@@ -14,8 +13,9 @@ export default class App extends Component {
     console.disableYellowBox = true;
   }
 
-  componentWillUnmount() {
+  async componentWillUnmount() {
     // console.log('keluar')
+    await AsyncStorage.removeItem('alarmTrigger')
     this.messageListener();
   }
 
@@ -72,8 +72,7 @@ async handleNotif(payload) {
   render() {
     return (
       <Provider store={store}>
-        <Result></Result>
-        {/* <Navigation /> */}
+        <Navigation />
       </Provider>
     );
   }

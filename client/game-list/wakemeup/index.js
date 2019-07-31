@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image, TouchableHighlight, Dimensions } from 'r
 import {connect} from 'react-redux'
 import {winning} from '../../store/action'
 import ProgressBarAnimated from 'react-native-progress-bar-animated'
-let winCount = 8
+let winCount = 10
 const mapDispatchToProps = {winning}
 
 const game = (props) => {
@@ -19,8 +19,8 @@ const game = (props) => {
         setZzz(false)
         setTimeout(() => {
           props.winning(props.gameId)
-        }, 2050)
-      }, 1250)
+        }, 1700)
+      }, 600)
     }
   }, [wake, progress])
 
@@ -34,7 +34,7 @@ const game = (props) => {
     }
     const interval = setInterval(() => {
       setTime(prevTime => prevTime + 0.1)
-      setCount(prevCount => prevCount <= 0 ? 0 : prevCount - 0.7)
+      setCount(prevCount => prevCount <= 0.7 ? 0 : prevCount - 0.5)
     }, 100);
     return () => clearInterval(interval);
   }, [time])
@@ -58,13 +58,13 @@ const game = (props) => {
 
         <Image
         source={wake ? require('../../assets/game/wakemeup/wakeMe2.gif') : require('../../assets/game/wakemeup/wakeMe1.gif')}
-        style={{ width: 350, resizeMode: 'contain', position: 'absolute', top: 200, zIndex: wake ? 2 : 1}}
+        style={{ width: 350, resizeMode: 'contain', position: 'absolute', top: 350, zIndex: wake ? 2 : 1}}
         fadeDuration={0}
           />
           
        <Image
           source={require('../../assets/game/wakemeup/wakeMe1.gif')}
-          style={{ width: 350, resizeMode: 'contain', position: 'absolute', top: 200, zIndex: wake ? 1 : 2}}
+          style={{ width: 350, resizeMode: 'contain', position: 'absolute', top: 350, zIndex: wake ? 1 : 2}}
         />
 
       <View style={{display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'space-between'}}>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   game: {
     display: 'flex',
     flexDirection: "column",
-    backgroundColor: '#FFF',
+    backgroundColor: '#FF8B17',
     alignItems: "center",
     height: '100%'
   },

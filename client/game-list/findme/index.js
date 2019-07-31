@@ -37,7 +37,7 @@ function game(props) {
   }
 
   return (
-    <View style={{ justifyContent: 'space-around', alignItems: 'center', backgroundColor: '#D2F3F2', flex: 1}}> 
+    <View style={{ justifyContent: 'space-around', alignItems: 'center', flex: 1}}> 
       <View style={{ alignItems: 'center'}}>
         <Text style={styles.title}>Find me!</Text>
         <Image source={image[1]} style={{ width: 125, height: 118, resizeMode: 'contain'}} />

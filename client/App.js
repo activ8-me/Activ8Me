@@ -8,14 +8,12 @@ import Result from './screens/Result'
 
 export default class App extends Component {
   async componentDidMount() {
-    // console.log('masuk didmount')
     this.checkPermission();
     this.createNotificationListeners();
     console.disableYellowBox = true;
   }
 
   componentWillUnmount() {
-    // console.log('keluar')
     this.messageListener();
   }
 
@@ -30,7 +28,6 @@ export default class App extends Component {
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
-    // console.log('fcmtoken', fcmToken, '======================')
     if (!fcmToken) {
       fcmToken = await firebase.messaging().getToken();
       if (fcmToken) {
@@ -60,12 +57,9 @@ async createNotificationListeners() {
 }
 
 async handleNotif(payload) {
-  // console.log(payload.from)
-  // console.log(payload.alarmId)
   let trigger = {
     alarmId: payload.alarmId
   }
-  // console.log(trigger, "trigerrrr")
   await AsyncStorage.setItem('alarmTrigger', JSON.stringify(trigger))
 }
 

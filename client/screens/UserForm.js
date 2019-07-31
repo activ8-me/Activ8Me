@@ -185,7 +185,7 @@ class LinksScreen extends Component {
             <View style={[styles.container2, { marginVertical: '5%' }]}>
               <Image
                 source={require('../assets/logos/LogoApps.png')}
-                style={{ height: 55, width: 55 }}
+                style={{ height: 85, width: 85 }}
               />
               <Text style={styles.TextBold}>Activ8Me</Text>
               {
@@ -213,12 +213,12 @@ class LinksScreen extends Component {
               (this.state.view === 'login') ?
                 <Button style={styles.primaryButton} onPress={this.login.bind(this)}>
                   <View>
-                    <Text style={{ fontSize: 17, color: 'white' }}>Login</Text>
+                    <Text style={styles.buttonText}>Login</Text>
                   </View>
                 </Button> :
                 <Button style={styles.primaryButton} onPress={this.signUp.bind(this)}>
                   <View>
-                    <Text style={{ fontSize: 17, color: 'white' }}>Register</Text>
+                    <Text style={styles.buttonText}>Register</Text>
                   </View>
                 </Button>
             }
@@ -226,12 +226,12 @@ class LinksScreen extends Component {
               (this.state.view === 'login') ?
                 <Button style={styles.primaryButton2} onPress={this.goToSignUp.bind(this)}>
                   <View>
-                    <Text style={{ fontSize: 17, color: 'white' }}>Go To Register</Text>
+                    <Text style={styles.buttonText}>Go To Register</Text>
                   </View>
                 </Button> :
                 <Button style={styles.primaryButton2} onPress={this.goToSignIn.bind(this)}>
                   <View>
-                    <Text style={{ fontSize: 17, color: 'white' }}>Go To Login</Text>
+                    <Text style={styles.buttonText}>Go To Login</Text>
                   </View>
                 </Button>
             }
@@ -247,6 +247,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
+    fontFamily: "FredokaOne-Regular"
   },
   body: {
     flex: 9,
@@ -267,7 +268,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 15,
     justifyContent: 'center',
-    backgroundColor: "#CCCCCC",
+    backgroundColor: "#F2B705",
     width: 300,
     borderRadius: 10,
   },
@@ -297,15 +298,22 @@ const styles = StyleSheet.create({
   HeadText: {
     color: 'black',
     fontSize: 20,
+    fontFamily: "FredokaOne-Regular"
   },
   Text: {
     color: '#ffffff',
     fontSize: 20,
+    fontFamily: "FredokaOne-Regular"
   },
   TextBold: {
     color: 'black',
     fontSize: 25,
-    fontWeight: "bold",
+    fontFamily: "FredokaOne-Regular"
+  },
+  buttonText: {
+    fontSize: 17,
+    color: 'white',
+    fontFamily: "FredokaOne-Regular"
   }
 });
 

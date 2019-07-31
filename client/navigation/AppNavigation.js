@@ -19,49 +19,53 @@ const StackNavigatorUser = createStackNavigator(
     Landing: {
       screen: Landing,
       navigationOptions: {
-        headerTitle: 'Activ8Me',
-        headerStyle: {
-          backgroundColor: '#FF8B17',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-          textAlign: 'center',
-          flex: 1
-        }
+        header: null,
+        // headerTitle: 'Activ8Me',
+        // headerStyle: {
+        //   backgroundColor: '#FF8B17',
+        // },
+        // headerTintColor: '#fff',
+        // headerTitleStyle: {
+        //   fontWeight: 'bold',
+        //   textAlign: 'center',
+        //   flex: 1
+        // }
       }
     },
     Form: {
       screen: UserForm,
-      navigationOptions: ({navigation}) => ({
-        headerLeft: () => {
-          return (
-            <View>
-              <Button 
-              onPress={() => navigation.navigate('Landing')} 
-              style={{
-                marginLeft: 5,
-                padding: 15,
-                justifyContent: 'center',
-                borderColor: "white",
-                borderWidth: 2,
-                backgroundColor:'#FF9831',
-                borderRadius: 10,
-              }}>
-                  <Text style={{ fontSize: 15, color: 'white', }}>BACK</Text>
-                </Button>
-            </View>)
-        },
-        headerStyle: {
-          backgroundColor: '#FF8B17',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-          flex: 1,
-          justifyContent: 'flex-start'
-        }
-      })
+      navigationOptions: {        
+        header: null,
+      }
+      // ({navigation}) => ({
+      //   headerLeft: () => {
+      //     return (
+      //       <View>
+      //         <Button 
+      //         onPress={() => navigation.navigate('Landing')} 
+      //         style={{
+      //           marginLeft: 5,
+      //           padding: 15,
+      //           justifyContent: 'center',
+      //           borderColor: "white",
+      //           borderWidth: 2,
+      //           backgroundColor:'#FF9831',
+      //           borderRadius: 10,
+      //         }}>
+      //             <Text style={{ fontSize: 15, color: 'white', }}>BACK</Text>
+      //           </Button>
+      //       </View>)
+      //   },
+      //   headerStyle: {
+      //     backgroundColor: '#FF8B17',
+      //   },
+      //   headerTintColor: '#fff',
+      //   headerTitleStyle: {
+      //     fontWeight: 'bold',
+      //     flex: 1,
+      //     justifyContent: 'flex-start'
+      //   }
+      // })
     }
   },
   {

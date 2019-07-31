@@ -24,8 +24,7 @@ const mapDispatchToProps = {randomGame, ring, stop}
 
 function LinksScreen (props) {
   // let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame', 'BoxFall']
-  // let game = ["MathGame"]
-  let game = ['none', 'WakeMeUp']
+  let game = ['none', 'BoxFall']
 
   useEffect(() => {
     if (props.winning === 1) {
@@ -66,8 +65,6 @@ function LinksScreen (props) {
           game[props.gameSelect] === "MathGame" ? <MathGame {...props} gameId={props.gameSelect}/> :
           game[props.gameSelect] === "BoxFall" ? <BoxFall {...props} gameId={props.gameSelect}/> :
           game[props.gameSelect] === "FindMe" && <FindMe {...props} gameId={props.gameSelect}/>
-        // <WakeMeUp {...props} gameId={props.gameSelect} />
-        // <BoxFall />
       }
     </View>
   );

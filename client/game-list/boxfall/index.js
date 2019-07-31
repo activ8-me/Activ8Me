@@ -49,7 +49,7 @@ const floor = Matter.Bodies.rectangle(width / 2, height, width, 10, {
   isSensor: true,
   label: "floor"
 });
-
+let accel
 setUpdateIntervalForType(SensorTypes.accelerometer, 15);
 
 class BoxFall extends Component {
@@ -81,54 +81,50 @@ class BoxFall extends Component {
     };
   }
 
+  _isMounted = false
 
   componentDidMount() {
-    accelerometer.subscribe(({ x }) => {
+    this._isMounted = true
+    if (this._isMounted) {
+      accel = accelerometer.subscribe(({ x }) => {
+        Matter.Body.setPosition(ball, {
+          x: this.state.x - x,
+          y: height - 30
+        });
+        this.setState(state => ({
+          x: state.x - x
+        }), () => {
+          if (this.state.x < 0) {
+            Matter.Body.setPosition(ball, {
+              x: width,
+              y: height - 45
+            });
 
-      Matter.Body.setPosition(ball, {
-        x: this.state.x - x,
-        y: height - 45
+            this.setState({
+              x: width
+            });
+          }
+          else if (this.state.x > width) {
+            Matter.Body.setPosition(ball, {
+              x: 0,
+              y: height - 45
+            });
+
+            this.setState({
+              x: 0
+            });
+          }
+        });
       });
 
-      this.setState(state => ({
-        x: state.x - x
-      }), () => {
-        if (this.state.x < 0) {
-          Matter.Body.setPosition(ball, {
-            x: width,
-            y: height - 45
-          });
-
-          this.setState({
-            x: width
-          });
-        }
-        else if (this.state.x > width) {
-          Matter.Body.setPosition(ball, {
-            x: 0,
-            y: height - 45
-          });
-
-          this.setState({
-            x: 0
-          });
-        }
+      this.setState({
+        isGameReady: true
       });
-
-    });
-
-    this.setState({
-      isGameReady: true
-    });
+    }
   }
 
-
-  // componentWillUnmount() {
-  //   this.accelerometer.stop();
-  // }
-
   componentDidUpdate() {
-    if (this.state.score === 30 && this.state.won === false) { // KONDISI MENANG
+    if (this.state.score === 30 && this.state.won === false && this._isMounted) { // KONDISI MENANG
       // Alert.alert('You win', 'Next game');
       this.debris.forEach((debris) => {
         Matter.Body.set(debris, {
@@ -136,10 +132,12 @@ class BoxFall extends Component {
         });
       });
       this.setState({
-        won: true
-      }, () => {
-          this.props.winning(this.props.gameId)
+        won: true,
+        isGameReady: false
       })
+    } else if (this.state.won === true && !this.state.isGameReady){
+      this._isMounted =false
+      this.props.winning(this.props.gameId)
     }
   }
 
@@ -160,7 +158,7 @@ class BoxFall extends Component {
         DEBRIS_WIDTH,
         DEBRIS_HEIGHT,
         {
-          frictionAir: 0.05,
+          frictionAir: getRandomDecimal(0.03, 0.08),
           label: 'debris'
         }
       );
@@ -207,7 +205,7 @@ class BoxFall extends Component {
           body: this.debris[x],
           size: [DEBRIS_WIDTH, DEBRIS_HEIGHT],
           color: randomColor({
-            luminosity: 'dark',
+            // luminosity: 'light',
           }),
           renderer: Box
         }
@@ -226,7 +224,7 @@ class BoxFall extends Component {
       var objA = pairs[0].bodyA.label;
       var objB = pairs[0].bodyB.label;
 
-      if (objA === 'floor' && objB === 'debris') {
+      if (objA === 'floor' && objB === 'debris' && this._isMounted) {
         Matter.Body.setPosition(pairs[0].bodyB, {
           x: randomInt(1, width - 30),
           y: randomInt(0, 200)
@@ -244,33 +242,41 @@ class BoxFall extends Component {
     });
   }
 
+  componentWillUnmount() {
+    this._isMounted = false
+    accel.unsubscribe()
+  }
 
   render() {
     const { isGameReady, score } = this.state;
 
-    if (isGameReady) {
       return (
-        <GameEngine
-          style={styles.container}
-          systems={[this.physics]}
-          entities={this.entities}
-        >
-          <View style={styles.header}>
-            {/* <Button
-              onPress={this.reset}
-              title="Reset"
-              color="#841584"
-            /> */}
-            <View style={{ backgroundColor: '#fff', borderRadius: 10, padding: 10, elevation: 3 }}>
-              <Text style={styles.scoreText}>Score: {score}</Text>
-              <Text style={{ color: '#737373', fontSize: 15 }}>Reach 30 points to win!</Text>
-            </View>
-          </View>
-        </GameEngine>
-      );
-    }
+        <>
+        {
+          isGameReady &&
+            <GameEngine
+              style={styles.container}
+              systems={[this.physics]}
+              entities={this.entities}
+            >
+              <View style={styles.header}>
+                {/* <Button
+                  onPress={this.reset}
+                  title="Reset"
+                  color="#841584"
+                /> */}
+                <View style={{ backgroundColor: '#fff', borderRadius: 10, padding: 10, elevation: 3 }}>
+                  <Text style={styles.scoreText}>Score: {score}</Text>
+                  <Text style={{ color: '#737373', fontSize: 15 }}>Reach 30 points to win!</Text>
+                </View>
+              </View>
+            </GameEngine>
 
-    return null;
+        }
+        </>
+      );
+
+
   }
 
 
@@ -285,10 +291,11 @@ class BoxFall extends Component {
         y: randomInt(0, 200)
       });
     });
-
-    this.setState({
-      score: 0
-    });
+    if (this._isMounted) {
+      this.setState({
+        score: 0
+      });
+    }
   }
 
 }

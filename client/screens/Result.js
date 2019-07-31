@@ -57,8 +57,11 @@ function LinksScreen(props) {
     .then(({data}) => {
       return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
     })
-    .then(async () => {
-      await AsyncStorage.removeItem('alarmTrigger')
+    .then(() => {
+
+      return AsyncStorage.removeItem('alarmTrigger')
+    })
+    .then(() => {
       BackHandler.exitApp()
     })
     .catch(err => {

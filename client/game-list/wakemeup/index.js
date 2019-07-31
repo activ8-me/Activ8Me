@@ -30,12 +30,14 @@ const game = (props) => {
       setProgress(Math.floor(rate * 100))
     } else {
       setProgress(100)
-      setWake(true)
+      setTimeout(() => {
+        setWake(true)
+      }, 500)
       clearInterval(interval)
     }
     const interval = setInterval(() => {
       setTime(prevTime => prevTime + 0.1)
-      setCount(prevCount => prevCount <= 0.7 ? 0 : prevCount - 0.5)
+      setCount(prevCount => prevCount <= 0.7 ? 0 : prevCount - 0.65)
     }, 100);
     return () => clearInterval(interval);
   }, [time])

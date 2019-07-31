@@ -40,7 +40,6 @@ MyCustomComponent = Animatable.createAnimatableComponent(<Icon name="bell-o" siz
   fontSize: 30
 }}></Icon>);
 
-
 const leftButtons = [
   <TouchableHighlight
     style={{
@@ -90,9 +89,9 @@ let alarm, alarmPlay
 function LinksScreen(props) {
   const [time, setTime] = useState('')
   const [title, setTitle] = useState('')
-  const [animations, setAnimations] = useState(constructorAnimations())
+  const [animations, setAnimations] = useState(constructorAnimations)
 
-  animateCircles = () => {
+  function animateCircles () {
     const actions = Array(COUNT).fill(
       keyframes({
         values: [
@@ -113,23 +112,7 @@ function LinksScreen(props) {
   }
 
   useEffect(() => {
-    const actions = Array(COUNT).fill(
-      keyframes({
-        values: [
-          initialPhase,
-          {
-            scale: 2,
-            opacity: 0
-          }],
-        duration: DURATION,
-        loop: Infinity,
-        yoyo: Infinity
-      })
-    )
-    stagger(actions, DURATION / COUNT).start(animations => {
-      setAnimations(animations)
-    })
-
+    animateCircles()
   },[])
 
   useEffect(() => {
@@ -307,14 +290,6 @@ const styles = StyleSheet.create({
 
 export default connect (mapStateToProps, mapDispatchToProps) (LinksScreen)
 
-// 
-// import React, { Component } from 'react';
-// import { Animated, Text, View, StyleSheet, TouchableHighlight, Dimensions } from 'react-native';
-// import { keyframes, stagger } from 'popmotion';
-// import Icon from 'react-native-vector-icons/FontAwesome';
-// import * as Animatable from 'react-native-animatable';
-// import Swipeable from 'react-native-swipeable';
-
 // const COUNT = 5;
 // const DURATION = 4000;
 // const initialPhase = {
@@ -322,43 +297,6 @@ export default connect (mapStateToProps, mapDispatchToProps) (LinksScreen)
 //   opacity: 1
 // };
 
-// const constructorAnimations = () => [...Array(COUNT).keys()].map(() => (initialPhase));
-// MyCustomComponent = Animatable.createAnimatableComponent(<Icon name="bell-o" size={30} color={"#ffffff"} style={{
-//   color: '#ffffff',
-//   fontSize: 30
-// }}></Icon>);
-
-// const leftButtons = [
-//   <TouchableHighlight
-//     style={{
-//       alignItems: 'flex-end',
-//       backgroundColor: 'black',
-//       height: 120,
-//       justifyContent: 'center',
-//       borderRadius:30,
-//       width:'100%',
-//       backgroundColor:'white'
-//     }}
-//   >
-//     <Text style={{ fontSize: 30, color: 'black', paddingRight:15}}> Snooze </Text>
-//   </TouchableHighlight>
-// ];
-
-// const rightButtons = [
-//   <TouchableHighlight
-//     style={{
-//       alignItems: 'flex-start',
-//       backgroundColor: 'black',
-//       height: 120,
-//       justifyContent: 'center',
-//       borderRadius:30,
-//       width:'100%',
-//       backgroundColor:'white'
-//     }}
-//   >
-//     <Text style={{ fontSize: 30, color: 'black', paddingLeft:15}}> Awake </Text>
-//   </TouchableHighlight>
-// ];
 
 // export default class AlarmLanding extends Component {
 //   state = {

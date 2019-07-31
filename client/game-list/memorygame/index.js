@@ -8,11 +8,11 @@ const mapDispatchToProps = {winning}
 
 const game = (props) => {
   const image = [
-    require('../../assets/game/memorygame/card.jpg'),
-    require('../../assets/game/memorygame/ninja.png'),
-    require('../../assets/game/memorygame/candy.png'),
-    require('../../assets/game/memorygame/diamond.png'),
-    require('../../assets/game/memorygame/pikachu.png')
+    require('../../assets/game/memorygame/cardback2.jpg'),
+    require('../../assets/game/memorygame/jack.png'),
+    require('../../assets/game/memorygame/king2.jpeg'),
+    require('../../assets/game/memorygame/queen.jpg'),
+    require('../../assets/game/memorygame/ace.png')
   ]
   const [count, setCount] = useState(0)
   const [pair1, setPair1] = useState(null)
@@ -52,6 +52,14 @@ const game = (props) => {
         setOpen(open.concat(i))
       }
     }
+    this['card' + i].flip()
+  }
+
+  function handleFlip(i) {
+    this['card' + i].flip()
+    setTimeout(() => {
+      this['card' + i].flip()
+    }, 500)
   }
 
   useEffect(() => {
@@ -61,24 +69,34 @@ const game = (props) => {
       setPair2(null)
     } else if (pair1 != null && pair2 != null) {
       setTimeout(() => {
+        this['card' + pair1].flip()
+        this['card' + pair2].flip()
+        
         setOpen([...open].slice(0, open.length-2))
         setPair1(null)
         setPair2(null)
-      }, 1000)
+      }, 500)
     }
   }, [pair1, pair2])
 
   return (
     <View style={styles.game}>
-      <View style={{ backgroundColor: '#f2f2f2', padding: 10, borderRadius: 10, elevation: 3}}>
+      <View style={{ backgroundColor: '#f2f2f2', padding: 15, borderRadius: 10, elevation: 3, marginTop: 10}}>
         <Text style={styles.title}>Mix and match!</Text>
       </View>
       <View style={styles.content}>
+        
+        {
+          answer.map((pic, i) => {
+            return (
+              <CardFlip duration={500} style={{ ...styles.cardSize, margin: 10}} ref={(card) => this['card' + i] = card}>
+                <TouchableOpacity onPress={() => pair1 === null ? setPair(i) : pair2 === null && setPair(i)}><Image source={image[0]} style={{...styles.cardSize, ...styles.card}} /></TouchableOpacity>
+                <TouchableOpacity ><Image source={open.indexOf(i) >=0 ? image[pic] : image[0]} style={{ ...styles.cardSize, ...styles.card }} /></TouchableOpacity>
+              </CardFlip>
+            )
+          })
 
-        <CardFlip style={{ height: 200, width: 300 }} ref={(card) => this.card = card}>
-          <TouchableOpacity style={{ height: 100, width: 100}} onPress={() => this.card.flip()} ><Text>AB</Text></TouchableOpacity>
-          <TouchableOpacity style={{ height: 100, width: 100}} onPress={() => this.card.flip()} ><Text>CD</Text></TouchableOpacity>
-        </CardFlip>
+        }
         {/* {
           answer.map((pic, i) => {
             return (
@@ -113,23 +131,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   content: {
-    display: 'flex',
-    width: '100%',
+
+    width: '80%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   card: {
-    width: 125,
-    height: 125,
+    // resizeMode: 'center',
     borderRadius: 5,
     borderWidth: 2,
     borderColor: "#FFE8D6",
-    backgroundColor: "#FFC08A",
+    backgroundColor: "#C1F0FE"
   },
   cardContainer: {
-    margin: 10
+    margin: 5,
+  },
+  cardSize: {
+    width: 80,
+    height: 110,
   }
 });
 

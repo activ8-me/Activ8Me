@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, Image, TouchableHighlight, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Image, TouchableHighlight, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import {connect} from 'react-redux'
 import {winning} from '../../store/action'
 import CardFlip from 'react-native-card-flip'
@@ -22,6 +22,7 @@ const game = (props) => {
 
   useEffect(() => {
     if (count === 4) {
+      console.log('win')
       setTimeout(() => {
         props.winning(props.gameId)
       }, 500)
@@ -89,10 +90,12 @@ const game = (props) => {
         {
           answer.map((pic, i) => {
             return (
+              <>
               <CardFlip duration={500} style={{ ...styles.cardSize, margin: 10}} ref={(card) => this['card' + i] = card}>
                 <TouchableOpacity onPress={() => pair1 === null ? setPair(i) : pair2 === null && setPair(i)}><Image source={image[0]} style={{...styles.cardSize, ...styles.card}} /></TouchableOpacity>
                 <TouchableOpacity ><Image source={open.indexOf(i) >=0 ? image[pic] : image[0]} style={{ ...styles.cardSize, ...styles.card }} /></TouchableOpacity>
               </CardFlip>
+              </>
             )
           })
 
@@ -149,8 +152,8 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   cardSize: {
-    width: 80,
-    height: 110,
+    width: Dimensions.get('window').width*3/12,
+    height: Dimensions.get('window').width*3/12*11/8,
   }
 });
 

@@ -372,33 +372,10 @@ class AlarmList extends Component {
                 name: "setAlarm",
                 position: 2,
                 textElevation: 0,
-                color: '#2BA9E0',
-                textBackground: 'transparent',
-                textColor: '#fff'
-              },
-              {
-                text: "Set alarm",
-                icon: require("../assets/pics/set-alarm.png"),
-                size: 80,
-                name: "setAlarm",
-                position: 2,
-                textElevation: 0,
                 color: '#40B1E3',
                 textBackground: 'transparent',
                 textColor: '#fff'
               },
-              {
-                text: "Set alarm",
-                icon: require("../assets/pics/set-alarm.png"),
-                size: 80,
-                name: "setAlarm",
-                position: 2,
-                textElevation: 0,
-                color: '#9FD8F1',
-                textBackground: 'transparent',
-                textColor: '#fff'
-              },
-
             ]
           }
           onPressItem={name => {

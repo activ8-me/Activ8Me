@@ -188,18 +188,30 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-launch-application')
     compile(project(':react-native-firebase')) {   
        transitive = false
     }
+    compile project(':RNSendIntentModule')
+    implementation project(':react-native-send-intent')
     implementation project(':react-native-firebase')
     implementation project(':react-native-sound-player')
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'com.android.support:appcompat-v7:27.1.1' // dari tutorial anim
-    implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation "com.google.android.gms:play-services-base:15.0.0" // dari tutorial anim
-    implementation 'com.google.firebase:firebase-core:17.0.0' //Firebase
-    implementation 'com.google.firebase:firebase-messaging:19.0.1' //FCM
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation "com.facebook.react:react-native:+"
+    implementation "com.google.android.gms:play-services-base:15.0.0"
+    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-messaging:19.0.1'
+    implementation "com.google.android.gms:play-services-base:15.0.0"
+    compile 'com.facebook.fresco:fresco:1.+'
+
+    // For animated GIF support
+    compile 'com.facebook.fresco:animated-gif:1.+'
+
+    // For WebP support, including animated WebP
+    compile 'com.facebook.fresco:animated-webp:1.+'
+    compile 'com.facebook.fresco:webpsupport:1.+' 
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";

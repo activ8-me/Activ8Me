@@ -7,6 +7,9 @@ import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
+import com.sieuthai.RNUnlockDevicePackage;
+// import com.reactlibrary.RNUnlockDevicePackage;
+import com.reactlibrary.SajjadLaunchApplicationPackage;
 import com.burnweb.rnsendintent.RNSendIntentPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
@@ -36,6 +39,7 @@ public class MainApplication extends Application implements ReactApplication {
       packages.add(new RNFirebaseMessagingPackage());
       packages.add(new RNFirebaseNotificationsPackage());
       // packages.add(new RNSendIntentPackage());
+      // packages.add(new SajjadLaunchApplicationPackage());
       return packages;
     }
 

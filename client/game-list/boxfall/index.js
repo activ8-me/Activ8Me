@@ -267,7 +267,7 @@ class BoxFall extends Component {
                 /> */}
                 <View style={{ backgroundColor: '#F2F2F2', borderRadius: 10, padding: 10, elevation: 3 }}>
                   <Text style={styles.scoreText}>Score: {score}</Text>
-                  <Text style={{ color: '#737373', fontSize: 20 }}>Reach 30 points to win!</Text>
+                  <Text style={{ color: '#737373', fontSize: 20 }}>Reach 20 points to win!</Text>
                 </View>
               </View>
             </GameEngine>

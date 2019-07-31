@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: 'flex',
-    // backgroundColor: '#ff8b17',
+    backgroundColor: '#ff8b17',
   },
 });
 

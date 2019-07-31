@@ -47,7 +47,8 @@ export default function reducer (state = initialState, action) {
     case "STOP":
       return {
         ...state,
-        alarm: false
+        alarm: false,
+        alarmSound: ''
       }
     case "REPOPULATE":
       return {

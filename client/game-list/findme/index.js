@@ -8,16 +8,16 @@ const mapDispatchToProps = {winning}
 function game(props) {
   const [find, setFind] = useState(0)
   const [arr, setArr] = useState([])
-  const [totalButton, setTotalButton] = useState(60)
+  const [totalButton, setTotalButton] = useState(100)
 
   const image = [
     // require('../../assets/game/findme/bulbaditto.png'),
-    require('../../assets/game/findme/nyanpixel.gif'),
-    require('../../assets/game/findme/nyanhd.gif')
+    require('../../assets/game/findme/nyan-sleep.png'),
+    require('../../assets/game/findme/nyan-awake.png')
   ]
 
   useEffect(() => {
-    let randomFind = Math.floor(Math.random() * Math.floor(totalButton - 5)) + 5
+    let randomFind = Math.floor(Math.random() * Math.floor(totalButton - 0.5*totalButton)) + 0.5*totalButton
     let newArr = []
     for(let i = 0; i < totalButton; i++){
       if (i === randomFind) {
@@ -50,7 +50,7 @@ function game(props) {
               { arr.map((item, i) => {
                 return (
                   <TouchableHighlight onPress={() => finished(i)} underlayColor='#D8D8D8'>
-                      <Image source={image[item]} style={item === 0 ? styles.pixel : styles.hd} />
+                      <Image source={image[item]} style={styles.pixel} />
                     </TouchableHighlight>
                 )
                 
@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     flexWrap: 'wrap',
-    backgroundColor: '#FFAA56',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -127,8 +126,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   pixel : {
-    width: 80, 
-    height: 80, 
+    width: 95, 
+    height: 95, 
     resizeMode: 'contain'
   },
   hd: {

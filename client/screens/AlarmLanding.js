@@ -74,7 +74,7 @@ class LinksScreen extends Component {
   }
 
   componentDidUpdate(prevProps){
-    console.log(prevProps)
+    console.log('update')
     if(this.props.alarmId !== prevProps.alarmId){
       AsyncStorage.getItem('alarmActiv8Me')
       .then(alarms => {
@@ -96,24 +96,24 @@ class LinksScreen extends Component {
       })
     }
     
+    if (this.props.alarmSound === '') {
       const sound = ['vitas.wav', 'star.wav', 'crab.wav']
       let ind = Math.floor(Math.random() * Math.floor(sound.length))
-      if (this.props.alarmSound === '') {
-        this.props.setAlarmSound(sound[ind])
-        alarm = new Sound(sound[ind], Sound.MAIN_BUNDLE, (error) => {
-          if (error) {
-            console.log('failed to load the sound', error);
-            return;
-          }
-            alarm.play()
-            alarm.setNumberOfLoops(-1)
-            alarmPlay = setInterval(() => {
-              alarm.stop(() => {
-                alarm.play()
-              })
-            }, alarm.getDuration()*1000)
-        });
-      }
+      this.props.setAlarmSound(sound[ind])
+      alarm = new Sound(sound[ind], Sound.MAIN_BUNDLE, (error) => {
+        if (error) {
+          console.log('failed to load the sound', error);
+          return;
+        }
+          alarm.play()
+          alarm.setNumberOfLoops(-1)
+          alarmPlay = setInterval(() => {
+            alarm.stop(() => {
+              alarm.play()
+            })
+          }, alarm.getDuration()*1000)
+      });
+    }
   }
 
   animateCircles = () => {

@@ -11,6 +11,7 @@ import {resetWin, repopulate} from '../store/action'
 import server from '../api/server'
 import AsyncStorage from '@react-native-community/async-storage';
 import moment from 'moment'
+import Sound from 'react-native-sound'
 
 const mapStateToProps = state => {
   return {
@@ -21,7 +22,16 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {resetWin, repopulate}
 
 function LinksScreen(props) {
-  useEffect(() => {props.resetWin()}, [])
+  useEffect(() => {
+    props.resetWin()
+    let win = new Sound('win.mp3', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+        win.play()
+    });
+  }, [])
 
   function updateAlarm() {
     let type, userToken

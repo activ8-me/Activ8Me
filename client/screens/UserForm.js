@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from 'react-redux'
 import { repopulate } from '../store/action'
@@ -7,10 +7,6 @@ import { ToastAndroid, KeyboardAvoidingView} from 'react-native';
 const mapDispatchToProps = { repopulate }
 
 import {
-  Content,
-  List,
-  ListItem,
-  InputGroup,
   Input,
   Button,
   Item
@@ -69,7 +65,6 @@ class LinksScreen extends Component {
       .then(async ({ data }) => {
         let promise = []
         let fcmToken = await AsyncStorage.getItem('fcmToken')
-        console.log(fcmToken)
         for (let i = 0; i < data.length; i++) {
           promise.push(new Promise((resolve, reject) => {
             let newData = {...data[i]}

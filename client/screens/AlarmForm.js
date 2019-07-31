@@ -1,6 +1,6 @@
 import React, { Component }from 'react';
 import { Card } from 'native-base'
-import { Text, View, ScrollView, StyleSheet, TouchableHighlight, TextInput, ToastAndroid } from 'react-native'
+import { Text, View, ScrollView, StyleSheet, TouchableHighlight, TextInput } from 'react-native'
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment"
 import server from '../api/server'
@@ -253,9 +253,7 @@ class AlarmForm extends Component {
             <Text style={styles.touchableText}>SET ALARM</Text>
             </TouchableHighlight>
           </View>
-      </View> 
-
-
+        </View>
       </View>
     );
   }

@@ -60,19 +60,19 @@ const game = (props) => {
           zzz &&   
           <Image
           source={require('../../assets/pics/zzz3.gif')}
-          style={{ width: 100, height: 100, position: 'absolute', top: screenHeight - 430, right: 15, zIndex: 99 }}
+          style={{ width: 100, height: 100, position: 'absolute', top: screenHeight - 530, right: 15, zIndex: 99 }}
           />
         }
 
         <Image
         source={wake ? require('../../assets/game/wakemeup/wakeMe2.gif') : require('../../assets/game/wakemeup/wakeMe1.gif')}
-        style={{ width: 350, resizeMode: 'contain', position: 'absolute', top: screenHeight - 400, zIndex: wake ? 2 : 1}}
+        style={{ width: 350, resizeMode: 'contain', position: 'absolute', top: screenHeight - 500, zIndex: wake ? 2 : 1}}
         fadeDuration={0}
           />
           
        <Image
           source={require('../../assets/game/wakemeup/wakeMe1.gif')}
-          style={{ width: 350, resizeMode: 'contain', position: 'absolute', top: screenHeight - 400, zIndex: wake ? 1 : 2}}
+          style={{ width: 350, resizeMode: 'contain', position: 'absolute', top: screenHeight - 500, zIndex: wake ? 1 : 2}}
         />
 
 

@@ -278,13 +278,13 @@ class AlarmForm extends Component {
   }
 }
 
-AlarmForm.navigationOptions = {
-  // title: 'Set alarm',
-  // headerTitleStyle: {
-  //   fontWeight: 'bold'
-  // },
-  header: null
-};
+// AlarmForm.navigationOptions = {
+//   // title: 'Set alarm',
+//   // headerTitleStyle: {
+//   //   fontWeight: 'bold'
+//   // },
+//   header: null
+// };
 
 const styles = StyleSheet.create({
   container: {

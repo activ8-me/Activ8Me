@@ -434,9 +434,9 @@ class AlarmList extends Component {
   }
 }
 
-AlarmList.navigationOptions = {
-  header: null
-};
+// AlarmList.navigationOptions = {
+//   header: null
+// };
 
 const styles = StyleSheet.create({
   container: {

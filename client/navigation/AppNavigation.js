@@ -76,16 +76,49 @@ const StackNavigatorUser = createStackNavigator(
 const StackNavigatorAlarm = createStackNavigator(
   {
     AlarmList: {
-      screen: AlarmList
+      screen: AlarmList,
+      navigationOptions: () => ({
+        headerTitle: 'Your Alarms',
+        headerStyle: {
+          backgroundColor: '#FF8B17',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          textAlign: 'center',
+          flex: 1
+        }
+      }),
     },
     AlarmForm: {
-      screen: AlarmForm
+      screen: AlarmForm,
+      navigationOptions: () => ({
+        headerTitle: 'Alarm Form',
+        headerStyle: {
+          backgroundColor: '#FF8B17',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          textAlign: 'center',
+          flex: 1
+        }
+      }),
     }
   },
   {
     initialRouteName: 'AlarmList',
     defaultNavigationOptions: {
-      title: 'Activ8Me',
+      headerTitle: 'Your Alarms',
+      headerStyle: {
+        backgroundColor: '#FF8B17',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        flex: 1
+      }
     }
   }
 );

@@ -265,9 +265,9 @@ class BoxFall extends Component {
                   title="Reset"
                   color="#841584"
                 /> */}
-                <View style={{ backgroundColor: '#fff', borderRadius: 10, padding: 10, elevation: 3 }}>
+                <View style={{ backgroundColor: '#F2F2F2', borderRadius: 10, padding: 10, elevation: 3 }}>
                   <Text style={styles.scoreText}>Score: {score}</Text>
-                  <Text style={{ color: '#737373', fontSize: 15 }}>Reach 30 points to win!</Text>
+                  <Text style={{ color: '#737373', fontSize: 20 }}>Reach 30 points to win!</Text>
                 </View>
               </View>
             </GameEngine>
@@ -303,7 +303,7 @@ class BoxFall extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ff952b',
+    backgroundColor: '#ff8b17',
   },
   header: {
     padding: 20,
@@ -312,7 +312,8 @@ const styles = StyleSheet.create({
   scoreText: {
     fontSize: 25,
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#454545'
   }
 });
 

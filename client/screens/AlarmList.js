@@ -327,11 +327,11 @@ class AlarmList extends Component {
                     
                     <Grid>
                       <Col style={{ justifyContent: 'center', alignItems: 'center'}} size={17}>
-                        <Switch value={alarm.status} trackColor={ {true: '#ffb31c'}} thumbColor={alarm.status ? '#F28213' : '#d1d1d1'} onChange={() => this.handleCheck(index)} style={{ marginTop: 5 }}/>
+                        <Switch value={alarm.status} trackColor={ {true: '#ffb31c'}} thumbColor={alarm.status ? '#FF8B17' : '#d1d1d1'} onChange={() => this.handleCheck(index)} style={{ marginTop: 5 }}/>
                         {/* <CheckBox style={{ marginLeft: 5 }} checked={alarm.status ? true : false} color="#FF8B17" onPress={() => this.handleCheck(index)} /> */}
                       </Col>
                       <Col style={{ justifyContent: 'center', padding: 5}} size={33}>
-                        <Text style={{ fontSize: 17,  fontWeight: 'bold', color: alarm.status ? '#007991' : '#588791'}}>{alarm.title}</Text>
+                        <Text style={{ fontSize: 17,  fontWeight: 'bold', color: alarm.status ? '#40B1E3' : '#3491BA'}}>{alarm.title}</Text>
                       </Col>
                       <Col style={{ alignItems: 'flex-start', justifyContent: 'center' }} size={50}>
                         <Text style={{ fontSize: 35, fontWeight: 'bold', color: alarm.status ? "#000" : "#9F9C9C" }}>{alarm.originTime}</Text>

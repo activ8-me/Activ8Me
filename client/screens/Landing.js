@@ -61,8 +61,11 @@ const styles = StyleSheet.create({
   },
   container2: {
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center'
+  },
+  buttonList: {
+    marginTop: 20,
+    marginBottom: 40
   },
   button: {
     justifyContent: 'center',

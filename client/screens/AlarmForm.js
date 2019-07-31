@@ -1,6 +1,6 @@
 import React, { Component }from 'react';
-import { Input, Item, Card, Grid, Col } from 'native-base'
-import { Text, View, Button, ScrollView, StyleSheet, TouchableHighlight, TextInput, ToastAndroid } from 'react-native'
+import { Card } from 'native-base'
+import { Text, View, ScrollView, StyleSheet, TouchableHighlight, TextInput } from 'react-native'
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment"
 import server from '../api/server'
@@ -124,17 +124,7 @@ class AlarmForm extends Component {
         inputDays.push(this.state.days[index])
       }
     })
-
-    // if(inputDays.length === 0) {
-    //   ToastAndroid.showWithGravityAndOffset(
-    //       'Select at least one day',
-    //       ToastAndroid.LONG,
-    //       ToastAndroid.BOTTOM,
-    //       25,
-    //       250,
-    //     );
-    // }
-    // else {
+    
       const { time, title } = this.state
 
       let fcmToken = await AsyncStorage.getItem('fcmToken')
@@ -192,7 +182,6 @@ class AlarmForm extends Component {
       .catch(err => {
         console.log(err)
       })
-    // }
   }
 
   render() {
@@ -252,13 +241,6 @@ class AlarmForm extends Component {
           </View>
 
         </ScrollView>
-          {/* <Button
-            onPress={
-                this.handleSubmit
-            }
-            title="SET ALARM"
-            color="#007991"
-          /> */}
        <View style={{ flexDirection: 'row', height: 50, backgroundColor: '#007991', justifyContent: 'space-evenly'}}>
           <View style={{ flex: 1 }}>
             <TouchableHighlight underlayColor='#424242' onPress={() => this.props.navigation.goBack()} style={{ backgroundColor: '#646464', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center'}}>
@@ -271,21 +253,11 @@ class AlarmForm extends Component {
             <Text style={styles.touchableText}>SET ALARM</Text>
             </TouchableHighlight>
           </View>
-      </View> 
-
-
+        </View>
       </View>
     );
   }
 }
-
-// AlarmForm.navigationOptions = {
-//   // title: 'Set alarm',
-//   // headerTitleStyle: {
-//   //   fontWeight: 'bold'
-//   // },
-//   header: null
-// };
 
 const styles = StyleSheet.create({
   container: {

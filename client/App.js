@@ -7,15 +7,18 @@ import firebase from 'react-native-firebase';
 
 export default class App extends Component {
   async componentDidMount() {
-    // console.log('masuk didmount')
     this.checkPermission();
     this.createNotificationListeners();
     console.disableYellowBox = true;
   }
 
+<<<<<<< HEAD
   async componentWillUnmount() {
     // console.log('keluar')
     await AsyncStorage.removeItem('alarmTrigger')
+=======
+  componentWillUnmount() {
+>>>>>>> 59e86532b3bba8157f21612ae786cce096534c19
     this.messageListener();
   }
 
@@ -30,7 +33,6 @@ export default class App extends Component {
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
-    // console.log('fcmtoken', fcmToken, '======================')
     if (!fcmToken) {
       fcmToken = await firebase.messaging().getToken();
       if (fcmToken) {
@@ -60,12 +62,9 @@ async createNotificationListeners() {
 }
 
 async handleNotif(payload) {
-  // console.log(payload.from)
-  // console.log(payload.alarmId)
   let trigger = {
     alarmId: payload.alarmId
   }
-  // console.log(trigger, "trigerrrr")
   await AsyncStorage.setItem('alarmTrigger', JSON.stringify(trigger))
 }
 

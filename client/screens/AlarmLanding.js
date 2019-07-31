@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, Text, View, StyleSheet, TouchableHighlight, ScrollView, Image, Button, Dimensions} from 'react-native';
+import { Animated, Text, View, StyleSheet, TouchableHighlight, Dimensions} from 'react-native';
 import { keyframes, stagger } from 'popmotion';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
@@ -74,7 +74,6 @@ class LinksScreen extends Component {
   }
 
   componentDidUpdate(prevProps){
-    console.log('update')
     if(this.props.alarmId !== prevProps.alarmId){
       AsyncStorage.getItem('alarmActiv8Me')
       .then(alarms => {

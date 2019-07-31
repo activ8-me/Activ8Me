@@ -1,14 +1,10 @@
-import React, { Component, Fragment } from 'react'
-import { Container, Content, Form, Item, Input, Button } from 'native-base';
+import React, { Fragment } from 'react'
+import { Button } from 'native-base';
 import {
   Image,
-  TouchableHighlight,
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
-  StatusBar,
 } from 'react-native';
 
 export default function LinksScreen(props) {

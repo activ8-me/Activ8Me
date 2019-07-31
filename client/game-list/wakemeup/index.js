@@ -31,6 +31,7 @@ const game = (props) => {
     } else {
       setProgress(100)
       setWake(true)
+      clearInterval(interval)
     }
     const interval = setInterval(() => {
       setTime(prevTime => prevTime + 0.1)

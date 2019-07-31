@@ -311,7 +311,6 @@ class AlarmList extends Component {
                         source={require('../assets/pics/edit.png')}
                         style={{ height: 32, width: 32}}
                       />
-
                     </TouchableHighlight>
                     <TouchableHighlight onPress={() => this.handleDelete(alarm)} style={{margin: 5 }} activeOpacity={1} underlayColor={'#FFA14D'}>
                       <Image
@@ -360,17 +359,43 @@ class AlarmList extends Component {
                 icon: require("../assets/pics/logout.png"),
                 name: "logOut",
                 position: 1,
+                textElevation: 0,
                 color: '#424242',
-                textBackground: '#424242',
+                textBackground: 'transparent',
+                textColor: '#fff',
+                fontWeight: 'bold'
+              },
+              {
+                text: "Set alarm",
+                icon: require("../assets/pics/set-alarm.png"),
+                size: 80,
+                name: "setAlarm",
+                position: 2,
+                textElevation: 0,
+                color: '#2BA9E0',
+                textBackground: 'transparent',
                 textColor: '#fff'
               },
               {
                 text: "Set alarm",
                 icon: require("../assets/pics/set-alarm.png"),
+                size: 80,
                 name: "setAlarm",
                 position: 2,
-                color: '#3B8EA5',
-                textBackground: '#3B8EA5',
+                textElevation: 0,
+                color: '#40B1E3',
+                textBackground: 'transparent',
+                textColor: '#fff'
+              },
+              {
+                text: "Set alarm",
+                icon: require("../assets/pics/set-alarm.png"),
+                size: 80,
+                name: "setAlarm",
+                position: 2,
+                textElevation: 0,
+                color: '#9FD8F1',
+                textBackground: 'transparent',
                 textColor: '#fff'
               },
 
@@ -434,9 +459,9 @@ class AlarmList extends Component {
   }
 }
 
-AlarmList.navigationOptions = {
-  header: null
-};
+// AlarmList.navigationOptions = {
+//   header: null
+// };
 
 const styles = StyleSheet.create({
   container: {

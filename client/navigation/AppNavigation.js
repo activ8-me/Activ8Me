@@ -94,6 +94,7 @@ const StackNavigatorAlarm = createStackNavigator(
       screen: AlarmForm,
       navigationOptions: () => ({
         headerTitle: 'Alarm Form',
+        headerLeft: null,
         headerStyle: {
           backgroundColor: '#FF8B17',
         },

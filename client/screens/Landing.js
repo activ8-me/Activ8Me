@@ -17,15 +17,15 @@ export default function LinksScreen(props) {
       <View style={styles.container}>
         <View style={styles.container2}>
           <Image
-            source={{ uri: "https://www.sketch.com/images/pages/press/sketch-press-kit/app-icons/sketch-mac-icon@2x.png" }}
-            style={{ height: 55, width: 55, bottom: "20%", top: "5%" }}
+            source={require('../assets/logos/LogoApps.png')}
+            style={{ height: 85, width: 85 }}
           />
           <Text style={styles.TextBold}>Activ8Me</Text>
         </View>
         <View style={styles.container2}>
           <Image
             source={require('../assets/pics/kitten.png')}
-            style={{ height: 240, width: 300 }}
+            style={{ height: 250, width: 300 }}
           />
           <Text style={styles.HeadText}>
             Welcome to Your Ultimate
@@ -61,8 +61,11 @@ const styles = StyleSheet.create({
   },
   container2: {
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center'
+  },
+  buttonList: {
+    marginTop: 20,
+    marginBottom: 40
   },
   button: {
     justifyContent: 'center',
@@ -78,20 +81,24 @@ const styles = StyleSheet.create({
     width: 300,
     height: 55,
     color: 'white',
-    backgroundColor: "#CCCCCC",
+    backgroundColor: "#F2B705",
     borderRadius: 10,
   },
   HeadText: {
     color: 'black',
     fontSize: 20,
+    fontFamily: "FredokaOne-Regular",
+    paddingTop: 20
   },
   Text: {
     color: '#ffffff',
     fontSize: 20,
+    fontFamily: "FredokaOne-Regular",
   },
   TextBold: {
     color: 'black',
-    fontSize: 25,
-    fontWeight: "bold"
+    fontSize: 35,
+    fontFamily: "FredokaOne-Regular",
+    paddingTop: 10
   }
 });

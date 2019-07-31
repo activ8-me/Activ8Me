@@ -207,7 +207,7 @@ class AlarmForm extends Component {
 
             <Card style={styles.cardContainer}>
               <TouchableHighlight underlayColor="#F7F7F7" onPress={this.showDateTimePicker}>
-                <Text style={{ fontSize: 50, textAlign: 'center', fontWeight: 'bold', padding: 30 }}> {this.state.time} </Text>
+                <Text style={{ fontSize: 60, fontWeight: 'bold', textAlign: 'center', padding: 30 }}> {this.state.time} </Text>
               </TouchableHighlight>
               <DateTimePicker
                 mode='time'
@@ -247,6 +247,7 @@ class AlarmForm extends Component {
 
             <Card style={{ height: 180, padding: 10, width: '95%' }}>
               <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>Available games</Text>
+              <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>PRO FEATURE</Text>
             </Card>
           </View>
 
@@ -314,6 +315,7 @@ const styles = StyleSheet.create({
   touchableText: {
     color: '#fff',
     fontSize: 17,
+    fontFamily: "FredokaOne-Regular",
   }
 
 });

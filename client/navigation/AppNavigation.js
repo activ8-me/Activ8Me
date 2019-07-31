@@ -84,8 +84,8 @@ const StackNavigatorAlarm = createStackNavigator(
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
-          fontWeight: 'bold',
           textAlign: 'center',
+          fontFamily: "FredokaOne-Regular",
           flex: 1
         }
       }),
@@ -100,8 +100,8 @@ const StackNavigatorAlarm = createStackNavigator(
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
-          fontWeight: 'bold',
           textAlign: 'center',
+          fontFamily: "FredokaOne-Regular",
           flex: 1
         }
       }),

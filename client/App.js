@@ -4,6 +4,7 @@ import {Provider} from 'react-redux'
 import store from './store'
 import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'react-native-firebase';
+import Result from './screens/Result'
 
 export default class App extends Component {
   async componentDidMount() {
@@ -71,7 +72,8 @@ async handleNotif(payload) {
   render() {
     return (
       <Provider store={store}>
-        <Navigation />
+        <Result></Result>
+        {/* <Navigation /> */}
       </Provider>
     );
   }

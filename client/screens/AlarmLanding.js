@@ -4,11 +4,50 @@ import { ScrollView,
   View,
   Text, 
   Image,
-  Button } from 'react-native';
+  Button,
+  Animated,
+  TouchableHighlight
+ } from 'react-native';
 import {connect} from 'react-redux'
 import {snooze, awake, ring, stop, setAlarmSound} from '../store/action'
 import Sound from 'react-native-sound'
 import AsyncStorage from '@react-native-community/async-storage';
+import { keyframes, stagger } from 'popmotion';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as Animatable from 'react-native-animatable';
+import Swipeable from 'react-native-swipeable';
+
+const COUNT = 5;
+const DURATION = 4000;
+const initialPhase = {
+  scale: 0,
+  opacity: 1
+};
+
+const constructorAnimations = () => [...Array(COUNT).keys()].map(() => (initialPhase));
+MyCustomComponent = Animatable.createAnimatableComponent(<Icon name="bell-o" size={30} color={"#ffffff"} style={{
+  color: '#ffffff',
+  fontSize: 30
+}}></Icon>);
+
+
+const leftButtons = [
+  <TouchableHighlight
+    style={{
+      alignItems: 'flex-end',
+      backgroundColor: 'black',
+      height: 120,
+      justifyContent: 'center',
+      borderRadius:30,
+      width:'100%',
+      backgroundColor:'white'
+    }}
+  >
+    <Text style={{ fontSize: 30, color: 'black', paddingRight:15}}> Snooze </Text>
+  </TouchableHighlight>
+];
+
+
 
 const mapStateToProps = state => {
   return {

@@ -12,13 +12,9 @@ export default class App extends Component {
     console.disableYellowBox = true;
   }
 
-<<<<<<< HEAD
   async componentWillUnmount() {
     // console.log('keluar')
     await AsyncStorage.removeItem('alarmTrigger')
-=======
-  componentWillUnmount() {
->>>>>>> 59e86532b3bba8157f21612ae786cce096534c19
     this.messageListener();
   }
 

@@ -8,7 +8,7 @@ const mapDispatchToProps = {winning}
 function game(props) {
   const [find, setFind] = useState(0)
   const [arr, setArr] = useState([])
-  const [totalButton, setTotalButton] = useState(100)
+  const [totalButton, setTotalButton] = useState(99)
 
   const image = [
     // require('../../assets/game/findme/bulbaditto.png'),
@@ -17,7 +17,7 @@ function game(props) {
   ]
 
   useEffect(() => {
-    let randomFind = Math.floor(Math.random() * Math.floor(totalButton - 0.5*totalButton)) + 0.5*totalButton
+    let randomFind = Math.floor(Math.random() * Math.floor(totalButton - 0.5*totalButton)) + Math.floor(0.5*totalButton)
     let newArr = []
     for(let i = 0; i < totalButton; i++){
       if (i === randomFind) {
@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
+    backgroundColor: '#ff8b17',
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',

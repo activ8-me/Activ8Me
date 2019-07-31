@@ -46,7 +46,7 @@ function LinksScreen(props) {
   }, [props.alarmId])
 
   useEffect(() => {
-    const sound = ['vitas.wav', 'star.wav']
+    const sound = ['vitas.wav', 'star.wav', 'crab.wav']
     let ind = Math.floor(Math.random() * Math.floor(sound.length))
     if (props.alarmSound === '') {
       props.setAlarmSound(sound[ind])

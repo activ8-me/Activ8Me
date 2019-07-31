@@ -30,7 +30,7 @@ class AlarmList extends Component {
   }
 
   check () {
-    console.log('check')
+    // console.log('check')
     check = setInterval (() => {
       let redirect = false
       if (moment().second() === 0) {

@@ -59,12 +59,12 @@ async createNotificationListeners() {
 }
 
 async handleNotif(payload) {
-  console.log(payload.from)
-  console.log(payload.alarmId)
+  // console.log(payload.from)
+  // console.log(payload.alarmId)
   let trigger = {
     alarmId: payload.alarmId
   }
-  console.log(trigger, "trigerrrr")
+  // console.log(trigger, "trigerrrr")
   await AsyncStorage.setItem('alarmTrigger', JSON.stringify(trigger))
 }
 

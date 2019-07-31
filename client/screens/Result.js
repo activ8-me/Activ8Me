@@ -83,7 +83,7 @@ function LinksScreen(props) {
         <Animatable.View animation="bounceIn" easing="ease-out" duration={3000} delay={1} style={styles.card}>
           <Image
             style={{ width: '80%', height: 200, padding:3}}
-            source={{ uri: 'https://cdn.dribbble.com/users/1166566/screenshots/5157283/sleap.jpg' }}
+            source={require('../assets/pics/sleap.jpg')}
           />
           <View>
           <Text style={{alignSelf:'center', fontWeight:'bold', fontSize:20}}>Well played!</Text>
@@ -98,26 +98,6 @@ function LinksScreen(props) {
           </Button>
         </Animatable.View>
     </View>
-    // <ScrollView style={styles.container}>
-    //   <View style={styles.viewStyle}>
-    //     <Text style={styles.clock}>YOU WIN!</Text>
-    //     {
-    //       props.snooze ?
-    //       <Text style={styles.meridiem}>You may sleep for 10 more minutes</Text> :
-    //       <Text style={styles.meridiem}>Glad you're awake</Text>
-    //     }
-    //     <Image
-    //       source={require('../assets/pics/wakeUp.png')}
-    //       style={{width:200, height:200, margin: 10, marginLeft: 20}}
-    //     />
-    //     <Button
-    //       onPress={updateAlarm}
-    //       title="OK"
-    //       color="#ff8b17"
-    //       style={styles.buttonStyle}
-    //     />
-    //   </View>
-    // </ScrollView>
   );
 }
 

@@ -4,11 +4,75 @@ import { ScrollView,
   View,
   Text, 
   Image,
-  Button } from 'react-native';
+  Button,
+  Animated,
+  TouchableHighlight,
+  Dimensions
+ } from 'react-native';
 import {connect} from 'react-redux'
 import {snooze, awake, ring, stop, setAlarmSound} from '../store/action'
 import Sound from 'react-native-sound'
 import AsyncStorage from '@react-native-community/async-storage';
+import { keyframes, stagger } from 'popmotion';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as Animatable from 'react-native-animatable';
+import Swipeable from 'react-native-swipeable';
+import moment from 'moment';
+
+const COUNT = 5;
+const DURATION = 4000;
+const initialPhase = {
+  scale: 0,
+  opacity: 1
+};
+
+const getCircle = (radius, backgroundColor = "#ffbf3f") => ({
+  backgroundColor,
+  width: radius * 2,
+  height: radius * 2,
+  borderRadius: radius,
+  position: 'absolute'
+})
+
+const constructorAnimations = () => [...Array(COUNT).keys()].map(() => (initialPhase));
+MyCustomComponent = Animatable.createAnimatableComponent(<Icon name="bell-o" size={30} color={"#ffffff"} style={{
+  color: '#ffffff',
+  fontSize: 30
+}}></Icon>);
+
+const leftButtons = [
+  <TouchableHighlight
+    style={{
+      alignItems: 'flex-end',
+      backgroundColor: 'black',
+      height: 120,
+      justifyContent: 'center',
+      borderRadius:30,
+      width:'100%',
+      backgroundColor:'white',
+      bottom: 60
+    }}
+  >
+    <Text style={{ fontSize: 30, color: 'black', paddingRight:15}}> Snooze </Text>
+  </TouchableHighlight>
+];
+
+const rightButtons = [
+  <TouchableHighlight
+    style={{
+      alignItems: 'flex-start',
+      backgroundColor: 'black',
+      height: 120,
+      justifyContent: 'center',
+      borderRadius:30,
+      width:'100%',
+      backgroundColor:'white',
+      bottom: 60
+    }}
+  >
+    <Text style={{ fontSize: 30, color: 'black', paddingLeft:15}}> Awake </Text>
+  </TouchableHighlight>
+];
 
 const mapStateToProps = state => {
   return {
@@ -25,6 +89,31 @@ let alarm, alarmPlay
 function LinksScreen(props) {
   const [time, setTime] = useState('')
   const [title, setTitle] = useState('')
+  const [animations, setAnimations] = useState(constructorAnimations)
+
+  function animateCircles () {
+    const actions = Array(COUNT).fill(
+      keyframes({
+        values: [
+          initialPhase,
+          {
+            scale: 2,
+            opacity: 0
+          }],
+        duration: DURATION,
+        loop: Infinity,
+        yoyo: Infinity
+      })
+    )
+
+    stagger(actions, DURATION / COUNT).start(animations => {
+      setAnimations(animations)
+    })
+  }
+
+  useEffect(() => {
+    animateCircles()
+  },[])
 
   useEffect(() => {
     AsyncStorage.getItem('alarmActiv8Me')
@@ -67,39 +156,49 @@ function LinksScreen(props) {
   }, [props.alarm, props.alarmSound])
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.viewStyle}>
-        <View style={{display:'flex', flexDirection:'row', alignContent: 'center'}}>
-          <Text style={styles.clock}>{`${time.slice(0,2)} : ${time.slice(3,5)}`}</Text>
-          <Text style={styles.meridiem}>{time.slice(6)}</Text>
-          <Text>{title}</Text>
+    <View style={styles.container}>
+        <View style={styles.viewStyle}>
+          <Animatable.Text style={styles.title}>{title ? title : 'Wake up Time'}</Animatable.Text>
+          <Text style={styles.title2}>wakey wakey, sleepy head!</Text>
+            <View style={{display:'flex', flexDirection:'row', alignContent: 'center'}}>
+              <Text style={styles.clock}>{time ? `${time.slice(0,2)} : ${time.slice(3,5)}` : `${moment().format('LT').slice(0,2)} : ${moment().format('LT').slice(3,5)}`}</Text>
+              <Text style={styles.meridiem}>{time ? time.slice(6) : moment().format('LT').slice(6)}</Text>
+            </View>
         </View>
-        <Image
-          source={require('../assets/pics/wakeUp.png')}
-          style={{width:250, height:250, margin: 50}}
-        />
-        <Button
-          onPress={() => {
-            props.snooze()
-            props.navigation.navigate('Game', {alarm, alarmPlay})
-          }}
-          title="Snooze"
-          color="#ff8f4d"
-          style={styles.buttonStyle}
-        />
-        <View style={{margin: 30}}></View>
-        <Button
-          onPress={() => {
+        {
+          animations.map(({ opacity, scale }, index) => {
+            return <Animated.View
+              key={index}
+              style={[styles.circle, {
+                transform: [{ scale }],
+                opacity
+              }]}
+            />
+          })
+        }
+        <View style={styles.midCircle}>
+          <Animatable.Text animation="swing" easing="ease-out" iterationCount="infinite" style={styles.Icon}>🔔</Animatable.Text>
+          <Text style={styles.text}>Ringing...</Text>
+        </View>
+        <Swipeable style={{alignItems: 'center', marginTop:150}} leftButtons={leftButtons} rightButtons={rightButtons} leftActionActivationDistance={150} rightActionActivationDistance={150} 
+        onRightActionRelease={
+          () => {
             props.awake()
             props.navigation.navigate('Game', {alarm, alarmPlay})
-          }}
-          title="I'm awake"
-          color="red"
-          style={styles.buttonStyle}
-        />
+          }
+        } 
+        onLeftActionRelease={
+          () => {
+            props.snooze()
+            props.navigation.navigate('Game', {alarm, alarmPlay})
+          }
+        }>
+          <View style={{width: Dimensions.get('window').width, height: 240, justifyContent: 'center', alignItems: 'center', display: 'flex'}}>
+          <Animatable.Text style={styles.title3} animation="pulse" easing="ease-out" iterationCount="infinite">Swipe Me</Animatable.Text>
+          </View>
+        </Swipeable>
       </View>
-    </ScrollView>
-  );
+  )
 }
 
 LinksScreen.navigationOptions = {
@@ -111,10 +210,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     backgroundColor: '#ff8b17',
+    justifyContent: 'space-around'
   },
   viewStyle: {
     padding: 10,
-    marginTop: 100,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -129,7 +228,212 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     margin: 30
+  },
+  welcome: {
+    backgroundColor: 'red'
+  },
+  instructions: {
+    backgroundColor: 'blue'
+  },
+  instructions: {
+    backgroundColor: 'green'
+  },
+  title: {
+    fontSize: 35,
+    color: 'black',
+    alignSelf: 'center',
+    fontWeight: 'bold'
+  },
+  title2: {
+    fontSize: 20,
+    color: 'black',
+    alignSelf: 'center',
+  },
+  title3: {
+    fontSize: 40,
+    color: 'white',
+    alignSelf: 'center',
+    fontWeight:'bold'
+  },
+  circle: getCircle(100),
+  Icon: {
+    color: '#ffffff',
+    fontSize: 50
+  },
+  text: {
+    paddingTop: '5%',
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  midCircle: {
+    ...getCircle(75),
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  container: {
+    flex: 1,
+    backgroundColor:'black',
+    // backgroundColor: '#29323c',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ffecd2'
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: 'black',
+    height: 120,
+    width: '100%',
+    justifyContent: 'center',
   }
-});
+})
 
 export default connect (mapStateToProps, mapDispatchToProps) (LinksScreen)
+
+// const COUNT = 5;
+// const DURATION = 4000;
+// const initialPhase = {
+//   scale: 0,
+//   opacity: 1
+// };
+
+
+// export default class AlarmLanding extends Component {
+//   state = {
+//     animations: constructorAnimations()
+//   }
+
+//   componentDidMount() {
+//     this.animateCircles()
+//   }
+
+//   animateCircles = () => {
+//     const actions = Array(COUNT).fill(
+//       keyframes({
+//         values: [
+//           initialPhase,
+//           {
+//             scale: 2,
+//             opacity: 0
+//           }],
+//         duration: DURATION,
+//         loop: Infinity,
+//         yoyo: Infinity
+//       })
+//     )
+
+//     stagger(actions, DURATION / COUNT).start(animations => {
+//       this.setState({
+//         animations
+//       })
+//     })
+//   }
+
+//   render() {
+//     return (
+//       <View style={styles.container}>
+//         <View style={{ bottom: '25%' }}>
+//           <Animatable.Text style={styles.title}>Wake up Time</Animatable.Text>
+//           <Text style={styles.title2}>wakey wakey, sleepy head!</Text>
+//         </View>
+//         {
+//           this.state.animations.map(({ opacity, scale }, index) => {
+//             return <Animated.View
+//               key={index}
+//               style={[styles.circle, {
+//                 transform: [{ scale }],
+//                 opacity
+//               }]}
+//             />
+//           })
+//         }
+//         <View style={styles.midCircle}>
+//           <Animatable.Text animation="swing" easing="ease-out" iterationCount="infinite" style={styles.Icon}>🔔</Animatable.Text>
+//           <Text style={styles.text}>Ringing...</Text>
+//         </View>
+        // <Swipeable 
+        // style={{marginTop:150}} 
+        // leftButtons={leftButtons} 
+        // rightButtons={rightButtons} 
+        // leftActionActivationDistance={150} 
+        // rightActionActivationDistance={150} 
+        // onRightActionRelease={() => console.log('left')} 
+        // onLeftActionRelease={() => console.log('right')}>
+          // <View style={{width: Dimensions.get('window').width,  height: 120, borderWidth: 2, borderColor: 'black', justifyContent: 'center', alignItems: 'center', display: flex}}>
+          // <Animatable.Text style={styles.title3} animation="pulse" easing="ease-out" iterationCount="infinite">Swipe Me</Animatable.Text>
+          // </View>
+        // </Swipeable>
+//       </View>
+//     )
+//   }
+// }
+
+// const getCircle = (radius, backgroundColor = "#ffbf3f") => ({
+//   backgroundColor,
+//   width: radius * 2,
+//   height: radius * 2,
+//   borderRadius: radius,
+//   position: 'absolute'
+// })
+
+// const styles = StyleSheet.create({
+//   welcome: {
+//     backgroundColor: 'red'
+//   },
+//   instructions: {
+//     backgroundColor: 'blue'
+//   },
+//   instructions: {
+//     backgroundColor: 'green'
+//   },
+//   title: {
+//     fontSize: 35,
+//     color: 'black',
+//     alignSelf: 'center',
+//     fontWeight: 'bold'
+//   },
+//   title2: {
+//     fontSize: 20,
+//     color: 'black',
+//     alignSelf: 'center',
+//     top: '12%'
+//   },
+//   title3: {
+//     fontSize: 40,
+//     color: 'white',
+//     alignSelf: 'center',
+
+//     top:60,
+//     fontWeight:'bold'
+//   },
+//   circle: getCircle(120),
+//   Icon: {
+//     color: '#ffffff',
+//     fontSize: 50
+//   },
+//   text: {
+//     paddingTop: '5%',
+//     color: 'white',
+//     fontSize: 20,
+//     fontWeight: 'bold'
+//   },
+//   midCircle: {
+//     ...getCircle(75),
+//     alignItems: 'center',
+//     justifyContent: 'center'
+//   },
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#29323c',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     backgroundColor: '#ffecd2'
+//   },
+//   button: {
+//     alignItems: 'center',
+//     backgroundColor: 'black',
+//     height: 120,
+//     width: '100%',
+//     justifyContent: 'center',
+//   }
+// })

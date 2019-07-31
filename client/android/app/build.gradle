@@ -188,12 +188,10 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-unlock-device')
     compile(project(':react-native-firebase')) {   
        transitive = false
     }
     compile project(':RNSendIntentModule')
-    compile project(':react-native-launch-application')
     implementation project(':react-native-launch-application')
     implementation project(':react-native-send-intent')
     implementation project(':react-native-firebase')

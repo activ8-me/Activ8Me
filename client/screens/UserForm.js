@@ -184,7 +184,7 @@ class LinksScreen extends Component {
           <View style={styles.container2}>
             <View style={[styles.container2, { marginVertical: '5%' }]}>
               <Image
-                source={{ uri: "https://www.sketch.com/images/pages/press/sketch-press-kit/app-icons/sketch-mac-icon@2x.png" }}
+                source={require('../assets/logos/LogoApps.png')}
                 style={{ height: 55, width: 55 }}
               />
               <Text style={styles.TextBold}>Activ8Me</Text>

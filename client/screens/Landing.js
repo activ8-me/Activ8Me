@@ -17,7 +17,7 @@ export default function LinksScreen(props) {
       <View style={styles.container}>
         <View style={styles.container2}>
           <Image
-            source={{ uri: "https://www.sketch.com/images/pages/press/sketch-press-kit/app-icons/sketch-mac-icon@2x.png" }}
+            source={require('../assets/logos/LogoApps.png')}
             style={{ height: 55, width: 55, bottom: "20%", top: "5%" }}
           />
           <Text style={styles.TextBold}>Activ8Me</Text>

@@ -20,7 +20,7 @@ const mapStateToProps = state => {
  
 const mapDispatchToProps = {snooze, awake, ring, stop, setAlarmSound}
 Sound.setCategory('Playback');
-let alarm
+let alarm, alarmPlay
 
 function LinksScreen(props) {
   const [time, setTime] = useState('')
@@ -46,7 +46,7 @@ function LinksScreen(props) {
   }, [props.alarmId])
 
   useEffect(() => {
-    const sound = ['siren.wav', 'airhorn.wav', 'vitas.wav', 'star.wav', 'crab.wav']
+    const sound = ['vitas.wav', 'star.wav']
     let ind = Math.floor(Math.random() * Math.floor(sound.length))
     if (props.alarmSound === '') {
       props.setAlarmSound(sound[ind])
@@ -55,13 +55,15 @@ function LinksScreen(props) {
           console.log('failed to load the sound', error);
           return;
         }
-        // loaded successfully
-        console.log('duration in seconds: ' + alarm.getDuration() + 'number of channels: ' + alarm.getNumberOfChannels());
-        alarm.setVolume(1)
-        alarm.setNumberOfLoops(-1)
+          alarm.play()
+          alarm.setNumberOfLoops(-1)
+          alarmPlay = setInterval(() => {
+            alarm.stop(() => {
+              alarm.play()
+            })
+          }, alarm.getDuration()*1000)
       });
     }
-    alarm.play()
   }, [props.alarm, props.alarmSound])
 
   return (
@@ -79,7 +81,7 @@ function LinksScreen(props) {
         <Button
           onPress={() => {
             props.snooze()
-            props.navigation.navigate('Game', {alarm})
+            props.navigation.navigate('Game', {alarm, alarmPlay})
           }}
           title="Snooze"
           color="#ff8f4d"
@@ -89,7 +91,7 @@ function LinksScreen(props) {
         <Button
           onPress={() => {
             props.awake()
-            props.navigation.navigate('Game', {alarm})
+            props.navigation.navigate('Game', {alarm, alarmPlay})
           }}
           title="I'm awake"
           color="red"

@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import { View, StyleSheet } from 'react-native';
 import {connect} from 'react-redux'
 import {randomGame, ring, stop} from '../store/action'
-import Sound from 'react-native-sound'
 
 import WakeMeUp from '../game-list/wakemeup'
 import MemoryGame from '../game-list/memorygame'
@@ -26,9 +25,16 @@ function LinksScreen (props) {
   let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame', 'BoxFall']
   // let game = ['none', 'BoxFall']
   let alarm = props.navigation.getParam('alarm', null)
-
+  let alarmPlay = props.navigation.getParam('alarmPlay', null)
+  // let alarm2 = props.navigation.getParam('alarm2', null)
+  // let alarm2Play = props.navigation.getParam('alarm2Play', null)
   useEffect(() => {
-    if (props.winning === 5) {
+    if (props.winning === 1) {
+      // console.log(alarm2Play, '======')
+      console.log(alarmPlay, '++++')
+      // clearInterval(alarm2Play)
+      clearInterval(alarmPlay)
+      // alarm2.stop()
       alarm.stop()
       props.stop()
       props.navigation.navigate('Result')

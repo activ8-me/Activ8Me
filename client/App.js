@@ -7,14 +7,14 @@ import firebase from 'react-native-firebase';
 
 export default class App extends Component {
   async componentDidMount() {
-    console.log('masuk didmount')
+    // console.log('masuk didmount')
     this.checkPermission();
     this.createNotificationListeners();
     console.disableYellowBox = true;
   }
 
   componentWillUnmount() {
-    console.log('keluar')
+    // console.log('keluar')
     this.messageListener();
   }
 
@@ -29,7 +29,7 @@ export default class App extends Component {
 
   async getToken() {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
-    console.log('fcmtoken', fcmToken, '======================')
+    // console.log('fcmtoken', fcmToken, '======================')
     if (!fcmToken) {
       fcmToken = await firebase.messaging().getToken();
       if (fcmToken) {

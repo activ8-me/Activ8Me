@@ -92,8 +92,8 @@ class AlarmList extends Component {
   componentDidMount() {
     AsyncStorage.getItem('tokenActiv8Me')
     .then(token => {
-      console.log(2)
-      console.log(token)
+      // console.log(2)
+      // console.log(token)
       if (token !== null && token) {
         return server ({
           method: 'get',
@@ -124,7 +124,7 @@ class AlarmList extends Component {
     this.check()
     AsyncStorage.getItem('alarmActiv8Me')
     .then(alarms => {
-      console.log('update')
+      // console.log('update')
       if (alarms !== null && alarms) {
         let alarmList = JSON.parse(alarms)
         if (alarmList.length >= 0 && this.props.repopulateState) {
@@ -163,7 +163,7 @@ class AlarmList extends Component {
     let userToken
     list[index].status ? list[index].status = false : list[index].status = true
 
-    console.log(list[index])
+    // console.log(list[index])
     
     AsyncStorage.getItem('tokenActiv8Me')
     .then(token => {
@@ -204,7 +204,7 @@ class AlarmList extends Component {
   timeRemaining() {
     let d = new Date()
     let t = d.getTime()
-    console.log(t)
+    // console.log(t)
   }
 
   handleDelete(alarm) {
@@ -251,7 +251,7 @@ class AlarmList extends Component {
       return AsyncStorage.setItem('alarmActiv8Me', JSON.stringify(data))
     })
     .then(() => {
-      console.log('done saving alarm')
+      // console.log('done saving alarm')
       this.props.repopulate(true)
     })
     .catch(err => {
@@ -260,7 +260,7 @@ class AlarmList extends Component {
   }
 
   logout() {
-    console.log('logging out')
+    // console.log('logging out')
     AsyncStorage.removeItem('tokenActiv8Me')
     .then(() => {
       return AsyncStorage.removeItem('alarmActiv8Me')

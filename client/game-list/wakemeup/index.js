@@ -19,7 +19,7 @@ const game = (props) => {
         setZzz(false)
         setTimeout(() => {
           props.winning(props.gameId)
-        }, 1600)
+        }, 1200)
       }, 600)
     }
   }, [wake, progress])

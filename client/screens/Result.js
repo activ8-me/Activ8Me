@@ -131,32 +131,4 @@ const styles = StyleSheet.create({
   }
 })
 
-// const styles = StyleSheet.create({
-//   container: {
-//     display: 'flex',
-//     flex: 1,
-//     backgroundColor: '#ff8b17',
-//   },
-//   viewStyle: {
-//     display: 'flex',
-//     marginTop: 100,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     padding: 5
-//   },
-//   clock: {
-//     fontSize: 80,
-//     fontFamily: "Iceberg-Regular"
-//   },
-//   meridiem: {
-//     fontSize: 50,
-//     marginTop: 20,
-//     fontFamily: "Iceberg-Regular",
-//     textAlign: 'center'
-//   },
-//   buttonStyle: {
-//     margin: 30,
-//   }
-// });
-
 export default connect (mapStateToProps, mapDispatchToProps) (LinksScreen)

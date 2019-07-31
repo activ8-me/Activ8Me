@@ -22,14 +22,14 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {randomGame, ring, stop}
 
 function LinksScreen (props) {
-  let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame', 'BoxFall']
-  // let game = ['none', 'BoxFall']
+  // let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame', 'BoxFall']
+  let game = ['none', 'MemoryGame']
   let alarm = props.navigation.getParam('alarm', null)
   let alarmPlay = props.navigation.getParam('alarmPlay', null)
   // let alarm2 = props.navigation.getParam('alarm2', null)
   // let alarm2Play = props.navigation.getParam('alarm2Play', null)
   useEffect(() => {
-    if (props.winning === 5) {
+    if (props.winning === 1) {
       // console.log(alarm2Play, '======')
       console.log(alarmPlay, '++++')
       // clearInterval(alarm2Play)

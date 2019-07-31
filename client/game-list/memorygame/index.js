@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, Image, TouchableHighlight, StyleSheet } from 'react-native'
+import { View, Text, Image, TouchableHighlight, TouchableOpacity, StyleSheet } from 'react-native'
 import {connect} from 'react-redux'
 import {winning} from '../../store/action'
+import CardFlip from 'react-native-card-flip'
 
 const mapDispatchToProps = {winning}
 
@@ -69,9 +70,16 @@ const game = (props) => {
 
   return (
     <View style={styles.game}>
-      <Text style={styles.title}>Memory Game</Text>
+      <View style={{ backgroundColor: '#f2f2f2', padding: 10, borderRadius: 10, elevation: 3}}>
+        <Text style={styles.title}>Mix and match!</Text>
+      </View>
       <View style={styles.content}>
-        {
+
+        <CardFlip style={{ height: 200, width: 300 }} ref={(card) => this.card = card}>
+          <TouchableOpacity style={{ height: 100, width: 100}} onPress={() => this.card.flip()} ><Text>AB</Text></TouchableOpacity>
+          <TouchableOpacity style={{ height: 100, width: 100}} onPress={() => this.card.flip()} ><Text>CD</Text></TouchableOpacity>
+        </CardFlip>
+        {/* {
           answer.map((pic, i) => {
             return (
               <View style={styles.cardContainer} key={i}>
@@ -85,7 +93,7 @@ const game = (props) => {
               </View>
             )
           })
-        }
+        } */}
       </View>
     </View>
   )
@@ -101,9 +109,8 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   title: {
-    fontSize: 60,
-    fontFamily: "Iceberg-Regular",
-    padding: 10
+    fontSize: 35,
+    fontWeight: 'bold',
   },
   content: {
     display: 'flex',

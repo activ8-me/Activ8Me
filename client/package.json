@@ -20,6 +20,7 @@
     "randomcolor": "^0.5.4",
     "react": "16.8.6",
     "react-native": "0.60.4",
+    "react-native-card-flip": "^1.0.4",
     "react-native-firebase": "^5.5.5",
     "react-native-floating-action": "^1.17.0",
     "react-native-game-engine": "^0.11.5",

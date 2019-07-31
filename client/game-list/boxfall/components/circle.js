@@ -18,7 +18,7 @@ export default Circle;
 
 const styles = StyleSheet.create({
   head: {
-    backgroundColor: "#007991",
+    backgroundColor: "#38DDFF",
     borderColor: "#B1F8F2",
     borderWidth: BORDER_WIDTH,
     width: BODY_DIAMETER,

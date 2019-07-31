@@ -24,7 +24,7 @@ const mapDispatchToProps = {randomGame, ring, stop}
 
 function LinksScreen (props) {
   // let game = ['none','WakeMeUp', 'MemoryGame', 'FindMe', 'MathGame', 'BoxFall']
-  let game = ['none', 'BoxFall']
+  let game = ['none', 'FindMe']
 
   useEffect(() => {
     if (props.winning === 1) {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: 'flex',
-    backgroundColor: '#ff8b17',
+    // backgroundColor: '#ff8b17',
   },
 });
 

@@ -47,7 +47,21 @@ const leftButtons = [
   </TouchableHighlight>
 ];
 
-
+const rightButtons = [
+  <TouchableHighlight
+    style={{
+      alignItems: 'flex-start',
+      backgroundColor: 'black',
+      height: 120,
+      justifyContent: 'center',
+      borderRadius:30,
+      width:'100%',
+      backgroundColor:'white'
+    }}
+  >
+    <Text style={{ fontSize: 30, color: 'black', paddingLeft:15}}> Awake </Text>
+  </TouchableHighlight>
+];
 
 const mapStateToProps = state => {
   return {
@@ -64,6 +78,28 @@ let alarm, alarmPlay
 function LinksScreen(props) {
   const [time, setTime] = useState('')
   const [title, setTitle] = useState('')
+  const [animations, setAnimations] = useState('')
+
+  setAnimations(constructorAnimations())
+
+  animateCircles = () => {
+    const actions = Array(COUNT).fill(
+      keyframes({
+        values: [
+          initialPhase,
+          {
+            scale: 2,
+            opacity: 0
+          }],
+        duration: DURATION,
+        loop: Infinity,
+        yoyo: Infinity
+      })
+    )
+
+  useEffect(() => {
+
+  },[])
 
   useEffect(() => {
     AsyncStorage.getItem('alarmActiv8Me')

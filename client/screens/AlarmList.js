@@ -425,12 +425,12 @@ class AlarmList extends Component {
             <Icon name="log-out" color="white"/>
           </Button>
         </Fab> */}
-        
+{/*         
          <Button
             onPress={() => {
                 this.props.navigation.navigate('AlarmLanding')
             }}
-            title="ke alarm landing"/>     
+            title="ke alarm landing"/>      */}
       </View>
     );
   }

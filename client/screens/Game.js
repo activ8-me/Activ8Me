@@ -29,6 +29,7 @@ function LinksScreen (props) {
   // let alarm2 = props.navigation.getParam('alarm2', null)
   // let alarm2Play = props.navigation.getParam('alarm2Play', null)
   useEffect(() => {
+    console.log(props.winning, 'PROPS WINNING!!!')
     if (props.winning === 5) {
       clearInterval(alarmPlay)
       alarm.stop()

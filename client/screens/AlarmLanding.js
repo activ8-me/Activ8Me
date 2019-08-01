@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'green'
   },
   title: {
-    fontSize: 60,
+    fontSize: 35,
     color: '#454545',
     alignSelf: 'center',
     fontWeight: 'bold',
@@ -278,10 +278,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#454545',
     alignSelf: 'center',
-    marginTop: 15
   },
   title3: {
-    fontSize: 40,
+    fontSize: 35,
     color: '#454545',
     alignSelf: 'center',
     fontWeight:'bold',

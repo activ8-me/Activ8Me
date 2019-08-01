@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   gameText: {
-    fontSize: 20
+    fontSize: 15
   }
 
 });

@@ -49,6 +49,7 @@ class Game extends React.Component {
     const sumSelected = nextState.selectedIds.reduce((acc, curr) => { return acc + this.randNumArray[curr] }, 0)
     if (sumSelected === this.target) {
       setTimeout(() => {
+        console.log('win mathgame')
         this.props.winning(this.props.gameId)
       }, 1000)
       return "WIN"

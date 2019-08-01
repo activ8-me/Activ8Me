@@ -21,6 +21,7 @@ const game = (props) => {
       setTimeout (() => {
         setZzz(false)
         setTimeout(() => {
+          console.log('win wakeme up')
           props.winning(props.gameId)
         }, 1200)
       }, 600)

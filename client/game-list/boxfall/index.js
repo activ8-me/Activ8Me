@@ -135,8 +135,12 @@ class BoxFall extends Component {
         won: true,
         isGameReady: false
       })
-    } else if (this.state.won === true && !this.state.isGameReady){
+    } else if (this.state.won === true && !this.state.isGameReady && this.state.score === 20){
       this._isMounted =false
+      console.log('win fallbox')
+      this.setState({
+        score: 0
+      })
       this.props.winning(this.props.gameId)
     }
   }

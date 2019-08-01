@@ -22,7 +22,7 @@ const game = (props) => {
 
   useEffect(() => {
     if (count === 4) {
-      console.log('win')
+      console.log('win memory game')
       setTimeout(() => {
         props.winning(props.gameId)
       }, 500)

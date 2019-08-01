@@ -33,7 +33,7 @@ function game(props) {
   const finished = (num) => {
     if (find === num){
       console.log('win find me')
-      props.winning(props.gameId)
+      props.winning(props.gameId, props.gameDone)
     }
   }
 

@@ -22,7 +22,7 @@ const game = (props) => {
         setZzz(false)
         setTimeout(() => {
           console.log('win wakeme up')
-          props.winning(props.gameId)
+          props.winning(props.gameId, props.gameDone)
         }, 1200)
       }, 600)
     }

@@ -9,10 +9,12 @@ export function randomGame (games, gameDone) {
   }
 }
 
-export function winning (gameId) {
-  return {
-    type: 'WINNING',
-    gameId
+export function winning (gameId, gameDone) {
+  if (gameDone.indexOf(gameId) < 0) {
+    return {
+      type: 'WINNING',
+      gameId
+    }
   }
 }
 

@@ -50,7 +50,7 @@ class Game extends React.Component {
     if (sumSelected === this.target) {
       setTimeout(() => {
         console.log('win mathgame')
-        this.props.winning(this.props.gameId)
+        this.props.winning(this.props.gameId, this.props.gameDone)
       }, 1000)
       return "WIN"
     } else {

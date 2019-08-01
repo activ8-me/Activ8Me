@@ -141,7 +141,7 @@ class BoxFall extends Component {
       this.setState({
         score: 0
       })
-      this.props.winning(this.props.gameId)
+      this.props.winning(this.props.gameId, this.props.gameDone)
     }
   }
 

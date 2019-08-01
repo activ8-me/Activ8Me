@@ -33,7 +33,7 @@ class AlarmList extends Component {
     // console.log('check')
     check = setInterval (() => {
       let redirect = false
-      if (moment().second() === 0) {
+      if (moment().second() === 0 || moment().second() === 3) {
         AsyncStorage.getItem('alarmTrigger')
         .then(data => {
           console.log('interval')

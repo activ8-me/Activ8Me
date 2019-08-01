@@ -24,7 +24,7 @@ const game = (props) => {
     if (count === 4) {
       console.log('win memory game')
       setTimeout(() => {
-        props.winning(props.gameId)
+        props.winning(props.gameId, props.gameDone)
       }, 500)
     }
   }, [count])

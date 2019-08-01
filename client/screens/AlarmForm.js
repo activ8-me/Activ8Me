@@ -1,6 +1,6 @@
 import React, { Component }from 'react';
 import { Card } from 'native-base'
-import { Text, View, ScrollView, StyleSheet, TouchableHighlight, TextInput } from 'react-native'
+import { Text, View, ScrollView, StyleSheet, TouchableHighlight, TextInput, Image } from 'react-native'
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment"
 import server from '../api/server'
@@ -234,9 +234,37 @@ class AlarmForm extends Component {
               </View>
             </Card>
 
-            <Card style={{ height: 180, padding: 10, width: '95%' }}>
-              <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>Available games</Text>
-              <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>PRO FEATURE</Text>
+            <Card style={{ padding: 10, width: '95%' }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginBottom: 10}}>Available games</Text>
+              {/* <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center'}}>PRO FEATURE</Text> */}
+
+
+              <View style={{ flexDirection: 'row'}}>
+                <View style={styles.gameBox}>
+                  <View style={{ width: 50, height: 50, alignItems: 'center'}}>
+                    <Image source={require('../assets/game/boxfall/building.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
+                  </View>
+                  <Text style={styles.gameText}>Box Fall</Text>
+                </View>
+                <View style={styles.gameBox}>
+                  <View style={{ width: 50, height: 50, alignItems: 'center' }}>
+                    <Image source={require('../assets/game/memorygame/memory.png')} style={{ width: 40, height: 40, resizeMode: 'contain' }} />
+                  </View>
+                  <Text style={styles.gameText}>Memory</Text>
+                </View>
+                <View style={styles.gameBox}>
+                  <Image source={require('../assets/game/mathgame/sum-up.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+                  <Text style={styles.gameText}>Sum up</Text>
+                </View>
+                <View style={styles.gameBox}> 
+                  <Image source={require('../assets/game/wakemeup/catsleep.png')} style={{ width: 50, height: 50, resizeMode: 'contain' }} />
+                  <Text style={styles.gameText}>Wake me</Text>
+                </View>
+                <View style={styles.gameBox}>
+                  <Image source={require('../assets/game/findme/nyan-awake.png')} style={{ width: 50, height: 50, resizeMode: 'contain'}}/>
+                  <Text style={styles.gameText}>Find me</Text>
+                </View>
+              </View>
             </Card>
           </View>
 
@@ -288,6 +316,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 17,
     fontFamily: "FredokaOne-Regular",
+  },
+  gameBox: {
+    // style={ styles.gameBox }
+    flex: 1,
+    alignItems: 'center'
+  },
+  gameText: {
+    fontSize: 20
   }
 
 });

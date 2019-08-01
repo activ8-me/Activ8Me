@@ -70,29 +70,56 @@ class LinksScreen extends Component {
   }
 
   componentDidMount() {
+    // AsyncStorage.getItem('alarmActiv8Me')
+    //   .then(alarms => {
+    //     console.log('MASUK ALARM')
+    //     let alarmList = JSON.parse(alarms)
+    //     for (let i = 0; i < alarmList.length; i++) {
+    //       if (alarmList[i]._id === this.props.alarmId) {
+    //         console.log('ALARM TITLEEEE')
+    //         console.log(alarmList[i].title)
+    //         let now = alarmList[i].time
+    //         now = now.split(':')
+    //         if (parseInt(now[0]) < 10) {
+    //           now[0] = '0' + now[0]
+    //         }
+    //         now = now.join(':')
+    //         this.setState({
+    //           time: now,
+    //           title: alarmList[i].title
+    //         })
+    //       }
+    //     }
+    //   })
+    this.getAlarm()
     this.animateCircles()
   }
 
   componentDidUpdate(prevProps){
+    console.log('MASUK LANDING')
     if(this.props.alarmId !== prevProps.alarmId){
-      AsyncStorage.getItem('alarmActiv8Me')
-      .then(alarms => {
-        let alarmList = JSON.parse(alarms)
-        for (let i = 0; i < alarmList.length; i++){
-          if (alarmList[i]._id === this.props.alarmId) {
-            let now = alarmList[i].time 
-            now = now.split(':')
-            if (parseInt(now[0]) < 10){
-              now[0] = '0' + now[0]
-            }
-            now = now.join(':')
-            this.setState({
-              time:now,
-              title:alarmList[i].title
-            })
-          }
-        }
-      })
+      this.getAlarm()
+      // AsyncStorage.getItem('alarmActiv8Me')
+      // .then(alarms => {
+      //   console.log('MASUK ALARM')
+      //   let alarmList = JSON.parse(alarms)
+      //   for (let i = 0; i < alarmList.length; i++){
+      //     if (alarmList[i]._id === this.props.alarmId) {
+      //       console.log('ALARM TITLEEEE')
+      //       console.log(alarmList[i].title)
+      //       let now = alarmList[i].time 
+      //       now = now.split(':')
+      //       if (parseInt(now[0]) < 10){
+      //         now[0] = '0' + now[0]
+      //       }
+      //       now = now.join(':')
+      //       this.setState({
+      //         time: now,
+      //         title: alarmList[i].title
+      //       })
+      //     }
+      //   }
+      // })
     }
     
     if (this.props.alarmSound === '') {
@@ -113,6 +140,30 @@ class LinksScreen extends Component {
           }, alarm.getDuration()*1000)
       });
     }
+  }
+
+  getAlarm() {
+     AsyncStorage.getItem('alarmActiv8Me')
+      .then(alarms => {
+        console.log('MASUK ALARM')
+        let alarmList = JSON.parse(alarms)
+        for (let i = 0; i < alarmList.length; i++) {
+          if (alarmList[i]._id === this.props.alarmId) {
+            console.log('ALARM TITLEEEE')
+            console.log(alarmList[i].title)
+            let now = alarmList[i].time
+            now = now.split(':')
+            if (parseInt(now[0]) < 10) {
+              now[0] = '0' + now[0]
+            }
+            now = now.join(':')
+            this.setState({
+              time: now,
+              title: alarmList[i].title
+            })
+          }
+        }
+      })
   }
 
   animateCircles = () => {
@@ -143,8 +194,9 @@ class LinksScreen extends Component {
         <View style={{  marginBottom:100,
                         alignItems: 'center',
                         justifyContent: 'center'}}>
-          <Animatable.Text style={styles.title}>{this.state.title ? this.state.title : 'Wake up Time'}</Animatable.Text>
-          <Text style={styles.title2}>wakey wakey, sleepy head!</Text>
+          <Text style={styles.title}>{this.state.title ? this.state.title : 'Time to wake up!'}</Text>
+          <Text style={styles.title2}>wakey wakey, sleepy head</Text>
+          {/* <Text>{this.state.title}</Text> */}
           <View style={{display:'flex', flexDirection:'row', alignContent: 'center'}}>
               <Text style={styles.clock}>{this.state.time ? `${this.state.time.slice(0,2)}:${this.state.time.slice(3,5)}` : moment().format('LT')[1] === ':' ? `0${moment().format('LT').slice(0,1)}:${moment().format('LT').slice(2,4)}` : `${moment().format('LT').slice(0,2)}:${moment().format('LT').slice(3,5)}`}</Text>
               <Text style={styles.meridiem}>{this.state.time ? this.state.time.slice(6) : moment().format('LT')[1] === ':' ? moment().format('LT').slice(5) : moment().format('LT').slice(6) }</Text>
@@ -217,19 +269,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'green'
   },
   title: {
-    fontSize: 35,
-    color: 'black',
+    fontSize: 60,
+    color: '#454545',
     alignSelf: 'center',
     fontWeight: 'bold',
   },
   title2: {
     fontSize: 20,
-    color: 'black',
+    color: '#454545',
     alignSelf: 'center',
+    marginTop: 15
   },
   title3: {
     fontSize: 40,
-    color: 'white',
+    color: '#454545',
     alignSelf: 'center',
     fontWeight:'bold',
   },
